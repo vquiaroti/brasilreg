@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrasilReg - Assinar Protocolo Frustrada</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:#0A0E1A;color:#E8EAF0;min-height:100vh;}
+.header{background:#0A0E1A;border-bottom:1px solid rgba(245,101,101,0.2);padding:14px 20px;display:flex;align-items:center;justify-content:center;}
+.body{padding:16px;max-width:520px;margin:0 auto;}
+.card{background:#111827;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:16px;margin-bottom:12px;}
+.ctitle{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#D4A329;margin-bottom:12px;}
+.irow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.irow:last-child{border-bottom:none;}
+.ilbl{font-size:12px;color:#5A6478;}
+.ival{font-size:12px;font-weight:600;color:#E8EAF0;text-align:right;max-width:60%;}
+.motbadge{background:rgba(245,101,101,0.12);border:1px solid rgba(245,101,101,0.3);border-radius:8px;padding:10px 14px;font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#FC8181;text-align:center;margin-bottom:12px;}
+.flabel{font-size:11px;color:#8892A4;margin-bottom:5px;display:block;}
+.finput{width:100%;background:#161C2E;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:11px 14px;font-size:14px;color:#E8EAF0;outline:none;font-family:'DM Sans',sans-serif;margin-bottom:12px;}
+.finput:focus{border-color:#D4A329;}
+.finput::placeholder{color:#2D3748;}
+.canvas-wrap{position:relative;background:#fff;border-radius:12px;overflow:hidden;touch-action:none;border:2px solid rgba(255,255,255,0.1);}
+canvas{display:block;width:100%;cursor:crosshair;}
+.canvas-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:13px;color:#bbb;pointer-events:none;text-align:center;line-height:1.5;}
+.btn-clear-sig{background:none;border:none;font-size:12px;color:#5A6478;cursor:pointer;padding:6px 0;display:block;margin-top:4px;}
+.btn-clear-sig:hover{color:#FC8181;}
+.btn-confirmar{width:100%;background:rgba(72,187,120,0.12);border:1px solid rgba(72,187,120,0.3);border-radius:12px;padding:15px;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:#48BB78;cursor:pointer;margin-top:8px;}
+.btn-confirmar:hover{background:rgba(72,187,120,0.2);}
+.alert-exp{background:rgba(245,101,101,0.08);border:1px solid rgba(245,101,101,0.2);border-radius:12px;padding:20px;text-align:center;margin-top:40px;}
+.alert-exp p{font-size:15px;color:#FC8181;margin-bottom:6px;font-weight:600;}
+.alert-exp span{font-size:12px;color:#5A6478;}
+.ldg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;}
+.ldg.open{display:flex;}
+.ldg-box{background:#111827;border-radius:16px;padding:28px 32px;text-align:center;}
+.ldg-spin{width:40px;height:40px;border:3px solid rgba(72,187,120,0.2);border-top-color:#48BB78;border-radius:50%;animation:sp 0.8s linear infinite;margin:0 auto 14px;}
+@keyframes sp{to{transform:rotate(360deg);}}
+.ldg-txt{font-family:'Sora',sans-serif;font-size:14px;color:#CBD5E0;}
+.sucesso{display:none;text-align:center;padding:50px 20px;}
+.sucesso-icon{font-size:64px;margin-bottom:16px;}
+.sucesso h2{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:#48BB78;margin-bottom:8px;}
+.sucesso p{font-size:14px;color:#8892A4;line-height:1.6;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div style="display:inline-flex;align-items:center;gap:10px;">
+    <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#D4A329" stroke-width="2"/><path d="M12 20 Q20 8 28 20 Q20 32 12 20Z" fill="#D4A329" opacity="0.85"/><circle cx="20" cy="20" r="4" fill="#333"/></svg>
+    <div><div style="font-family:'Sora',sans-serif;font-size:20px;font-weight:900;color:#fff;">Brasil<span style="color:#FC8181;">Reg</span></div><div style="font-size:8px;letter-spacing:2px;color:#5A6478;text-transform:uppercase;">Solucoes em Sinistros</div></div>
+  </div>
+</div>
+
+<div class="body">
+  <div class="ldg" id="ldg"><div class="ldg-box"><div class="ldg-spin"></div><div class="ldg-txt" id="ldgTxt">Carregando...</div></div></div>
+
+  <div id="conteudo" style="display:none;">
+    <div style="text-align:center;padding:16px 0 10px;">
+      <div style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:#fff;">Protocolo de Vistoria</div>
+      <div style="font-family:'Sora',sans-serif;font-size:24px;font-weight:900;color:#FC8181;letter-spacing:2px;">FRUSTRADA</div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Dados do Protocolo</div>
+      <div class="motbadge" id="sMot"></div>
+      <div class="irow"><span class="ilbl">Data</span><span class="ival" id="sData"></span></div>
+      <div class="irow"><span class="ilbl">Horas</span><span class="ival" id="sHoras"></span></div>
+      <div class="irow"><span class="ilbl">Veiculo</span><span class="ival" id="sVeiculo"></span></div>
+      <div class="irow"><span class="ilbl">Placa</span><span class="ival" id="sPlaca"></span></div>
+      <div class="irow"><span class="ilbl">N. Sinistro</span><span class="ival" id="sSinistro"></span></div>
+      <div class="irow"><span class="ilbl">Oficina</span><span class="ival" id="sOficina"></span></div>
+      <div class="irow"><span class="ilbl">Responsavel</span><span class="ival" id="sResponsavel"></span></div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Confirmar e Assinar</div>
+      <label class="flabel">Nome completo do assinante</label>
+      <input class="finput" type="text" id="nomeAssinante" placeholder="Digite seu nome completo"/>
+      <label class="flabel">Assine abaixo com o dedo ou mouse</label>
+      <div class="canvas-wrap" id="canvasWrap">
+        <canvas id="sigCanvas" height="160"></canvas>
+        <div class="canvas-hint" id="canvasHint">Assine aqui</div>
+      </div>
+      <button class="btn-clear-sig" onclick="limparCanvas()">&#x1F5D1; Limpar assinatura</button>
+      <button class="btn-confirmar" onclick="confirmar()">&#x2705; Confirmar Assinatura</button>
+    </div>
+  </div>
+
+  <div id="expirado" style="display:none;">
+    <div class="alert-exp">
+      <p>&#x23F0; Link expirado!</p>
+      <span>O prazo de 24 horas para assinatura foi encerrado.<br>Solicite um novo protocolo ao regulador.</span>
+    </div>
+  </div>
+
+  <div id="sucesso" class="sucesso">
+    <div class="sucesso-icon">&#x2705;</div>
+    <h2>Assinatura confirmada!</h2>
+    <p>O protocolo foi assinado com sucesso.<br>O regulador ja pode baixar o PDF com sua assinatura.</p>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+const app = initializeApp({
+  apiKey:"AIzaSyDEr0WjNoOxiWnma--ooRanPPVHci7fcX8",
+  authDomain:"brasilreg-frustrada.firebaseapp.com",
+  projectId:"brasilreg-frustrada",
+  storageBucket:"brasilreg-frustrada.firebasestorage.app",
+  messagingSenderId:"486471690467",
+  appId:"1:486471690467:web:bb73d45abe74cb9ae3fdd6"
+});
+const db = getFirestore(app);
+
+// Le o ID da URL - funciona fora do Wix
+var docId = new URLSearchParams(window.location.search).get('id');
+
+document.getElementById('ldg').classList.add('open');
+
+if(!docId) {
+  document.getElementById('ldg').classList.remove('open');
+  document.getElementById('expirado').style.display = 'block';
+} else {
+  getDoc(doc(db, 'frustradas', docId)).then(function(snap) {
+    document.getElementById('ldg').classList.remove('open');
+    if(!snap.exists()) { document.getElementById('expirado').style.display='block'; return; }
+    var d = snap.data();
+    // Verifica expiracao
+    var expMs = d.expiraEmMs ? d.expiraEmMs : null;
+    if(expMs && Date.now() > expMs) { document.getElementById('expirado').style.display='block'; return; }
+    if(d.assinado) { document.getElementById('sucesso').style.display='block'; return; }
+    // Preenche dados
+    function fmtD(s){ if(!s)return''; var p=s.split('-'); return p[2]+'/'+p[1]+'/'+p[0]; }
+    document.getElementById('sMot').textContent = d.motivo || '';
+    document.getElementById('sData').textContent = fmtD(d.data);
+    document.getElementById('sHoras').textContent = d.horas || '';
+    document.getElementById('sVeiculo').textContent = d.veiculo || '';
+    document.getElementById('sPlaca').textContent = d.placa || '';
+    document.getElementById('sSinistro').textContent = d.sinistro || '';
+    document.getElementById('sOficina').textContent = d.oficina || '';
+    document.getElementById('sResponsavel').textContent = d.responsavel || '';
+    document.getElementById('conteudo').style.display = 'block';
+    initCanvas();
+  }).catch(function(e){
+    document.getElementById('ldg').classList.remove('open');
+    document.getElementById('expirado').style.display = 'block';
+  });
+
+  window.salvarAssinatura = async function(nome, img) {
+    await updateDoc(doc(db, 'frustradas', docId), {
+      assinado: true,
+      nomeAssinante: nome,
+      assinaturaImg: img,
+      dataAssinatura: serverTimestamp()
+    });
+  };
+}
+</script>
+
+<script>
+var canvas, ctx, drawing=false, hasSig=false;
+
+function initCanvas(){
+  canvas = document.getElementById('sigCanvas');
+  ctx = canvas.getContext('2d');
+  canvas.width = document.getElementById('canvasWrap').offsetWidth;
+  ctx.strokeStyle='#111'; ctx.lineWidth=2.5; ctx.lineCap='round'; ctx.lineJoin='round';
+
+  function pos(e){
+    var r=canvas.getBoundingClientRect();
+    var sx=canvas.width/r.width, sy=canvas.height/r.height;
+    if(e.touches) return {x:(e.touches[0].clientX-r.left)*sx, y:(e.touches[0].clientY-r.top)*sy};
+    return {x:(e.clientX-r.left)*sx, y:(e.clientY-r.top)*sy};
+  }
+  function start(e){ e.preventDefault(); drawing=true; var p=pos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); document.getElementById('canvasHint').style.display='none'; }
+  function draw(e){ e.preventDefault(); if(!drawing)return; hasSig=true; var p=pos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); }
+  function end(e){ e.preventDefault(); drawing=false; }
+  canvas.addEventListener('mousedown',start);
+  canvas.addEventListener('mousemove',draw);
+  canvas.addEventListener('mouseup',end);
+  canvas.addEventListener('touchstart',start,{passive:false});
+  canvas.addEventListener('touchmove',draw,{passive:false});
+  canvas.addEventListener('touchend',end,{passive:false});
+}
+
+function limparCanvas(){
+  if(!canvas)return;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  hasSig=false;
+  document.getElementById('canvasHint').style.display='block';
+}
+
+async function confirmar(){
+  var nome = document.getElementById('nomeAssinante').value.trim();
+  if(!nome){ alert('Digite seu nome completo!'); return; }
+  if(!hasSig){ alert('Por favor, realize a assinatura no campo acima!'); return; }
+  document.getElementById('ldg').classList.add('open');
+  document.getElementById('ldgTxt').textContent = 'Salvando assinatura...';
+  try{
+    var img = canvas.toDataURL('image/png');
+    await window.salvarAssinatura(nome, img);
+    document.getElementById('ldg').classList.remove('open');
+    document.getElementById('conteudo').style.display='none';
+    document.getElementById('sucesso').style.display='block';
+  } catch(e){
+    document.getElementById('ldg').classList.remove('open');
+    alert('Erro ao salvar. Tente novamente.');
+  }
+}
+</script>
+</body>
+</html>
