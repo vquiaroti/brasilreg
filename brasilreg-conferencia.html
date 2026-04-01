@@ -296,6 +296,15 @@ footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:1
           <div class="orc-val" id="orcVal">R$ 0,00</div>
           <div class="orc-val-sub">Valor líquido das peças (extraído pela IA)</div>
         </div>
+        <div id="audatexWarn" style="display:none;margin-top:10px;background:rgba(255,183,64,0.08);border:1px solid rgba(255,183,64,0.35);border-radius:10px;padding:12px 14px;">
+          <div style="font-family:'Sora',sans-serif;font-size:11px;font-weight:700;color:var(--yel);margin-bottom:6px;">⚠️ PDF Audatex — Desconto não lido corretamente</div>
+          <div style="font-size:11px;color:var(--text);line-height:1.6;">O PDF do Audatex é protegido e impede a leitura do desconto por linha. Para resultado correto:<br><br>
+          <strong style="color:var(--yel);">1.</strong> No Audatex, pressione <strong>Windows + Shift + S</strong><br>
+          <strong style="color:var(--yel);">2.</strong> Selecione a área com as peças do orçamento<br>
+          <strong style="color:var(--yel);">3.</strong> Cole no <strong>Paint</strong> → Salvar como <strong>JPG</strong><br>
+          <strong style="color:var(--yel);">4.</strong> Remova este orçamento e suba o JPG no lugar
+          </div>
+        </div>
       </div>
     </div>
 
@@ -448,12 +457,33 @@ async function carregarOrc(inp){
       var txt=data.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
       var res=JSON.parse(txt);
       orcValorLiq=res.valor_liq_total||0;
-      orcPecas=(res.pecas||[]).map(function(p){return{codigo:(p.codigo||'').replace(/[\s\/]/g,'').toUpperCase(),descricao:p.descricao,valor:p.valor_liq||0};});
-      document.getElementById('orcStatusTitle').textContent='✅ Orçamento — '+orcPecas.length+' peças lidas';
-      document.getElementById('orcVal').textContent=fmt(orcValorLiq);
-      document.getElementById('orcVal').style.color='';
-      document.getElementById('orcVal').style.fontSize='';
-      drop.querySelector('.orc-sub').textContent=orcPecas.length+' peças identificadas | Desconto: '+(res.desconto_pct||0)+'%';
+      orcPecas=(res.pecas||[]).map(function(p){return{codigo:(p.codigo||'').replace(/[\s\/\.]/g,'').toUpperCase(),descricao:p.descricao,valor:p.valor_liq||0};});
+      
+      // Detecta PDF Audatex protegido (desconto 0% com muitas pecas = suspeito)
+      var sistema=res.sistema||'';
+      var desconto=res.desconto_pct||0;
+      var isPDFAudatex = m==='application/pdf' && sistema==='AUDATEX';
+      var descontoSuspeito = isPDFAudatex && desconto===0 && orcPecas.length>3;
+      
+      if(descontoSuspeito){
+        document.getElementById('orcStatusTitle').textContent='⚠️ Audatex PDF — verifique o desconto';
+        document.getElementById('orcStatusTitle').style.color='var(--yel)';
+        document.getElementById('orcVal').textContent=fmt(orcValorLiq)+' (sem desconto aplicado)';
+        document.getElementById('orcVal').style.color='var(--yel)';
+        document.getElementById('orcVal').style.fontSize='13px';
+        // Mostra aviso Audatex
+        var audatexWarn=document.getElementById('audatexWarn');
+        if(audatexWarn) audatexWarn.style.display='block';
+      } else {
+        document.getElementById('orcStatusTitle').textContent='✅ Orçamento '+( sistema?'('+sistema+') ':'' )+'— '+orcPecas.length+' peças lidas';
+        document.getElementById('orcStatusTitle').style.color='';
+        document.getElementById('orcVal').textContent=fmt(orcValorLiq);
+        document.getElementById('orcVal').style.color='';
+        document.getElementById('orcVal').style.fontSize='';
+        var audatexWarn=document.getElementById('audatexWarn');
+        if(audatexWarn) audatexWarn.style.display='none';
+      }
+      drop.querySelector('.orc-sub').textContent=orcPecas.length+' peças identificadas | Desconto: '+desconto+'%'+(sistema?' | '+sistema:'');
     }catch(err){
       orcPecas=[];orcValorLiq=0;
       document.getElementById('orcStatusTitle').textContent='⚠️ Erro na leitura — '+err.message;
