@@ -3,237 +3,394 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BrasilReg - Conferencia NF + Markup</title>
+<title>BrasilReg - Conferência e Markup</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080C14;--s1:#0F1520;--s2:#161E2E;--bd:rgba(255,255,255,0.07);--gold:#D4A329;--gd:rgba(212,163,57,0.12);--green:#2DD4A0;--gn:rgba(45,212,160,0.1);--red:#FF6B6B;--rd:rgba(255,107,107,0.1);--yel:#FFB740;--yd:rgba(255,183,64,0.1);--text:#E2E8F0;--muted:#64748B;}
+:root{
+  --bg:#080C14;--s1:#0F1520;--s2:#161E2E;--s3:#1A2236;
+  --bd:rgba(255,255,255,0.07);--bd2:rgba(255,255,255,0.04);
+  --gold:#D4A329;--gd:rgba(212,163,57,0.12);--gd2:rgba(212,163,57,0.06);
+  --green:#2DD4A0;--gn:rgba(45,212,160,0.1);
+  --red:#FF6B6B;--rd:rgba(255,107,107,0.1);
+  --yel:#FFB740;--yd:rgba(255,183,64,0.1);
+  --blue:#60A5FA;--blu:rgba(96,165,250,0.1);
+  --text:#E2E8F0;--muted:#64748B;--dim:#334155;
+}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
-.header{padding:12px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;background:var(--bg);position:sticky;top:0;z-index:100;}
-.back-btn{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:7px 12px;color:var(--muted);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;display:inline-flex;align-items:center;gap:5px;flex-shrink:0;}
-.header-logo{height:36px;mix-blend-mode:lighten;margin:0 auto;}
-.steps{display:flex;padding:14px 20px 0;max-width:600px;margin:0 auto;}
-.step{flex:1;text-align:center;position:relative;}
-.step::after{content:'';position:absolute;top:13px;left:50%;width:100%;height:2px;background:var(--bd);z-index:0;}
-.step:last-child::after{display:none;}
-.step-dot{width:26px;height:26px;border-radius:50%;border:2px solid var(--bd);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--muted);margin:0 auto 4px;position:relative;z-index:1;transition:all 0.3s;}
-.step.done .step-dot{background:var(--green);border-color:var(--green);color:#000;}
-.step.active .step-dot{background:var(--gold);border-color:var(--gold);color:#000;}
-.step-lbl{font-size:9px;color:var(--muted);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;}
+
+/* HEADER */
+.header{padding:10px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;background:var(--bg);position:sticky;top:0;z-index:200;}
+.back-btn{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:6px 12px;color:var(--muted);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;display:inline-flex;align-items:center;gap:5px;flex-shrink:0;}
+.header-logo{height:32px;mix-blend-mode:lighten;margin:0 auto;}
+
+/* STEPS */
+.steps-wrap{background:var(--s1);border-bottom:1px solid var(--bd);padding:0 20px;}
+.steps{display:flex;max-width:640px;margin:0 auto;}
+.step{flex:1;padding:12px 8px;text-align:center;border-bottom:2px solid transparent;cursor:default;transition:all 0.2s;position:relative;}
+.step.active{border-bottom-color:var(--gold);}
+.step.done{border-bottom-color:var(--green);}
+.step-num{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--bd);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--muted);margin-bottom:3px;transition:all 0.2s;}
+.step.active .step-num{background:var(--gold);border-color:var(--gold);color:#000;}
+.step.done .step-num{background:var(--green);border-color:var(--green);color:#000;}
+.step-lbl{font-size:9px;color:var(--muted);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;display:block;}
 .step.active .step-lbl{color:var(--gold);}
 .step.done .step-lbl{color:var(--green);}
-.body{padding:14px 16px 40px;max-width:600px;margin:0 auto;}
+
+/* BODY */
+.body{padding:16px;max-width:640px;margin:0 auto;}
+
+/* SECTION */
+.sec{margin-bottom:14px;}
+.sec-title{font-family:'Sora',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--gd);}
+
+/* CARD */
 .card{background:var(--s1);border:1px solid var(--bd);border-radius:13px;padding:14px;margin-bottom:10px;}
-.sh{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--bd);}
-.sn{width:26px;height:26px;border-radius:50%;background:var(--gd);border:1px solid rgba(212,163,57,0.25);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:12px;font-weight:700;color:var(--gold);flex-shrink:0;}
-.st{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;}
-.ssub{font-size:11px;color:var(--muted);margin-top:1px;}
-.up-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.uc{background:var(--s1);border:2px dashed var(--bd);border-radius:12px;padding:16px 12px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
-.uc:hover{border-color:rgba(212,163,57,0.3);}
-.uc.ok-o{border-style:solid;border-color:rgba(96,165,250,0.4);background:rgba(96,165,250,0.06);cursor:default;}
-.uc.ok-n{border-style:solid;border-color:rgba(45,212,160,0.4);background:var(--gn);cursor:default;}
-.uc input{position:absolute;inset:0;opacity:0;cursor:pointer;}
-.uc.ok-o input,.uc.ok-n input{display:none;}
-.ui{font-size:24px;margin-bottom:6px;display:block;}
-.ut{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;margin-bottom:3px;}
-.us2{font-size:10px;color:var(--muted);}
-.ustat{font-size:10px;font-weight:600;margin-top:4px;}
-.ok-o .ustat{color:#60A5FA;}
-.ok-n .ustat{color:var(--green);}
-.udel{position:absolute;top:6px;right:6px;background:var(--rd);border:none;border-radius:5px;width:19px;height:19px;color:var(--red);font-size:10px;cursor:pointer;display:none;align-items:center;justify-content:center;}
-.uc.ok-o .udel,.uc.ok-n .udel{display:flex;}
-.fl{font-size:11px;color:var(--muted);margin-bottom:4px;display:block;font-weight:500;}
-.fi{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:9px;padding:9px 12px;font-size:13px;color:var(--text);outline:none;font-family:'DM Sans',sans-serif;}
-.fi:focus{border-color:var(--gold);}
-.fi::placeholder{color:#1E293B;font-size:11px;}
-.fi.mono{font-family:'DM Mono',monospace;font-size:12px;}
-.btn-rf{background:var(--gd);border:1px solid rgba(212,163,57,0.25);border-radius:9px;padding:9px 12px;font-size:11px;font-weight:600;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:6px;width:100%;}
-.sbrow{display:flex;gap:8px;margin-top:8px;}
-.sb{flex:1;padding:8px;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;border:2px solid transparent;font-family:'Sora',sans-serif;transition:all 0.2s;text-align:center;}
-.sb.v{background:var(--gn);border-color:rgba(45,212,160,0.2);color:var(--green);}
-.sb.v.sel{border-color:var(--green);background:rgba(45,212,160,0.2);}
-.sb.c{background:var(--rd);border-color:rgba(255,107,107,0.2);color:var(--red);}
-.sb.c.sel{border-color:var(--red);background:rgba(255,107,107,0.2);}
+
+/* MARKUP % */
 .pbs{display:flex;gap:8px;}
-.pb{flex:1;background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:10px;cursor:pointer;text-align:center;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--muted);transition:all 0.2s;}
+.pb{flex:1;background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:10px 6px;cursor:pointer;text-align:center;font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:var(--muted);transition:all 0.2s;}
 .pb:hover{border-color:rgba(212,163,57,0.3);color:var(--gold);}
 .pb.on{background:var(--gd);border-color:rgba(212,163,57,0.5);color:var(--gold);}
-.pb-s{font-size:9px;font-weight:500;display:block;margin-top:2px;}
-.btn-a{width:100%;background:linear-gradient(135deg,rgba(212,163,57,0.18),rgba(212,163,57,0.08));border:1px solid rgba(212,163,57,0.4);border-radius:13px;padding:15px;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--gold);cursor:pointer;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s;}
-.btn-a:hover{background:linear-gradient(135deg,rgba(212,163,57,0.28),rgba(212,163,57,0.15));}
-.btn-a:disabled{opacity:0.35;cursor:not-allowed;}
+.pb small{font-size:9px;font-weight:500;display:block;margin-top:2px;color:inherit;opacity:0.7;}
+
+/* UPLOAD ORC */
+.orc-drop{background:var(--s2);border:2px dashed var(--bd);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.orc-drop:hover{border-color:rgba(212,163,57,0.3);}
+.orc-drop.loaded{border-style:solid;border-color:rgba(96,165,250,0.4);background:var(--blu);cursor:default;}
+.orc-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0;}
+.orc-drop.loaded input{display:none;}
+.orc-icon{font-size:28px;margin-bottom:6px;}
+.orc-ttl{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;margin-bottom:3px;}
+.orc-sub{font-size:11px;color:var(--muted);}
+.orc-del{position:absolute;top:8px;right:8px;background:var(--rd);border:none;border-radius:6px;width:22px;height:22px;color:var(--red);font-size:11px;cursor:pointer;display:none;align-items:center;justify-content:center;}
+.orc-drop.loaded .orc-del{display:flex;}
+.orc-status{margin-top:10px;background:var(--blu);border:1px solid rgba(96,165,250,0.2);border-radius:9px;padding:10px 12px;display:none;}
+.orc-status.show{display:block;}
+.orc-status-title{font-size:10px;color:var(--blue);font-weight:600;margin-bottom:4px;}
+.orc-val{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:var(--blue);}
+.orc-val-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+
+/* NF LIST */
+.nf-list{display:flex;flex-direction:column;gap:8px;margin-bottom:8px;}
+.nf-item{background:var(--s2);border:1px solid var(--bd);border-radius:11px;padding:11px;transition:all 0.2s;}
+.nf-item.loading{border-color:rgba(212,163,57,0.3);}
+.nf-item.ok{border-color:rgba(45,212,160,0.3);background:rgba(45,212,160,0.04);}
+.nf-item.warn{border-color:rgba(255,183,64,0.3);background:rgba(255,183,64,0.03);}
+.nf-head{display:flex;align-items:center;gap:7px;margin-bottom:7px;}
+.nf-num{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;color:var(--muted);}
+.nf-item.ok .nf-num{color:var(--green);}
+.nf-item.loading .nf-num{color:var(--gold);}
+.nf-name{font-size:10px;color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nf-spin{width:13px;height:13px;border:2px solid rgba(212,163,57,0.2);border-top-color:var(--gold);border-radius:50%;animation:sp 0.7s linear infinite;flex-shrink:0;}
+@keyframes sp{to{transform:rotate(360deg);}}
+.nf-del-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;flex-shrink:0;padding:2px;}
+.nf-del-btn:hover{color:var(--red);}
+.nf-up-area{position:relative;overflow:hidden;background:var(--blu);border:1px dashed rgba(96,165,250,0.25);border-radius:8px;padding:8px;text-align:center;cursor:pointer;}
+.nf-up-area input{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.nf-up-area span{font-size:11px;color:var(--blue);font-weight:600;}
+.nf-vals{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:7px;}
+.nf-vbox{background:rgba(0,0,0,0.2);border-radius:7px;padding:6px 9px;}
+.nf-vlbl{font-size:9px;color:var(--muted);display:block;margin-bottom:2px;}
+.nf-vval{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;color:var(--gold);}
+.nf-vval.gr{color:var(--green);}
+.nf-conf-row{display:flex;align-items:center;gap:6px;margin-top:7px;cursor:pointer;padding:3px 0;}
+.nf-conf-arrow{font-size:9px;color:var(--muted);transition:transform 0.2s;}
+.nf-conf-row.open .nf-conf-arrow{transform:rotate(90deg);}
+.nf-conf-title{font-size:10px;color:var(--muted);font-weight:600;}
+.nf-conf-items{display:none;flex-direction:column;gap:2px;margin-top:5px;}
+.nf-conf-row.open + .nf-conf-items{display:flex;}
+.ci{display:flex;align-items:center;gap:5px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03);}
+.ci:last-child{border-bottom:none;}
+.ci-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
+.ci-dot.g{background:var(--green);}
+.ci-dot.r{background:var(--red);}
+.ci-dot.y{background:var(--yel);}
+.ci-cod{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);min-width:65px;flex-shrink:0;}
+.ci-desc{font-size:9px;color:var(--text);flex:1;}
+.ci-badge{font-size:8px;font-weight:700;padding:1px 4px;border-radius:3px;flex-shrink:0;}
+.ci-badge.r{background:var(--rd);color:var(--red);}
+.ci-badge.y{background:var(--yd);color:var(--yel);}
+
+.btn-add{width:100%;background:var(--blu);border:1px dashed rgba(96,165,250,0.2);border-radius:9px;padding:9px;font-size:11px;color:var(--blue);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.btn-add:hover{background:rgba(96,165,250,0.15);}
+.btn-add:disabled{opacity:0.3;cursor:not-allowed;}
+
+/* TOTAIS */
+.tots{margin-top:10px;padding-top:10px;border-top:1px solid var(--bd);}
+.tot-row{display:flex;justify-content:space-between;padding:4px 0;}
+.tot-lbl{font-size:11px;color:var(--muted);}
+.tot-val{font-family:'Sora',sans-serif;font-size:11px;font-weight:600;color:var(--gold);}
+
+/* OBS */
+.obs-area{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font-size:12px;color:var(--text);outline:none;font-family:'DM Sans',sans-serif;resize:vertical;min-height:60px;}
+.obs-area:focus{border-color:var(--gold);}
+
+/* BTN ANALISAR */
+.btn-analisar{width:100%;background:linear-gradient(135deg,rgba(212,163,57,0.2),rgba(212,163,57,0.08));border:1px solid rgba(212,163,57,0.45);border-radius:13px;padding:15px;font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s;margin-bottom:14px;}
+.btn-analisar:hover{background:linear-gradient(135deg,rgba(212,163,57,0.3),rgba(212,163,57,0.15));}
+.btn-analisar:disabled{opacity:0.3;cursor:not-allowed;}
+
+/* LOADING */
 .ldg{display:none;background:var(--s1);border:1px solid var(--bd);border-radius:13px;padding:28px 20px;text-align:center;margin-bottom:14px;}
 .ldg.show{display:block;}
-.spin{width:36px;height:36px;border:3px solid rgba(212,163,57,0.15);border-top-color:var(--gold);border-radius:50%;animation:sp 0.8s linear infinite;margin:0 auto 12px;}
-@keyframes sp{to{transform:rotate(360deg);}}
-.ldg-msg{font-size:13px;color:var(--muted);}
-.ldg-st{font-family:'Sora',sans-serif;font-size:12px;color:var(--gold);margin-top:5px;}
-.ldg-p{width:100%;height:3px;background:var(--bd);border-radius:2px;margin-top:12px;overflow:hidden;}
-.ldg-b{height:100%;background:var(--gold);border-radius:2px;transition:width 1.5s ease;width:0%;}
+.ldg-spin{width:40px;height:40px;border:3px solid rgba(212,163,57,0.15);border-top-color:var(--gold);border-radius:50%;animation:sp 0.8s linear infinite;margin:0 auto 14px;}
+.ldg-title{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:var(--gold);margin-bottom:4px;}
+.ldg-sub{font-size:11px;color:var(--muted);}
+.ldg-bar-wrap{width:100%;height:3px;background:var(--bd);border-radius:2px;margin-top:14px;overflow:hidden;}
+.ldg-bar{height:100%;background:var(--gold);border-radius:2px;transition:width 1.5s ease;width:0%;}
+
+/* RESULTADO */
 .res{display:none;}
 .res.show{display:block;}
-.banner{border-radius:12px;padding:12px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;}
-.banner.ok{background:var(--gn);border:1px solid rgba(45,212,160,0.3);}
-.banner.can{background:var(--rd);border:1px solid rgba(255,107,107,0.3);}
-.banner.pen{background:var(--yd);border:1px solid rgba(255,183,64,0.3);}
-.bn-ic{font-size:22px;}
-.bn-t{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;}
-.banner.ok .bn-t{color:var(--green);}
-.banner.can .bn-t{color:var(--red);}
-.banner.pen .bn-t{color:var(--yel);}
-.bn-s{font-size:11px;color:var(--muted);margin-top:2px;}
-.n3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
-.nb{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:11px 8px;text-align:center;}
-.nv{font-family:'Sora',sans-serif;font-size:20px;font-weight:900;display:block;}
-.nv.g{color:var(--green);}
-.nv.r{color:var(--red);}
-.nv.y{color:var(--yel);}
-.nl{font-size:10px;color:var(--muted);margin-top:2px;display:block;line-height:1.3;}
-.rsec{background:var(--s1);border:1px solid var(--bd);border-radius:13px;padding:14px;margin-bottom:10px;}
-.rsh{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--bd);}
-.rsic{font-size:14px;}
-.rst{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;flex:1;}
-.rsc{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;}
-.rsc.g{background:var(--gn);color:var(--green);}
-.rsc.r{background:var(--rd);color:var(--red);}
-.rsc.y{background:var(--yd);color:var(--yel);}
-.ir{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03);}
-.ir:last-child{border-bottom:none;}
-.idot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.idot.g{background:var(--green);}
-.idot.r{background:var(--red);}
-.idot.y{background:var(--yel);}
-.icd{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);min-width:80px;flex-shrink:0;}
-.ids{font-size:11px;color:var(--text);flex:1;}
-.ivl{font-family:'Sora',sans-serif;font-size:11px;font-weight:600;color:var(--gold);flex-shrink:0;}
-.ibg{font-size:9px;font-weight:700;padding:2px 5px;border-radius:4px;flex-shrink:0;}
-.ibg.r{background:var(--rd);color:var(--red);}
-.ibg.y{background:var(--yd);color:var(--yel);}
-.div{display:flex;align-items:center;gap:12px;margin:14px 0 10px;}
-.div-l{flex:1;height:1px;background:var(--bd);}
-.div-t{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;}
-.mc{background:var(--s1);border:1px solid var(--bd);border-radius:13px;padding:14px;margin-bottom:10px;}
-.mt{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
-.mr{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
-.mr:last-child{border-bottom:none;}
-.ml{font-size:12px;color:var(--muted);}
-.mv{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;color:var(--gold);}
-.mkr{border-radius:13px;padding:16px;margin-bottom:10px;border:2px solid transparent;}
-.mkr.pos{background:rgba(45,212,160,0.06);border-color:rgba(45,212,160,0.3);}
-.mkr.neg{background:var(--rd);border-color:rgba(255,107,107,0.4);}
-.mrt{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
-.pos .mrt{color:var(--green);}
-.neg .mrt{color:var(--red);}
-.mrv{font-family:'Sora',sans-serif;font-size:28px;font-weight:900;text-align:center;margin:8px 0;}
-.pos .mrv{color:var(--green);}
-.neg .mrv{color:var(--red);}
-.mrm{font-size:12px;text-align:center;line-height:1.5;}
-.pos .mrm{color:rgba(45,212,160,0.7);}
-.neg .mrm{color:rgba(255,107,107,0.7);}
-.lc{background:var(--bg);border:1px solid rgba(212,163,57,0.2);border-radius:10px;padding:12px;margin-top:10px;}
-.lct{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
-.lcx{font-size:11px;color:var(--text);background:var(--s1);border-radius:7px;padding:10px;border:1px solid var(--bd);white-space:pre-wrap;line-height:1.6;font-family:'DM Mono',monospace;}
-.obs{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font-size:12px;color:var(--text);outline:none;font-family:'DM Sans',sans-serif;resize:vertical;min-height:70px;margin-top:6px;}
-.obs:focus{border-color:var(--gold);}
-.btf{display:flex;gap:8px;margin-top:4px;}
-.bf{flex:1;border-radius:11px;padding:12px;font-family:'Sora',sans-serif;font-size:12px;font-weight:700;cursor:pointer;text-align:center;}
-.bf-p{background:var(--gd);border:1px solid rgba(212,163,57,0.3);color:var(--gold);}
-.bf-n{background:var(--s1);border:1px solid var(--bd);color:var(--muted);}
-.bf-n:hover{color:var(--text);}
+
+/* CONFERENCIA RESULTADO */
+.res-sec{background:var(--s1);border:1px solid var(--bd);border-radius:13px;padding:13px;margin-bottom:10px;}
+.res-sec-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--bd);}
+.res-sec-ic{font-size:13px;}
+.res-sec-title{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;flex:1;}
+.res-sec-count{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.res-sec-count.g{background:var(--gn);color:var(--green);}
+.res-sec-count.r{background:var(--rd);color:var(--red);}
+.res-sec-count.y{background:var(--yd);color:var(--yel);}
+.res-item{display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.03);}
+.res-item:last-child{border-bottom:none;}
+.ri-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.ri-dot.g{background:var(--green);}
+.ri-dot.r{background:var(--red);}
+.ri-dot.y{background:var(--yel);}
+.ri-cod{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);min-width:80px;flex-shrink:0;}
+.ri-desc{font-size:11px;color:var(--text);flex:1;}
+.ri-val{font-family:'Sora',sans-serif;font-size:11px;font-weight:600;color:var(--gold);flex-shrink:0;}
+.ri-badge{font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;flex-shrink:0;}
+.ri-badge.r{background:var(--rd);color:var(--red);}
+.ri-badge.y{background:var(--yd);color:var(--yel);}
+
+/* MARKUP CARD */
+.mkp-card{background:var(--s1);border:1px solid var(--bd);border-radius:13px;padding:13px;margin-bottom:10px;}
+.mkp-title{font-family:'Sora',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.mkp-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.mkp-row:last-child{border-bottom:none;}
+.mkp-lbl{font-size:12px;color:var(--muted);}
+.mkp-val{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;color:var(--gold);}
+
+/* RESULTADO FINAL */
+.res-final{border-radius:13px;padding:16px;margin-bottom:10px;border:2px solid transparent;}
+.res-final.pos{background:var(--gn);border-color:rgba(45,212,160,0.35);}
+.res-final.neg{background:var(--rd);border-color:rgba(255,107,107,0.4);}
+.rf-title{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.pos .rf-title{color:var(--green);}
+.neg .rf-title{color:var(--red);}
+.rf-val{font-family:'Sora',sans-serif;font-size:30px;font-weight:900;text-align:center;margin:8px 0;}
+.pos .rf-val{color:var(--green);}
+.neg .rf-val{color:var(--red);}
+.rf-msg{font-size:12px;text-align:center;line-height:1.5;}
+.pos .rf-msg{color:rgba(45,212,160,0.8);}
+.neg .rf-msg{color:rgba(255,107,107,0.8);}
+.lc-box{background:var(--bg);border:1px solid rgba(212,163,57,0.2);border-radius:10px;padding:12px;margin-top:10px;}
+.lc-title{font-family:'Sora',sans-serif;font-size:9px;font-weight:700;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.lc-txt{font-size:11px;color:var(--text);background:var(--s1);border-radius:7px;padding:10px;border:1px solid var(--bd);white-space:pre-wrap;line-height:1.6;font-family:'DM Mono',monospace;}
+
+/* BOTOES FINAIS */
+.btn-row{display:flex;gap:8px;margin-top:4px;}
+.btn-pdf{flex:2;background:var(--gd);border:1px solid rgba(212,163,57,0.35);border-radius:11px;padding:12px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;}
+.btn-pdf:hover{background:rgba(212,163,57,0.2);}
+.btn-new{background:var(--s1);border:1px solid var(--bd);border-radius:11px;padding:12px 14px;color:var(--muted);cursor:pointer;font-size:13px;}
+.btn-new:hover{color:var(--text);}
+
+/* PRINT */
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
   @page{margin:10mm;}
   body{background:#fff!important;color:#000!important;}
-  .header,.steps,.card,.btn-a,.ldg,.btf,footer{display:none!important;}
+  .header,.steps-wrap,.body > .sec,.btn-analisar,.ldg,.btn-row,footer{display:none!important;}
   .res{display:block!important;}
-  .banner.ok{background:#e6fff8!important;border:1px solid #2DD4A0!important;}
-  .banner.can{background:#fff0f0!important;border:1px solid #FF6B6B!important;}
-  .rsec,.mc{background:#f8f8f8!important;border:1px solid #ddd!important;}
-  .n3 .nb{background:#f0f0f0!important;border:1px solid #ddd!important;}
-  .mkr.pos{background:#e6fff8!important;border:2px solid #2DD4A0!important;}
-  .mkr.neg{background:#fff0f0!important;border:2px solid #FF6B6B!important;}
-  .pos .mrt,.pos .mrv{color:#1a5c38!important;}
-  .neg .mrt,.neg .mrv{color:#9b1c1c!important;}
-  .lcx{background:#f0f0f0!important;color:#000!important;}
-  .ph{display:block!important;}
+  .print-header{display:flex!important;}
+  .res-sec{background:#f8f9fa!important;border:1px solid #e0e0e0!important;border-radius:8px!important;}
+  .res-sec-head{border-bottom:1px solid #e0e0e0!important;}
+  .res-sec-title{color:#000!important;}
+  .res-sec-count.g{background:#d4f4e8!important;color:#1a5c38!important;}
+  .res-sec-count.r{background:#fde8e8!important;color:#9b1c1c!important;}
+  .res-sec-count.y{background:#fef3cd!important;color:#744210!important;}
+  .ri-cod{color:#555!important;}
+  .ri-desc{color:#000!important;}
+  .ri-val{color:#333!important;}
+  .mkp-card{background:#f8f9fa!important;border:1px solid #e0e0e0!important;}
+  .mkp-lbl{color:#555!important;}
+  .mkp-val{color:#333!important;}
+  .res-final.pos{background:#d4f4e8!important;border:2px solid #2DD4A0!important;}
+  .res-final.neg{background:#fde8e8!important;border:2px solid #FF6B6B!important;}
+  .pos .rf-title,.pos .rf-val{color:#1a5c38!important;}
+  .neg .rf-title,.neg .rf-val{color:#9b1c1c!important;}
+  .pos .rf-msg{color:#1a5c38!important;}
+  .neg .rf-msg{color:#9b1c1c!important;}
+  .lc-box{background:#fff!important;border:1px solid #ccc!important;}
+  .lc-txt{background:#f0f0f0!important;color:#000!important;}
+  .obs-print{display:block!important;}
+  .ri-badge.r{background:#fde8e8!important;color:#9b1c1c!important;}
+  .ri-badge.y{background:#fef3cd!important;color:#744210!important;}
+  .idot.g,.ri-dot.g{background:#2DD4A0!important;}
+  .idot.r,.ri-dot.r{background:#FF6B6B!important;}
+  .idot.y,.ri-dot.y{background:#FFB740!important;}
 }
-.ph{display:none;text-align:center;margin-bottom:16px;}
+.print-header{display:none;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #e0e0e0;}
+.ph-logo{height:40px;}
+.ph-info{text-align:right;}
+.ph-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#000;}
+.ph-date{font-size:11px;color:#555;margin-top:2px;}
+.obs-print{display:none;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin-bottom:10px;}
+.obs-print-title{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;color:#333;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.obs-print-txt{font-size:11px;color:#000;line-height:1.6;}
+
 footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:11px;color:#1E2A3A;}
-footer strong{color:#2D3748;}
-@media(max-width:480px){.up-grid{grid-template-columns:1fr;}.n3{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){.nf-vals{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
+
 <div class="header">
   <button class="back-btn" onclick="window.open('https://vquiaroti01.wixsite.com/portal-de-consultas','_blank')">&#8592; Voltar</button>
   <img src="https://static.wixstatic.com/media/d134a6_9ebbb0f87c314c3b8bcaf55fd83c77b4~mv2.webp" class="header-logo" alt="BrasilReg"/>
 </div>
-<div class="steps">
-  <div class="step active" id="st1"><div class="step-dot">1</div><div class="step-lbl">Upload</div></div>
-  <div class="step" id="st2"><div class="step-dot">2</div><div class="step-lbl">Conferencia</div></div>
-  <div class="step" id="st3"><div class="step-dot">3</div><div class="step-lbl">Markup</div></div>
+
+<div class="steps-wrap">
+  <div class="steps">
+    <div class="step active" id="st1"><div class="step-num">1</div><span class="step-lbl">Documentos</span></div>
+    <div class="step" id="st2"><div class="step-num">2</div><span class="step-lbl">Conferência</span></div>
+    <div class="step" id="st3"><div class="step-num">3</div><span class="step-lbl">Markup</span></div>
+    <div class="step" id="st4"><div class="step-num">4</div><span class="step-lbl">Relatório</span></div>
+  </div>
 </div>
+
 <div class="body">
-  <div style="margin-top:14px;">
-    <div class="card">
-      <div class="sh"><div class="sn">1</div><div><div class="st">Documentos</div><div class="ssub">PDF ou foto do orcamento e da nota fiscal</div></div></div>
-      <div class="up-grid">
-        <div class="uc" id="cO"><input type="file" id="iO" accept=".pdf,image/*" onchange="load('o',this)"/>
-          <span class="ui">📋</span><div class="ut">Orcamento</div><div class="us2">PDF ou foto</div><div class="ustat" id="sO">Toque para selecionar</div><button class="udel" onclick="del('o')">✕</button></div>
-        <div class="uc" id="cN"><input type="file" id="iN" accept=".pdf,image/*" onchange="load('n',this)"/>
-          <span class="ui">🧾</span><div class="ut">Nota Fiscal</div><div class="us2">PDF ou foto</div><div class="ustat" id="sN">Toque para selecionar</div><button class="udel" onclick="del('n')">✕</button></div>
+
+  <!-- STEP 1: DADOS -->
+  <div id="fase1">
+
+    <!-- MARKUP % -->
+    <div class="sec">
+      <div class="sec-title">Percentual de Markup</div>
+      <div class="card">
+        <div class="pbs">
+          <button class="pb" id="p20" onclick="setP(20)">20%<small>Demais Estados</small></button>
+          <button class="pb on" id="p25" onclick="setP(25)">25%<small>Minas Gerais</small></button>
+          <button class="pb" id="p30" onclick="setP(30)">30%<small>Maior taxa</small></button>
+        </div>
       </div>
     </div>
-    <div class="card">
-      <div class="sh"><div class="sn">2</div><div><div class="st">Chave NFe e Status</div></div></div>
-      <label class="fl">Chave de Acesso (44 digitos)</label>
-      <input class="fi mono" type="text" id="chave" maxlength="44" placeholder="Cole a chave da NFe aqui"/>
-      <button class="btn-rf" onclick="receita()">🔍 Consultar na Receita Federal</button>
-      <div class="sbrow">
-        <button class="sb v" id="bV" onclick="setNF('v')">✅ Nota Valida</button>
-        <button class="sb c" id="bC" onclick="setNF('c')">❌ Nota Cancelada</button>
+
+    <!-- ORÇAMENTO -->
+    <div class="sec">
+      <div class="sec-title">1. Orçamento da Oficina</div>
+      <div class="card">
+        <div class="orc-drop" id="orcDrop">
+          <input type="file" id="orcInput" accept=".pdf,image/*" onchange="carregarOrc(this)"/>
+          <div class="orc-icon">📋</div>
+          <div class="orc-ttl">Upload do Orçamento</div>
+          <div class="orc-sub">PDF ou foto — base para conferência de todas as NFs</div>
+          <button class="orc-del" onclick="removerOrc(event)">✕</button>
+        </div>
+        <div class="orc-status" id="orcStatus">
+          <div class="orc-status-title" id="orcStatusTitle">✅ Orçamento carregado</div>
+          <div class="orc-val" id="orcVal">R$ 0,00</div>
+          <div class="orc-val-sub">Valor líquido das peças (extraído pela IA)</div>
+        </div>
       </div>
     </div>
-    <div class="card">
-      <div class="sh"><div class="sn">3</div><div><div class="st">Percentual de Markup</div></div></div>
-      <div class="pbs">
-        <button class="pb" id="p20" onclick="setP(20)">20%<span class="pb-s">Demais Estados</span></button>
-        <button class="pb on" id="p25" onclick="setP(25)">25%<span class="pb-s">Minas Gerais</span></button>
-        <button class="pb" id="p30" onclick="setP(30)">30%<span class="pb-s">Maior taxa</span></button>
+
+    <!-- NFs -->
+    <div class="sec">
+      <div class="sec-title">2. Notas Fiscais</div>
+      <div class="card">
+        <div class="nf-list" id="nfList"></div>
+        <button class="btn-add" id="btnAdd" onclick="addNF()" disabled>+ Adicionar Nota Fiscal</button>
+        <div class="tots">
+          <div class="tot-row"><span class="tot-lbl">Total Bruto NFs (conferidas)</span><span class="tot-val" id="totBruto">R$ 0,00</span></div>
+          <div class="tot-row"><span class="tot-lbl">Total Líquido NFs (conferidas)</span><span class="tot-val" id="totLiq">R$ 0,00</span></div>
+          <div class="tot-row"><span class="tot-lbl">Desconto médio</span><span class="tot-val" id="totDesc" style="color:var(--text)">0,00%</span></div>
+        </div>
       </div>
     </div>
+
+    <!-- OBSERVAÇÕES -->
+    <div class="sec">
+      <div class="sec-title">Observações do Regulador</div>
+      <div class="card">
+        <textarea class="obs-area" id="obsInput" placeholder="Observações sobre a conferência (opcional)..."></textarea>
+      </div>
+    </div>
+
+  </div><!-- /fase1 -->
+
+  <!-- BTN ANALISAR -->
+  <button class="btn-analisar" id="btnAnalisar" onclick="analisar()" disabled>🤖 Analisar com IA — Conferir e Calcular Markup</button>
+
+  <!-- LOADING -->
+  <div class="ldg" id="ldg">
+    <div class="ldg-spin"></div>
+    <div class="ldg-title">Analisando com IA...</div>
+    <div class="ldg-sub" id="ldgSub">Lendo os documentos...</div>
+    <div class="ldg-bar-wrap"><div class="ldg-bar" id="ldgBar"></div></div>
   </div>
-  <button class="btn-a" id="btnA" onclick="analisar()" disabled>🤖 Analisar com IA — Conferir e Calcular Markup</button>
-  <div class="ldg" id="ldg"><div class="spin"></div><div class="ldg-msg">Analisando com IA...</div><div class="ldg-st" id="lst">Lendo os documentos...</div><div class="ldg-p"><div class="ldg-b" id="lbar"></div></div></div>
+
+  <!-- RESULTADO -->
   <div class="res" id="res">
-    <div class="ph"><img src="https://static.wixstatic.com/media/d134a6_9ebbb0f87c314c3b8bcaf55fd83c77b4~mv2.webp" style="height:44px;mix-blend-mode:multiply;"/><div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#000;margin-top:6px;">Conferencia NF x Orcamento + Markup</div><div style="font-size:11px;color:#555;" id="pd"></div></div>
-    <div class="banner" id="bnr"><span class="bn-ic" id="bic"></span><div><div class="bn-t" id="bt"></div><div class="bn-s" id="bs"></div></div></div>
-    <div class="n3">
-      <div class="nb"><span class="nv g" id="nC">0</span><span class="nl">Itens Conferidos</span></div>
-      <div class="nb"><span class="nv r" id="nF">0</span><span class="nl">NF fora do Orc.</span></div>
-      <div class="nb"><span class="nv y" id="nO">0</span><span class="nl">Orc. sem NF</span></div>
+
+    <!-- PRINT HEADER -->
+    <div class="print-header">
+      <img src="https://static.wixstatic.com/media/d134a6_9ebbb0f87c314c3b8bcaf55fd83c77b4~mv2.webp" class="ph-logo" style="mix-blend-mode:multiply;"/>
+      <div class="ph-info">
+        <div class="ph-title">Conferência NF + Markup</div>
+        <div class="ph-date" id="phDate"></div>
+      </div>
     </div>
-    <div class="rsec" id="sC" style="display:none;"><div class="rsh"><span class="rsic">✅</span><span class="rst" style="color:var(--green);">Itens Conferidos</span><span class="rsc g" id="cC">0</span></div><div id="lC"></div></div>
-    <div class="rsec" id="sF" style="display:none;"><div class="rsh"><span class="rsic">⚠️</span><span class="rst" style="color:var(--red);">Na NF mas NAO esta no Orcamento — EXCLUIDOS do markup</span><span class="rsc r" id="cF">0</span></div><div id="lF"></div></div>
-    <div class="rsec" id="sO" style="display:none;"><div class="rsh"><span class="rsic">⚠️</span><span class="rst" style="color:var(--yel);">No Orcamento mas NAO esta na NF</span><span class="rsc y" id="cO2">0</span></div><div id="lO"></div></div>
-    <div class="div"><div class="div-l"></div><div class="div-t">Calculo de Markup</div><div class="div-l"></div></div>
-    <div class="mc"><div class="mt">Valores — Apenas itens conferidos</div>
-      <div class="mr"><span class="ml">Valor Liq. Pecas no Orcamento</span><span class="mv" id="mvo"></span></div>
-      <div class="mr"><span class="ml">Total Bruto NFs</span><span class="mv" id="mvb"></span></div>
-      <div class="mr"><span class="ml">Total Liquido NFs</span><span class="mv" id="mvl"></span></div>
-      <div class="mr"><span class="ml">Desconto medio NFs</span><span class="mv" id="mde"></span></div>
-      <div class="mr"><span class="ml">Markup aplicado</span><span class="mv" id="mpc"></span></div>
-      <div class="mr"><span class="ml">Liq NFs + Markup</span><span class="mv" id="mmk"></span></div>
+
+    <!-- CONFERÊNCIA -->
+    <div class="sec-title" style="margin-bottom:8px;">Conferência NF × Orçamento</div>
+    <div id="resConf"></div>
+
+    <!-- MARKUP -->
+    <div class="sec-title" style="margin:14px 0 8px;">Cálculo de Markup</div>
+    <div class="mkp-card">
+      <div class="mkp-title">Apenas itens conferidos</div>
+      <div class="mkp-row"><span class="mkp-lbl">Valor Líq. Orçamento (conferidos)</span><span class="mkp-val" id="mOrc">R$ 0,00</span></div>
+      <div class="mkp-row"><span class="mkp-lbl">Total Bruto NFs</span><span class="mkp-val" id="mBruto">R$ 0,00</span></div>
+      <div class="mkp-row"><span class="mkp-lbl">Total Líquido NFs</span><span class="mkp-val" id="mLiq">R$ 0,00</span></div>
+      <div class="mkp-row"><span class="mkp-lbl">Desconto médio NFs</span><span class="mkp-val" id="mDesc">0%</span></div>
+      <div class="mkp-row"><span class="mkp-lbl">Markup aplicado</span><span class="mkp-val" id="mPerc">25%</span></div>
+      <div class="mkp-row"><span class="mkp-lbl">Líq. NFs + Markup</span><span class="mkp-val" id="mMkp">R$ 0,00</span></div>
     </div>
-    <div class="mkr" id="mkr"><div class="mrt" id="mkt"></div><div class="mrv" id="mkv"></div><div class="mrm" id="mkm"></div>
-      <div class="lc" id="lco" style="display:none;"><div class="lct">Linha de Complemento para o Cilia</div><div class="lcx" id="lcx"></div></div>
+
+    <!-- RESULTADO FINAL -->
+    <div class="res-final" id="resFinal">
+      <div class="rf-title" id="rfTitle"></div>
+      <div class="rf-val" id="rfVal"></div>
+      <div class="rf-msg" id="rfMsg"></div>
+      <div class="lc-box" id="lcBox" style="display:none;">
+        <div class="lc-title">Linha de Complemento para o Cilia</div>
+        <div class="lc-txt" id="lcTxt"></div>
+      </div>
     </div>
-    <div class="rsec"><div class="rsh"><span class="rsic">📝</span><span class="rst">Observacoes do Regulador</span></div><textarea class="obs" id="obs" placeholder="Observacoes sobre a conferencia..."></textarea></div>
-    <div class="btf"><button class="bf bf-p" onclick="gerarPDF()">📄 Gerar PDF</button><button class="bf bf-n" onclick="nova()">🔄 Nova Analise</button></div>
-  </div>
-</div>
-<footer><strong>BrasilReg</strong> &middot; Conferencia NF + Markup &middot; Uso exclusivo reguladores credenciados</footer>
+
+    <!-- OBS PRINT -->
+    <div class="obs-print" id="obsPrint">
+      <div class="obs-print-title">Observações do Regulador</div>
+      <div class="obs-print-txt" id="obsPrintTxt"></div>
+    </div>
+
+    <!-- BOTÕES -->
+    <div class="btn-row">
+      <button class="btn-pdf" onclick="gerarPDF()">📄 Gerar PDF do Relatório</button>
+      <button class="btn-new" onclick="nova()">🔄</button>
+    </div>
+
+  </div><!-- /res -->
+
+</div><!-- /body -->
+
+<footer><strong>BrasilReg</strong> &middot; Conferência NF + Markup &middot; Uso exclusivo reguladores credenciados</footer>
+
 <script>
 var API_KEY = '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';
 var API_HEADERS = {
@@ -243,92 +400,320 @@ var API_HEADERS = {
   'anthropic-dangerous-direct-browser-access': 'true'
 };
 
-var dO=null,dN=null,b64O='',b64N='',mO='application/pdf',mN='application/pdf',nfs='',pc=25;
-function setStep(n){for(var i=1;i<=3;i++){var s=document.getElementById('st'+i);s.className='step'+(i<n?' done':i===n?' active':'');}}
-function chk(){document.getElementById('btnA').disabled=!(dO&&dN);}
-function gm(f){if(f.type)return f.type;var e=f.name.split('.').pop().toLowerCase();return{pdf:'application/pdf',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp'}[e]||'application/pdf';}
-function load(t,inp){
-  if(!inp.files||!inp.files[0])return;
-  var f=inp.files[0],m=gm(f);
-  var ok=m==='application/pdf'||['image/jpeg','image/jpg','image/png','image/webp'].includes(m);
-  if(!ok){alert('Use PDF, JPG ou PNG!');inp.value='';return;}
-  var r=new FileReader();
-  r.onload=function(e){
-    var b=e.target.result.split(',')[1],ic=m==='application/pdf'?'📄':'🖼️',nm=ic+' '+f.name.substring(0,16)+(f.name.length>16?'...':'');
-    if(t==='o'){dO=f;b64O=b;mO=m;document.getElementById('cO').classList.add('ok-o');document.getElementById('sO').textContent='✓ '+nm;}
-    else{dN=f;b64N=b;mN=m;document.getElementById('cN').classList.add('ok-n');document.getElementById('sN').textContent='✓ '+nm;}
-    chk();
-  };r.readAsDataURL(f);
-}
-function del(t){
-  if(t==='o'){dO=null;b64O='';document.getElementById('cO').classList.remove('ok-o');document.getElementById('sO').textContent='Toque para selecionar';document.getElementById('iO').value='';}
-  else{dN=null;b64N='';document.getElementById('cN').classList.remove('ok-n');document.getElementById('sN').textContent='Toque para selecionar';document.getElementById('iN').value='';}
-  chk();
-}
-function setNF(s){nfs=s;document.getElementById('bV').classList.toggle('sel',s==='v');document.getElementById('bC').classList.toggle('sel',s==='c');}
-function setP(p){pc=p;['p20','p25','p30'].forEach(function(id){document.getElementById(id).classList.remove('on');});document.getElementById('p'+p).classList.add('on');}
-function receita(){var c=document.getElementById('chave').value.replace(/\D/g,'');if(c.length!==44){alert('Chave deve ter 44 digitos!');return;}window.open('https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx?tipoConsulta=completa&tipoConteudo=7PhJ+gAVw2g=&chave='+c,'_blank');}
-function fmt(v){return v?'R$ '+parseFloat(v).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.'):'R$ 0,00';}
+var perc = 25;
+var orcB64 = '', orcMime = '', orcValorLiq = 0, orcPecas = [];
+var nfCount = 0, nfData = {};
 
-async function analisar(){
-  if(!dO||!dN){alert('Selecione os dois documentos!');return;}
-  document.getElementById('btnA').disabled=true;
-  document.getElementById('ldg').classList.add('show');
-  document.getElementById('res').classList.remove('show');
-  setStep(2);
-  var bar=document.getElementById('lbar'),st=document.getElementById('lst');
-  var steps=['Lendo o orcamento...','Lendo a nota fiscal...','Comparando itens por codigo...','Calculando markup...'];
-  var pct=0,si=0;
-  var prog=setInterval(function(){pct=Math.min(pct+Math.random()*18,88);bar.style.width=pct+'%';st.textContent=steps[Math.min(Math.floor(pct/25),3)];},1200);
-  try{
-    var prompt='Voce e especialista em regulacao de sinistros. Analise:\n- DOCUMENTO 1: Orcamento de reparo\n- DOCUMENTO 2: Nota Fiscal da oficina\n\nCompare usando CODIGO DA PECA (normalize: sem espacos, maiusculas).\nRetorne APENAS JSON valido sem markdown:\n{"conferidos":[{"codigo":"","descricao":"","valor_orc":0,"valor_nf_liq":0,"valor_nf_bruto":0}],"nf_fora_orc":[{"codigo":"","descricao":"","valor_nf_liq":0,"valor_nf_bruto":0}],"orc_fora_nf":[{"codigo":"","descricao":"","valor_orc":0}],"total_orc_liq":0,"total_nf_bruto":0,"total_nf_liq":0}';
-    var ca=[
-      mO==='application/pdf'?{type:'document',source:{type:'base64',media_type:'application/pdf',data:b64O}}:{type:'image',source:{type:'base64',media_type:mO,data:b64O}},
-      mN==='application/pdf'?{type:'document',source:{type:'base64',media_type:'application/pdf',data:b64N}}:{type:'image',source:{type:'base64',media_type:mN,data:b64N}},
-      {type:'text',text:prompt}
-    ];
-    var resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:API_HEADERS,body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,messages:[{role:'user',content:ca}]})});
-    clearInterval(prog);bar.style.width='100%';
-    var data=await resp.json();
-    var txt=data.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
-    exibir(JSON.parse(txt));
-  }catch(e){
-    clearInterval(prog);
-    document.getElementById('ldg').classList.remove('show');
-    document.getElementById('btnA').disabled=false;
-    setStep(1);
-    alert('Erro: '+e.message);
-    console.error(e);
+function setStep(n){
+  for(var i=1;i<=4;i++){
+    var s=document.getElementById('st'+i);
+    s.className='step'+(i<n?' done':i===n?' active':'');
   }
 }
 
-function exibir(r){
+function fmt(v){return 'R$ '+parseFloat(v||0).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
+function getMime(f){if(f.type)return f.type;var e=f.name.split('.').pop().toLowerCase();return{pdf:'application/pdf',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp'}[e]||'application/pdf';}
+
+function checkAdd(){document.getElementById('btnAdd').disabled=!orcB64;}
+function checkAnalisar(){
+  var temNF=Object.keys(nfData).some(function(id){return nfData[id].lido;});
+  document.getElementById('btnAnalisar').disabled=!(orcB64&&temNF);
+}
+
+// === ORÇAMENTO ===
+async function carregarOrc(inp){
+  if(!inp.files||!inp.files[0])return;
+  var f=inp.files[0],m=getMime(f);
+  var r=new FileReader();
+  r.onload=async function(e){
+    orcB64=e.target.result.split(',')[1];orcMime=m;
+    var drop=document.getElementById('orcDrop');
+    drop.classList.add('loaded');
+    drop.querySelector('.orc-icon').textContent='📄';
+    drop.querySelector('.orc-ttl').textContent='✓ '+f.name.substring(0,24)+(f.name.length>24?'...':'');
+    drop.querySelector('.orc-sub').textContent='Lendo com IA...';
+    var st=document.getElementById('orcStatus');
+    st.classList.add('show');
+    document.getElementById('orcStatusTitle').textContent='⏳ Extraindo peças...';
+    document.getElementById('orcVal').textContent='Aguarde...';
+    checkAdd();
+    try{
+      var prompt='Especialista em regulacao de sinistros. Leia este orcamento Cilia/Audatex. Retorne APENAS JSON sem markdown.\nExtraia SOMENTE pecas reais com codigo alfanumerico de fabricante.\nIGNORE: MACKUP, MARKUP, DIVERGENCIA MO, servicos numericos simples, mao de obra, pintura, franquia.\nUse PRECO LIQUIDO (bruto menos desconto).\n{"valor_liq_total":0.00,"desconto_pct":0.00,"pecas":[{"codigo":"","descricao":"","valor_bruto":0.00,"valor_liq":0.00}]}\nNormalize codigos: sem espacos/barras, maiusculas.';
+      var content=m==='application/pdf'
+        ?[{type:'document',source:{type:'base64',media_type:'application/pdf',data:orcB64}},{type:'text',text:prompt}]
+        :[{type:'image',source:{type:'base64',media_type:m,data:orcB64}},{type:'text',text:prompt}];
+      var resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:API_HEADERS,body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:content}]})});
+      var data=await resp.json();
+      var txt=data.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
+      var res=JSON.parse(txt);
+      orcValorLiq=res.valor_liq_total||0;
+      orcPecas=(res.pecas||[]).map(function(p){return{codigo:p.codigo,descricao:p.descricao,valor:p.valor_liq||0};});
+      document.getElementById('orcStatusTitle').textContent='✅ Orçamento — '+orcPecas.length+' peças lidas';
+      document.getElementById('orcVal').textContent=fmt(orcValorLiq);
+      drop.querySelector('.orc-sub').textContent=orcPecas.length+' peças identificadas';
+    }catch(err){
+      orcPecas=[];orcValorLiq=0;
+      document.getElementById('orcStatusTitle').textContent='⚠️ Carregado (leitura parcial)';
+      document.getElementById('orcStatusTitle').style.color='var(--yel)';
+      document.getElementById('orcVal').textContent='Valor manual necessário';
+      document.getElementById('orcVal').style.fontSize='13px';
+      document.getElementById('orcVal').style.color='var(--yel)';
+      drop.querySelector('.orc-sub').textContent='Erro na leitura — verifique o arquivo';
+    }
+    checkAdd();checkAnalisar();
+  };
+  r.readAsDataURL(f);
+}
+
+function removerOrc(evt){
+  evt.stopPropagation();
+  orcB64='';orcMime='';orcValorLiq=0;orcPecas=[];
+  var drop=document.getElementById('orcDrop');
+  drop.classList.remove('loaded');
+  drop.querySelector('.orc-icon').textContent='📋';
+  drop.querySelector('.orc-ttl').textContent='Upload do Orçamento';
+  drop.querySelector('.orc-sub').textContent='PDF ou foto — base para conferência de todas as NFs';
+  document.getElementById('orcStatus').classList.remove('show');
+  document.getElementById('orcInput').value='';
+  checkAdd();checkAnalisar();
+}
+
+// === NFs ===
+function addNF(){
+  nfCount++;
+  var id='nf'+nfCount;
+  nfData[id]={bruto:0,liq:0,conferidos:[],nfFora:[],orcFora:[],lido:false};
+  var div=document.createElement('div');
+  div.className='nf-item';div.id=id;
+  div.innerHTML=
+    '<div class="nf-head">'+
+      '<span class="nf-num">NF '+nfCount+'</span>'+
+      '<span class="nf-name" id="nm'+id+'">Aguardando upload...</span>'+
+      '<div class="nf-spin" id="sp'+id+'" style="display:none;"></div>'+
+      '<button class="nf-del-btn" onclick="delNF(\''+id+'\')">✕</button>'+
+    '</div>'+
+    '<div class="nf-up-area" id="ua'+id+'">'+
+      '<input type="file" accept=".pdf,image/*" onchange="lerNF(\''+id+'\',this)"/>'+
+      '<span>📄 Selecionar PDF ou Foto da NF</span>'+
+    '</div>'+
+    '<div class="nf-vals" id="vl'+id+'" style="display:none;">'+
+      '<div class="nf-vbox"><span class="nf-vlbl">Bruto conferido</span><span class="nf-vval" id="vb'+id+'">R$ 0,00</span></div>'+
+      '<div class="nf-vbox"><span class="nf-vlbl">Líquido conferido</span><span class="nf-vval gr" id="vq'+id+'">R$ 0,00</span></div>'+
+    '</div>'+
+    '<div class="nf-conf-row" id="cr'+id+'" onclick="toggleConf(\''+id+\'\')" style="display:none;">'+
+      '<span class="nf-conf-arrow">▶</span>'+
+      '<span class="nf-conf-title" id="ct'+id+'">Ver conferência</span>'+
+    '</div>'+
+    '<div class="nf-conf-items" id="ci'+id+'"></div>';
+  document.getElementById('nfList').appendChild(div);
+  checkAnalisar();
+}
+
+function delNF(id){
+  var el=document.getElementById(id);
+  if(el)el.remove();
+  delete nfData[id];
+  atualizarTots();checkAnalisar();
+}
+
+function toggleConf(id){
+  var row=document.getElementById('cr'+id);
+  row.classList.toggle('open');
+}
+
+async function lerNF(id,inp){
+  if(!inp.files||!inp.files[0])return;
+  var f=inp.files[0],m=getMime(f);
+  var el=document.getElementById(id);
+  el.classList.add('loading');
+  document.getElementById('sp'+id).style.display='block';
+  document.getElementById('nm'+id).textContent='Lendo com IA...';
+  document.getElementById('ua'+id).style.display='none';
+  var reader=new FileReader();
+  reader.onload=async function(e){
+    var b64=e.target.result.split(',')[1];
+    try{
+      var prompt='Especialista em regulacao de sinistros. Compare esta NF com as pecas do orcamento.\nPecas do orcamento:\n'+JSON.stringify(orcPecas)+'\nRegras:\n1. Compare por CODIGO (normalize: sem espacos/barras, maiusculas)\n2. IGNORE itens sem codigo de fabricante real\n3. conferidos = pecas na NF E no orcamento\n4. nf_fora_orc = pecas na NF que NAO estao no orcamento\n5. orc_fora_nf = pecas no orcamento sem NF\n6. totais APENAS dos conferidos\nRetorne APENAS JSON sem markdown:\n{"conferidos":[{"codigo":"","descricao":"","valor_orc":0,"valor_nf_liq":0,"valor_nf_bruto":0}],"nf_fora_orc":[{"codigo":"","descricao":"","valor_nf_liq":0,"valor_nf_bruto":0}],"orc_fora_nf":[{"codigo":"","descricao":"","valor_orc":0}],"total_nf_bruto":0,"total_nf_liq":0}';
+      var content=m==='application/pdf'
+        ?[{type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}},{type:'text',text:prompt}]
+        :[{type:'image',source:{type:'base64',media_type:m,data:b64}},{type:'text',text:prompt}];
+      var resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:API_HEADERS,body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,messages:[{role:'user',content:content}]})});
+      var data=await resp.json();
+      var txt=data.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
+      var res=JSON.parse(txt);
+      var tB=res.conferidos.reduce(function(a,i){return a+(i.valor_nf_bruto||0);},0)||res.total_nf_bruto||0;
+      var tL=res.conferidos.reduce(function(a,i){return a+(i.valor_nf_liq||0);},0)||res.total_nf_liq||0;
+      nfData[id]={bruto:tB,liq:tL,conferidos:res.conferidos||[],nfFora:res.nf_fora_orc||[],orcFora:res.orc_fora_nf||[],lido:true};
+      document.getElementById('sp'+id).style.display='none';
+      document.getElementById('nm'+id).textContent='✅ '+f.name.substring(0,18)+(f.name.length>18?'...':'');
+      document.getElementById('vl'+id).style.display='grid';
+      document.getElementById('vb'+id).textContent=fmt(tB);
+      document.getElementById('vq'+id).textContent=fmt(tL);
+      el.classList.remove('loading');
+      var nff=(res.nf_fora_orc||[]).length,orf=(res.orc_fora_nf||[]).length;
+      el.classList.add(nff>0||orf>0?'warn':'ok');
+      // Conferência inline
+      var cr=document.getElementById('cr'+id);
+      cr.style.display='flex';
+      var nc=res.conferidos.length;
+      document.getElementById('ct'+id).textContent=nc+' conf. · '+nff+' fora orc. · '+orf+' sem NF';
+      var html='';
+      res.conferidos.forEach(function(i){html+='<div class="ci"><div class="ci-dot g"></div><span class="ci-cod">'+i.codigo+'</span><span class="ci-desc">'+i.descricao+'</span></div>';});
+      (res.nf_fora_orc||[]).forEach(function(i){html+='<div class="ci"><div class="ci-dot r"></div><span class="ci-cod">'+i.codigo+'</span><span class="ci-desc">'+i.descricao+'</span><span class="ci-badge r">Fora Orc.</span></div>';});
+      (res.orc_fora_nf||[]).forEach(function(i){html+='<div class="ci"><div class="ci-dot y"></div><span class="ci-cod">'+i.codigo+'</span><span class="ci-desc">'+i.descricao+'</span><span class="ci-badge y">Sem NF</span></div>';});
+      document.getElementById('ci'+id).innerHTML=html;
+      atualizarTots();checkAnalisar();
+    }catch(err){
+      document.getElementById('sp'+id).style.display='none';
+      document.getElementById('ua'+id).style.display='block';
+      el.classList.remove('loading');
+      document.getElementById('nm'+id).textContent='Erro — tente novamente';
+      alert('Erro ao ler NF: '+err.message);
+    }
+  };
+  reader.readAsDataURL(f);
+}
+
+function atualizarTots(){
+  var tB=0,tL=0;
+  Object.keys(nfData).forEach(function(id){tB+=nfData[id].bruto||0;tL+=nfData[id].liq||0;});
+  document.getElementById('totBruto').textContent=fmt(tB);
+  document.getElementById('totLiq').textContent=fmt(tL);
+  var d=tB>0?((tB-tL)/tB*100).toFixed(2).replace('.',','):'0,00';
+  document.getElementById('totDesc').textContent=d+'%';
+}
+
+// === ANALISAR ===
+async function analisar(){
+  document.getElementById('btnAnalisar').disabled=true;
+  document.getElementById('fase1').style.opacity='0.5';
+  document.getElementById('fase1').style.pointerEvents='none';
+  document.getElementById('ldg').classList.add('show');
+  document.getElementById('res').classList.remove('show');
+  setStep(2);
+  var bar=document.getElementById('ldgBar'),sub=document.getElementById('ldgSub');
+  var msgs=['Consolidando conferências...','Calculando markup...','Gerando relatório...'];
+  var pct=0;
+  var prog=setInterval(function(){
+    pct=Math.min(pct+15,90);
+    bar.style.width=pct+'%';
+    sub.textContent=msgs[Math.min(Math.floor(pct/35),2)];
+  },600);
+
+  // Consolida todos os dados das NFs já lidas
+  setTimeout(function(){
+    clearInterval(prog);
+    bar.style.width='100%';
+    exibir();
+  },2000);
+}
+
+function exibir(){
+  var todosConf=[],todosNFfora=[],todosOrcfora=[];
+  var tBruto=0,tLiq=0;
+  Object.keys(nfData).forEach(function(id){
+    var d=nfData[id];
+    tBruto+=d.bruto||0;tLiq+=d.liq||0;
+    (d.conferidos||[]).forEach(function(i){todosConf.push(i);});
+    (d.nfFora||[]).forEach(function(i){todosNFfora.push(i);});
+    (d.orcFora||[]).forEach(function(i){todosOrcfora.push(i);});
+  });
+
   document.getElementById('ldg').classList.remove('show');
   document.getElementById('res').classList.add('show');
-  document.getElementById('pd').textContent='Gerado em: '+new Date().toLocaleString('pt-BR')+' | Markup: '+pc+'%';
+  document.getElementById('phDate').textContent='Gerado em: '+new Date().toLocaleString('pt-BR')+' | Markup: '+perc+'%';
   setStep(3);
-  var bn=document.getElementById('bnr');
-  if(nfs==='c'){bn.className='banner can';document.getElementById('bic').textContent='❌';document.getElementById('bt').textContent='NOTA FISCAL CANCELADA NA RECEITA FEDERAL';document.getElementById('bs').textContent='Esta nota NAO pode ser aceita para markup!';}
-  else if(nfs==='v'){bn.className='banner ok';document.getElementById('bic').textContent='✅';document.getElementById('bt').textContent='NOTA FISCAL VALIDA — CONFERIDA NA RECEITA';document.getElementById('bs').textContent='Nota ativa e valida para calculo de markup.';}
-  else{bn.className='banner pen';document.getElementById('bic').textContent='⏳';document.getElementById('bt').textContent='STATUS DA NOTA NAO INFORMADO';document.getElementById('bs').textContent='Consulte a Receita Federal e atualize o status.';}
-  var nc=(r.conferidos||[]).length,nf=(r.nf_fora_orc||[]).length,no=(r.orc_fora_nf||[]).length;
-  document.getElementById('nC').textContent=nc;document.getElementById('nF').textContent=nf;document.getElementById('nO').textContent=no;
-  if(nc>0){document.getElementById('sC').style.display='block';document.getElementById('cC').textContent=nc;document.getElementById('lC').innerHTML=r.conferidos.map(function(i){return '<div class="ir"><div class="idot g"></div><span class="icd">'+i.codigo+'</span><span class="ids">'+i.descricao+'</span><span class="ivl">'+fmt(i.valor_orc)+'</span></div>';}).join('');}
-  if(nf>0){document.getElementById('sF').style.display='block';document.getElementById('cF').textContent=nf;document.getElementById('lF').innerHTML=r.nf_fora_orc.map(function(i){return '<div class="ir"><div class="idot r"></div><span class="icd">'+i.codigo+'</span><span class="ids">'+i.descricao+'</span><span class="ibg r">Excluido</span><span class="ivl">'+fmt(i.valor_nf_liq)+'</span></div>';}).join('');}
-  if(no>0){document.getElementById('sO').style.display='block';document.getElementById('cO2').textContent=no;document.getElementById('lO').innerHTML=r.orc_fora_nf.map(function(i){return '<div class="ir"><div class="idot y"></div><span class="icd">'+i.codigo+'</span><span class="ids">'+i.descricao+'</span><span class="ibg y">Sem NF</span><span class="ivl">'+fmt(i.valor_orc)+'</span></div>';}).join('');}
-  var vo=r.conferidos.reduce(function(a,i){return a+(i.valor_orc||0);},0)||r.total_orc_liq||0;
-  var vb=r.conferidos.reduce(function(a,i){return a+(i.valor_nf_bruto||0);},0)||r.total_nf_bruto||0;
-  var vl=r.conferidos.reduce(function(a,i){return a+(i.valor_nf_liq||0);},0)||r.total_nf_liq||0;
-  var desc=vb>0?((vb-vl)/vb*100).toFixed(2).replace('.',',')+'%':'0%';
-  var mk=vl*(1+pc/100),df=vo-mk;
-  document.getElementById('mvo').textContent=fmt(vo);document.getElementById('mvb').textContent=fmt(vb);document.getElementById('mvl').textContent=fmt(vl);document.getElementById('mde').textContent=desc;document.getElementById('mpc').textContent=pc+'%';document.getElementById('mmk').textContent=fmt(mk);
-  var mkr=document.getElementById('mkr');
-  if(df>=0){mkr.className='mkr pos';document.getElementById('mkt').textContent='SEM REFATURAMENTO';document.getElementById('mkv').textContent=fmt(df);document.getElementById('mkm').textContent='Valor dentro do limite. Nao ha complemento a lancar.';document.getElementById('lco').style.display='none';}
-  else{mkr.className='mkr neg';document.getElementById('mkt').textContent='REFATURAMENTO IDENTIFICADO';document.getElementById('mkv').textContent='- '+fmt(Math.abs(df));document.getElementById('mkm').textContent='Valor abaixo do markup minimo. Lancar complemento no Cilia.';document.getElementById('lco').style.display='block';document.getElementById('lcx').textContent='COMPLEMENTO DE PECAS - MARKUP '+pc+'%\nValor Liq. NFs (conferidos): '+fmt(vl)+'\nValor com Markup ('+pc+'%): '+fmt(mk)+'\nValor Orcamento: '+fmt(vo)+'\nComplemento: '+fmt(mk-vo);}
-  window.scrollTo(0,document.getElementById('res').offsetTop-20);
+
+  // Conferência consolidada
+  var html='';
+  if(todosConf.length>0){
+    html+='<div class="res-sec"><div class="res-sec-head"><span class="res-sec-ic">✅</span><span class="res-sec-title" style="color:var(--green);">Itens Conferidos</span><span class="res-sec-count g">'+todosConf.length+'</span></div>';
+    todosConf.forEach(function(i){html+='<div class="res-item"><div class="ri-dot g"></div><span class="ri-cod">'+i.codigo+'</span><span class="ri-desc">'+i.descricao+'</span><span class="ri-val">'+fmt(i.valor_orc)+'</span></div>';});
+    html+='</div>';
+  }
+  if(todosNFfora.length>0){
+    html+='<div class="res-sec"><div class="res-sec-head"><span class="res-sec-ic">⚠️</span><span class="res-sec-title" style="color:var(--red);">Na NF mas fora do Orçamento — Excluídos</span><span class="res-sec-count r">'+todosNFfora.length+'</span></div>';
+    todosNFfora.forEach(function(i){html+='<div class="res-item"><div class="ri-dot r"></div><span class="ri-cod">'+i.codigo+'</span><span class="ri-desc">'+i.descricao+'</span><span class="ri-badge r">Excluído</span><span class="ri-val">'+fmt(i.valor_nf_liq)+'</span></div>';});
+    html+='</div>';
+  }
+  if(todosOrcfora.length>0){
+    html+='<div class="res-sec"><div class="res-sec-head"><span class="res-sec-ic">⚠️</span><span class="res-sec-title" style="color:var(--yel);">No Orçamento sem NF</span><span class="res-sec-count y">'+todosOrcfora.length+'</span></div>';
+    todosOrcfora.forEach(function(i){html+='<div class="res-item"><div class="ri-dot y"></div><span class="ri-cod">'+i.codigo+'</span><span class="ri-desc">'+i.descricao+'</span><span class="ri-badge y">Sem NF</span><span class="ri-val">'+fmt(i.valor_orc)+'</span></div>';});
+    html+='</div>';
+  }
+  if(html===''){html='<div class="res-sec"><div style="text-align:center;padding:12px;font-size:12px;color:var(--muted);">Nenhum item conferido</div></div>';}
+  document.getElementById('resConf').innerHTML=html;
+
+  // Markup
+  var vOrc=todosConf.reduce(function(a,i){return a+(i.valor_orc||0);},0)||orcValorLiq;
+  var mk=tLiq*(1+perc/100);
+  var dif=vOrc-mk;
+  var desc=tBruto>0?((tBruto-tLiq)/tBruto*100).toFixed(2).replace('.',','):'0,00';
+
+  document.getElementById('mOrc').textContent=fmt(vOrc);
+  document.getElementById('mBruto').textContent=fmt(tBruto);
+  document.getElementById('mLiq').textContent=fmt(tLiq);
+  document.getElementById('mDesc').textContent=desc+'%';
+  document.getElementById('mPerc').textContent=perc+'%';
+  document.getElementById('mMkp').textContent=fmt(mk);
+
+  var rf=document.getElementById('resFinal');
+  setStep(4);
+  if(dif>=0){
+    rf.className='res-final pos';
+    document.getElementById('rfTitle').textContent='SEM REFATURAMENTO';
+    document.getElementById('rfVal').textContent=fmt(dif);
+    document.getElementById('rfMsg').textContent='Valor dentro do limite. Não há complemento a lançar.';
+    document.getElementById('lcBox').style.display='none';
+  } else {
+    rf.className='res-final neg';
+    document.getElementById('rfTitle').textContent='REFATURAMENTO IDENTIFICADO';
+    document.getElementById('rfVal').textContent='- '+fmt(Math.abs(dif));
+    document.getElementById('rfMsg').textContent='Valor abaixo do markup mínimo. Lançar complemento no Cilia.';
+    document.getElementById('lcBox').style.display='block';
+    document.getElementById('lcTxt').textContent=
+      'COMPLEMENTO DE PEÇAS - MARKUP '+perc+'%\n'+
+      'Valor Líq. NFs (conferidas): '+fmt(tLiq)+'\n'+
+      'Valor com Markup ('+perc+'%): '+fmt(mk)+'\n'+
+      'Valor Orçamento (conferido): '+fmt(vOrc)+'\n'+
+      'Complemento a lançar: '+fmt(mk-vOrc);
+  }
+
+  // Observações
+  var obs=document.getElementById('obsInput').value.trim();
+  if(obs){
+    document.getElementById('obsPrint').style.display='block';
+    document.getElementById('obsPrintTxt').textContent=obs;
+  }
+
+  window.scrollTo(0,document.getElementById('res').offsetTop-60);
 }
-function gerarPDF(){document.getElementById('pd').textContent='Gerado em: '+new Date().toLocaleString('pt-BR')+' | Markup: '+pc+'%';window.print();}
-function nova(){del('o');del('n');nfs='';document.getElementById('bV').classList.remove('sel');document.getElementById('bC').classList.remove('sel');document.getElementById('chave').value='';document.getElementById('obs').value='';document.getElementById('res').classList.remove('show');document.getElementById('lbar').style.width='0%';['sC','sF','sO'].forEach(function(id){document.getElementById(id).style.display='none';});document.getElementById('btnA').disabled=true;setStep(1);window.scrollTo(0,0);}
+
+function gerarPDF(){
+  document.getElementById('phDate').textContent='Gerado em: '+new Date().toLocaleString('pt-BR')+' | Markup: '+perc+'%';
+  window.print();
+}
+
+function nova(){
+  removerOrc({stopPropagation:function(){}});
+  document.getElementById('nfList').innerHTML='';
+  nfData={};nfCount=0;
+  atualizarTots();
+  document.getElementById('res').classList.remove('show');
+  document.getElementById('obsInput').value='';
+  document.getElementById('obsPrint').style.display='none';
+  document.getElementById('fase1').style.opacity='1';
+  document.getElementById('fase1').style.pointerEvents='auto';
+  document.getElementById('btnAnalisar').disabled=true;
+  setStep(1);
+  window.scrollTo(0,0);
+}
+
+function setP(p){
+  perc=p;
+  ['p20','p25','p30'].forEach(function(id){document.getElementById(id).classList.remove('on');});
+  document.getElementById('p'+p).classList.add('on');
+}
 </script>
 </body>
 </html>
