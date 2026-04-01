@@ -243,19 +243,19 @@ footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:1
 <footer><strong>BrasilReg</strong> &middot; Calculadora de Markup &middot; Uso exclusivo reguladores credenciados</footer>
 
 <script>
-var API_KEY = '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';
-var API_HEADERS = {
-  'Content-Type': 'application/json',
-  'x-api-key': API_KEY,
-  'anthropic-version': '2023-06-01',
-  'anthropic-dangerous-direct-browser-access': 'true'
-};
+
+
+  
+  
+  
+  
+
 
 var perc = 25;
 var orcB64 = '', orcMime = '', orcValorLiq = 0;
 var orcPecas = [];
 var nfCount = 0;
-var nfData = {};
+var nfData = {
 
 function setP(p){
   perc = p;
@@ -291,12 +291,12 @@ async function carregarOrc(inp){
       var content = m==='application/pdf'
         ?[{type:'document',source:{type:'base64',media_type:'application/pdf',data:orcB64}},{type:'text',text:prompt}]
         :[{type:'image',source:{type:'base64',media_type:m,data:orcB64}},{type:'text',text:prompt}];
-      var resp = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:API_HEADERS,body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:content}]})});
+      var resp = await fetch('/.netlify/functions/claude-proxy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:content}]})});
       var data = await resp.json();
       var txt = data.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
       var res = JSON.parse(txt);
       orcValorLiq = res.valor_liq_total||0;
-      orcPecas = (res.pecas||[]).map(function(p){ return {codigo:p.codigo, descricao:p.descricao, valor:p.valor_liq||p.valor||0}; });
+      orcPecas = (res.pecas||[]).map(function(p){ return {codigo:p.codigo, descricao:p.descricao, valor:p.valor_liq||p.valor||0 });
       document.getElementById('orcInfo').classList.add('show');
       document.getElementById('orcInfo').querySelector('.orc-info-title').textContent = '✅ Orcamento carregado — '+orcPecas.length+' pecas lidas';
       document.getElementById('orcValLiq').textContent = fmt(orcValorLiq);
@@ -317,7 +317,7 @@ async function carregarOrc(inp){
       checkAddNF();
       checkCalc();
     }
-  };
+  
   r.readAsDataURL(f);
 }
 
@@ -333,7 +333,7 @@ function removerOrc(){
 function addNF(){
   nfCount++;
   var id = 'nf'+nfCount;
-  nfData[id] = {bruto:0,liq:0,conferidos:[],nfFora:[],orcFora:[]};
+  nfData[id] = {bruto:0,liq:0,conferidos:[],nfFora:[],orcFora:[]
   var div = document.createElement('div');
   div.className = 'nf-item';
   div.id = id;
@@ -396,7 +396,7 @@ async function lerNF(id, inp){
       var content=m==='application/pdf'
         ?[{type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}},{type:'text',text:prompt}]
         :[{type:'image',source:{type:'base64',media_type:m,data:b64}},{type:'text',text:prompt}];
-      var resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:API_HEADERS,body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,messages:[{role:'user',content:content}]})});
+      var resp=await fetch('/.netlify/functions/claude-proxy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,messages:[{role:'user',content:content}]})});
       var data=await resp.json();
       var txt=data.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
       var res=JSON.parse(txt);
@@ -404,7 +404,7 @@ async function lerNF(id, inp){
       var tBruto=res.conferidos.reduce(function(a,i){return a+(i.valor_nf_bruto||0);},0)||res.total_nf_bruto||0;
       var tLiq=res.conferidos.reduce(function(a,i){return a+(i.valor_nf_liq||0);},0)||res.total_nf_liq||0;
 
-      nfData[id]={bruto:tBruto,liq:tLiq,conferidos:res.conferidos||[],nfFora:res.nf_fora_orc||[],orcFora:res.orc_fora_nf||[]};
+      nfData[id]={bruto:tBruto,liq:tLiq,conferidos:res.conferidos||[],nfFora:res.nf_fora_orc||[],orcFora:res.orc_fora_nf||[]
 
       document.getElementById('spin'+id).style.display='none';
       document.getElementById('nome'+id).textContent='✅ '+f.name.substring(0,20)+(f.name.length>20?'...':'');
@@ -435,7 +435,7 @@ async function lerNF(id, inp){
       document.getElementById('nome'+id).textContent='Erro — tente novamente';
       alert('Erro ao ler NF: '+e2.message);
     }
-  };
+  
   reader.readAsDataURL(f);
 }
 
@@ -530,7 +530,7 @@ function gerarPDF(){
 function limpar(){
   removerOrc();
   document.getElementById('nfList').innerHTML='';
-  nfData={};nfCount=0;
+  nfData={nfCount=0;
   atualizarTotais();
   document.getElementById('resCalc').classList.remove('show');
   document.getElementById('mkpCard').style.display='none';
