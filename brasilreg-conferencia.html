@@ -199,6 +199,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .btn-new{background:var(--s1);border:1px solid var(--bd);border-radius:11px;padding:12px 14px;color:var(--muted);cursor:pointer;font-size:13px;}
 .btn-new:hover{color:var(--text);}
 
+/* NFe */
+.nfe-input{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:9px;padding:9px 12px;font-size:12px;color:var(--text);outline:none;font-family:'DM Mono',monospace;letter-spacing:1px;}
+.nfe-input:focus{border-color:var(--gold);}
+.nfe-input::placeholder{color:var(--dim);font-size:11px;letter-spacing:0;}
+.btn-receita{background:var(--gd);border:1px solid rgba(212,163,57,0.3);border-radius:9px;padding:9px 14px;font-size:11px;font-weight:600;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;}
+.btn-receita:hover{background:rgba(212,163,57,0.2);}
+.nfe-status-row{display:flex;gap:7px;flex-wrap:wrap;}
+.nfe-sb{flex:1;padding:9px 8px;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;border:2px solid transparent;font-family:'Sora',sans-serif;transition:all 0.2s;text-align:center;min-width:100px;}
+.nfe-sb.valida{background:var(--gn);border-color:rgba(45,212,160,0.2);color:var(--green);}
+.nfe-sb.valida.sel{border-color:var(--green);background:rgba(45,212,160,0.25);}
+.nfe-sb.cancelada{background:var(--rd);border-color:rgba(255,107,107,0.2);color:var(--red);}
+.nfe-sb.cancelada.sel{border-color:var(--red);background:rgba(255,107,107,0.25);}
+.nfe-sb.pendente{background:var(--yd);border-color:rgba(255,183,64,0.2);color:var(--yel);}
+.nfe-sb.pendente.sel{border-color:var(--yel);background:rgba(255,183,64,0.25);}
+
 /* PRINT */
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
@@ -322,9 +337,26 @@ footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:1
       </div>
     </div>
 
+    <!-- CHAVE NFe -->
+    <div class="sec">
+      <div class="sec-title">3. Consulta NFe na Receita Federal</div>
+      <div class="card">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">Cole a chave de acesso da NF (44 dígitos) e consulte o status na Receita Federal</div>
+        <input class="nfe-input" type="text" id="chaveNFe" maxlength="44" placeholder="00000000000000000000000000000000000000000000" oninput="this.value=this.value.replace(/\D/g,'');checkChave()"/>
+        <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+          <button class="btn-receita" onclick="consultarReceita()">🔍 Consultar na Receita Federal</button>
+        </div>
+        <div class="nfe-status-row" style="margin-top:10px;">
+          <button class="nfe-sb valida" id="btnValida" onclick="setNFStatus('valida')">✅ Nota Válida</button>
+          <button class="nfe-sb cancelada" id="btnCancelada" onclick="setNFStatus('cancelada')">❌ Nota Cancelada</button>
+          <button class="nfe-sb pendente" id="btnPendente" onclick="setNFStatus('pendente')">⏳ Não Consultada</button>
+        </div>
+      </div>
+    </div>
+
     <!-- OBSERVAÇÕES -->
     <div class="sec">
-      <div class="sec-title">Observações do Regulador</div>
+      <div class="sec-title">4. Observações do Regulador</div>
       <div class="card">
         <textarea class="obs-area" id="obsInput" placeholder="Observações sobre a conferência (opcional)..."></textarea>
       </div>
@@ -382,6 +414,13 @@ footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:1
       </div>
     </div>
 
+    <!-- STATUS NFe PRINT -->
+    <div id="nfePrint" style="display:none;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin-bottom:10px;">
+      <div style="font-family:'Sora',sans-serif;font-size:10px;font-weight:700;color:#333;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Status da Nota Fiscal</div>
+      <div id="nfePrintTxt" style="font-size:12px;color:#000;font-weight:600;"></div>
+      <div id="nfePrintChave" style="font-size:10px;color:#555;margin-top:3px;font-family:monospace;"></div>
+    </div>
+
     <!-- OBS PRINT -->
     <div class="obs-print" id="obsPrint">
       <div class="obs-print-title">Observações do Regulador</div>
@@ -412,6 +451,7 @@ var API_HEADERS = {
 var perc = 25;
 var orcB64 = '', orcMime = '', orcValorLiq = 0, orcPecas = [];
 var nfCount = 0, nfData = {};
+var nfeStatus = 'pendente';
 
 function setStep(n){
   for(var i=1;i<=4;i++){
@@ -422,6 +462,24 @@ function setStep(n){
 
 function fmt(v){return 'R$ '+parseFloat(v||0).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
 function getMime(f){if(f.type)return f.type;var e=f.name.split('.').pop().toLowerCase();return{pdf:'application/pdf',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp'}[e]||'application/pdf';}
+
+function checkChave(){
+  var c=document.getElementById('chaveNFe').value.replace(/\D/g,'');
+  document.getElementById('chaveNFe').value=c;
+}
+
+function consultarReceita(){
+  var c=document.getElementById('chaveNFe').value.replace(/\D/g,'');
+  if(c.length!==44){alert('A chave deve ter 44 dígitos!');return;}
+  window.open('https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx?tipoConsulta=completa&tipoConteudo=7PhJ+gAVw2g=&chave='+c,'_blank');
+}
+
+function setNFStatus(s){
+  nfeStatus=s;
+  ['btnValida','btnCancelada','btnPendente'].forEach(function(id){document.getElementById(id).classList.remove('sel');});
+  var map={valida:'btnValida',cancelada:'btnCancelada',pendente:'btnPendente'};
+  document.getElementById(map[s]).classList.add('sel');
+}
 
 function checkAdd(){document.getElementById('btnAdd').disabled=!orcB64;}
 function checkAnalisar(){
@@ -720,6 +778,19 @@ function exibir(){
     document.getElementById('obsPrintTxt').textContent=obs;
   }
 
+  // Status NFe no PDF
+  var chave=document.getElementById('chaveNFe').value.trim();
+  var statusMap={
+    valida:'✅ NOTA FISCAL VÁLIDA — Conferida na Receita Federal',
+    cancelada:'❌ NOTA FISCAL CANCELADA — NÃO aceita para markup',
+    pendente:'⏳ Status não informado — Consultar Receita Federal'
+  };
+  var statusColorMap={valida:'#1a5c38',cancelada:'#9b1c1c',pendente:'#744210'};
+  document.getElementById('nfePrint').style.display='block';
+  document.getElementById('nfePrintTxt').textContent=statusMap[nfeStatus]||statusMap.pendente;
+  document.getElementById('nfePrintTxt').style.color=statusColorMap[nfeStatus]||statusColorMap.pendente;
+  if(chave){document.getElementById('nfePrintChave').textContent='Chave NFe: '+chave;}
+
   window.scrollTo(0,document.getElementById('res').offsetTop-60);
 }
 
@@ -736,6 +807,10 @@ function nova(){
   document.getElementById('res').classList.remove('show');
   document.getElementById('obsInput').value='';
   document.getElementById('obsPrint').style.display='none';
+  document.getElementById('nfePrint').style.display='none';
+  document.getElementById('chaveNFe').value='';
+  nfeStatus='pendente';
+  ['btnValida','btnCancelada','btnPendente'].forEach(function(id){document.getElementById(id).classList.remove('sel');});
   document.getElementById('fase1').style.opacity='1';
   document.getElementById('fase1').style.pointerEvents='auto';
   document.getElementById('btnAnalisar').disabled=true;
