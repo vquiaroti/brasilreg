@@ -438,27 +438,31 @@ async function carregarOrc(inp){
     document.getElementById('orcVal').textContent='Aguarde...';
     checkAdd();
     try{
-      var prompt='Especialista em regulacao de sinistros. Leia este orcamento Cilia/Audatex. Retorne APENAS JSON sem markdown.\nExtraia SOMENTE pecas reais com codigo alfanumerico de fabricante.\nIGNORE: MACKUP, MARKUP, DIVERGENCIA MO, servicos numericos simples, mao de obra, pintura, franquia.\nUse PRECO LIQUIDO (bruto menos desconto).\n{"valor_liq_total":0.00,"desconto_pct":0.00,"pecas":[{"codigo":"","descricao":"","valor_bruto":0.00,"valor_liq":0.00}]}\nNormalize codigos: sem espacos/barras, maiusculas.';
+      var prompt='Voce e especialista em regulacao de sinistros automotivos brasileiro. Analise este orcamento do sistema Cilia/Audatex.\n\nREGRAS OBRIGATORIAS:\n1. Extraia APENAS pecas com codigo alfanumerico real de fabricante como: 5H0853601DDPJ, 6EA941036, 2G0853101E2ZZ, 6EA807217HGRU etc\n2. IGNORE COMPLETAMENTE itens com codigos numericos simples: 001, 002, 003, 0000001 etc\n3. IGNORE: MACKUP, MARKUP, DIVERGENCIA MO, DEVOLUCAO DESC, mao de obra, pintura, reparacao, franquia, servicos\n4. O desconto padrao do orcamento e aplicado nas pecas (ex: 10%). valor_liq = valor_bruto * (1 - desconto/100)\n5. valor_liq_total = soma dos valor_liq de todas as pecas reais extraidas\n6. Normalize os codigos: remova espacos e barras, converta para MAIUSCULAS\n\nEXEMPLO de peca VALIDA: codigo=6EA941036, descricao=FAROL DIREITO, valor_bruto=3129.39, valor_liq=2816.45\nEXEMPLO de peca INVALIDA: codigo=003, descricao=MACKUP (IGNORAR)\nEXEMPLO de peca INVALIDA: codigo=001, descricao=DEVOLUCAO DESC (IGNORAR)\nEXEMPLO de peca INVALIDA: codigo=0000001, descricao=DIVERG MO (IGNORAR)\n\nRetorne APENAS JSON valido sem markdown, sem explicacoes:\n{"valor_liq_total":0.00,"desconto_pct":10.00,"pecas":[{"codigo":"CODIGO","descricao":"DESCRICAO","valor_bruto":0.00,"valor_liq":0.00}]}';
       var content=m==='application/pdf'
         ?[{type:'document',source:{type:'base64',media_type:'application/pdf',data:orcB64}},{type:'text',text:prompt}]
         :[{type:'image',source:{type:'base64',media_type:m,data:orcB64}},{type:'text',text:prompt}];
-      var resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:API_HEADERS,body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:content}]})});
+      var resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:API_HEADERS,body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,messages:[{role:'user',content:content}]})});
       var data=await resp.json();
+      if(data.error){throw new Error('API: '+data.error.message);}
       var txt=data.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
       var res=JSON.parse(txt);
       orcValorLiq=res.valor_liq_total||0;
-      orcPecas=(res.pecas||[]).map(function(p){return{codigo:p.codigo,descricao:p.descricao,valor:p.valor_liq||0};});
+      orcPecas=(res.pecas||[]).map(function(p){return{codigo:(p.codigo||'').replace(/[\s\/]/g,'').toUpperCase(),descricao:p.descricao,valor:p.valor_liq||0};});
       document.getElementById('orcStatusTitle').textContent='✅ Orçamento — '+orcPecas.length+' peças lidas';
       document.getElementById('orcVal').textContent=fmt(orcValorLiq);
-      drop.querySelector('.orc-sub').textContent=orcPecas.length+' peças identificadas';
+      document.getElementById('orcVal').style.color='';
+      document.getElementById('orcVal').style.fontSize='';
+      drop.querySelector('.orc-sub').textContent=orcPecas.length+' peças identificadas | Desconto: '+(res.desconto_pct||0)+'%';
     }catch(err){
       orcPecas=[];orcValorLiq=0;
-      document.getElementById('orcStatusTitle').textContent='⚠️ Carregado (leitura parcial)';
-      document.getElementById('orcStatusTitle').style.color='var(--yel)';
-      document.getElementById('orcVal').textContent='Valor manual necessário';
-      document.getElementById('orcVal').style.fontSize='13px';
-      document.getElementById('orcVal').style.color='var(--yel)';
-      drop.querySelector('.orc-sub').textContent='Erro na leitura — verifique o arquivo';
+      document.getElementById('orcStatusTitle').textContent='⚠️ Erro na leitura — '+err.message;
+      document.getElementById('orcStatusTitle').style.color='var(--red)';
+      document.getElementById('orcVal').textContent='Tente novamente ou use foto do orçamento';
+      document.getElementById('orcVal').style.fontSize='12px';
+      document.getElementById('orcVal').style.color='var(--red)';
+      drop.querySelector('.orc-sub').textContent='Erro: '+err.message;
+      console.error('Erro orcamento:',err);
     }
     checkAdd();checkAnalisar();
   };
