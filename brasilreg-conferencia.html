@@ -442,7 +442,7 @@ async function carregarOrc(inp){
       var content=m==='application/pdf'
         ?[{type:'document',source:{type:'base64',media_type:'application/pdf',data:orcB64}},{type:'text',text:prompt}]
         :[{type:'image',source:{type:'base64',media_type:m,data:orcB64}},{type:'text',text:prompt}];
-      var resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:API_HEADERS,body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,messages:[{role:'user',content:content}]})});
+      var resp=await fetch('/.netlify/functions/claude-proxy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,messages:[{role:'user',content:content}]})});
       var data=await resp.json();
       if(data.error){throw new Error('API: '+data.error.message);}
       var txt=data.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
@@ -541,7 +541,7 @@ async function lerNF(id,inp){
       var content=m==='application/pdf'
         ?[{type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}},{type:'text',text:prompt}]
         :[{type:'image',source:{type:'base64',media_type:m,data:b64}},{type:'text',text:prompt}];
-      var resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:API_HEADERS,body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,messages:[{role:'user',content:content}]})});
+      var resp=await fetch('/.netlify/functions/claude-proxy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,messages:[{role:'user',content:content}]})});
       var data=await resp.json();
       var txt=data.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
       var res=JSON.parse(txt);
