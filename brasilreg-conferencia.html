@@ -235,6 +235,14 @@ footer strong{color:#2D3748;}
 </div>
 <footer><strong>BrasilReg</strong> &middot; Conferencia NF + Markup &middot; Uso exclusivo reguladores credenciados</footer>
 <script>
+var API_KEY = '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';
+var API_HEADERS = {
+  'Content-Type': 'application/json',
+  'x-api-key': API_KEY,
+  'anthropic-version': '2023-06-01',
+  'anthropic-dangerous-direct-browser-access': 'true'
+};
+
 var dO=null,dN=null,b64O='',b64N='',mO='application/pdf',mN='application/pdf',nfs='',pc=25;
 function setStep(n){for(var i=1;i<=3;i++){var s=document.getElementById('st'+i);s.className='step'+(i<n?' done':i===n?' active':'');}}
 function chk(){document.getElementById('btnA').disabled=!(dO&&dN);}
@@ -279,7 +287,7 @@ async function analisar(){
       mN==='application/pdf'?{type:'document',source:{type:'base64',media_type:'application/pdf',data:b64N}}:{type:'image',source:{type:'base64',media_type:mN,data:b64N}},
       {type:'text',text:prompt}
     ];
-    var resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,messages:[{role:'user',content:ca}]})});
+    var resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:API_HEADERS,body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,messages:[{role:'user',content:ca}]})});
     clearInterval(prog);bar.style.width='100%';
     var data=await resp.json();
     var txt=data.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
