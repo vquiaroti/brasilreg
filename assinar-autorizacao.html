@@ -36,32 +36,39 @@ body{font-family:'DM Sans',sans-serif;background:#080C14;color:#E2E8F0;min-heigh
 .amarelo .alerta-txt{color:#FFB740;}
 .verde .alerta-txt{color:#2DD4A0;}
 .obs-box{background:#161E2E;border-radius:9px;padding:11px 13px;font-size:12px;color:#E2E8F0;line-height:1.7;white-space:pre-wrap;border:1px solid rgba(255,255,255,0.05);}
-
-/* PDF VIEWER */
+/* PDF Viewer */
 .pdf-viewer-wrap{background:#fff;border-radius:10px;overflow:hidden;margin-bottom:8px;}
-.pdf-viewer-wrap iframe{width:100%;height:500px;border:none;display:block;}
+.pdf-viewer-wrap iframe{width:100%;height:480px;border:none;display:block;}
 .pdf-viewer-wrap img{width:100%;display:block;}
-.pdf-nav{display:flex;align-items:center;justify-content:center;gap:10px;padding:8px;background:#1A2236;border-radius:0 0 10px 10px;}
-.pdf-nav button{background:#0F1520;border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:5px 12px;font-size:11px;color:#E2E8F0;cursor:pointer;}
-.pdf-nav span{font-size:11px;color:#64748B;}
-
-/* ASSINATURA */
+/* Pergunta renegociação */
+.perg-reneg{background:#161E2E;border:1px solid rgba(255,183,64,0.3);border-radius:10px;padding:12px 14px;margin-bottom:12px;}
+.perg-reneg-title{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;color:#FFB740;margin-bottom:8px;}
+.reneg-btns{display:flex;gap:7px;}
+.reneg-btn{flex:1;padding:9px;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;border:2px solid transparent;font-family:'Sora',sans-serif;transition:all 0.2s;text-align:center;}
+.reneg-btn.nao{background:rgba(45,212,160,0.1);border-color:rgba(45,212,160,0.2);color:#2DD4A0;}
+.reneg-btn.nao.sel{border-color:#2DD4A0;background:rgba(45,212,160,0.2);}
+.reneg-btn.sim{background:rgba(255,107,107,0.1);border-color:rgba(255,107,107,0.2);color:#FF6B6B;}
+.reneg-btn.sim.sel{border-color:#FF6B6B;background:rgba(255,107,107,0.2);}
+/* Assinatura */
 .flabel{font-size:11px;color:#64748B;margin-bottom:5px;display:block;}
 .finput{width:100%;background:#161E2E;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:11px 14px;font-size:14px;color:#E2E8F0;outline:none;font-family:'DM Sans',sans-serif;margin-bottom:12px;}
 .finput:focus{border-color:#D4A329;}
 .finput::placeholder{color:#2D3748;}
 .canvas-wrap{position:relative;background:#fff;border-radius:12px;overflow:hidden;touch-action:none;border:2px solid rgba(255,255,255,0.1);}
 canvas{display:block;width:100%;cursor:crosshair;}
-.canvas-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:13px;color:#999;pointer-events:none;text-align:center;line-height:1.5;}
+.canvas-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:13px;color:#999;pointer-events:none;text-align:center;}
 .btn-clear{background:none;border:none;font-size:12px;color:#64748B;cursor:pointer;padding:6px 0;display:block;margin-top:4px;}
 .btn-confirmar{width:100%;background:rgba(45,212,160,0.12);border:1px solid rgba(45,212,160,0.3);border-radius:12px;padding:15px;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:#2DD4A0;cursor:pointer;margin-top:8px;}
-.btn-confirmar:hover{background:rgba(45,212,160,0.2);}
+.btn-confirmar:disabled{opacity:0.3;cursor:not-allowed;}
+.btn-confirmar:not(:disabled):hover{background:rgba(45,212,160,0.2);}
+/* Loading */
 .ldg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;}
 .ldg.open{display:flex;}
 .ldg-box{background:#0F1520;border-radius:16px;padding:28px 32px;text-align:center;max-width:280px;}
 .ldg-spin{width:40px;height:40px;border:3px solid rgba(45,212,160,0.2);border-top-color:#2DD4A0;border-radius:50%;animation:sp 0.8s linear infinite;margin:0 auto 14px;}
 @keyframes sp{to{transform:rotate(360deg);}}
 .ldg-txt{font-family:'Sora',sans-serif;font-size:13px;color:#CBD5E0;}
+/* Estados */
 .estado{display:none;text-align:center;padding:50px 20px;}
 .estado.show{display:block;}
 .estado-icon{font-size:64px;margin-bottom:16px;}
@@ -70,7 +77,10 @@ canvas{display:block;width:100%;cursor:crosshair;}
 .estado.sucesso h2{color:#2DD4A0;}
 .estado.expirado h2{color:#FF6B6B;}
 .estado.ja-assinado h2{color:#FFB740;}
-.btn-download{background:rgba(212,163,57,0.12);border:1px solid rgba(212,163,57,0.3);border-radius:11px;padding:12px 20px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:#D4A329;cursor:pointer;margin-top:16px;display:inline-block;}
+.estado.renegociando h2{color:#FFB740;}
+/* Alerta renegociação na tela da oficina */
+.reneg-aviso{background:rgba(255,183,64,0.08);border:1px solid rgba(255,183,64,0.3);border-radius:10px;padding:12px;font-size:12px;color:#FFB740;line-height:1.6;margin-bottom:12px;display:none;}
+.reneg-aviso.show{display:block;}
 </style>
 </head>
 <body>
@@ -111,6 +121,16 @@ canvas{display:block;width:100%;cursor:crosshair;}
       <div class="pdf-viewer-wrap" id="pdfViewerWrap"></div>
     </div>
 
+    <!-- PERGUNTA RENEGOCIAÇÃO (só aparece se houve não acordo) -->
+    <div class="perg-reneg" id="pergReneg" style="display:none;">
+      <div class="perg-reneg-title">⚠️ Não há renegociação destes valores. Você concorda?</div>
+      <div class="reneg-aviso" id="renegAviso">Se desejar renegociar, o regulador será notificado e entrará em contato. O processo só pode ser autorizado caso haja acordo.</div>
+      <div class="reneg-btns">
+        <button class="reneg-btn nao" id="btnRenegNao" onclick="setReneg(false)">✅ Confirmo, sem renegociação</button>
+        <button class="reneg-btn sim" id="btnRenegSim" onclick="setReneg(true)">⚠️ Quero renegociar</button>
+      </div>
+    </div>
+
     <div class="card">
       <div class="ctitle">Confirmar e Assinar</div>
       <div style="font-size:12px;color:#64748B;margin-bottom:12px;line-height:1.6;">Ao assinar, confirmo que li e estou ciente de todas as informações e do orçamento acima.</div>
@@ -124,17 +144,16 @@ canvas{display:block;width:100%;cursor:crosshair;}
         <div class="canvas-hint" id="canvasHint">✍️ Assine aqui</div>
       </div>
       <button class="btn-clear" onclick="limparCanvas()">🗑️ Limpar assinatura</button>
-      <button class="btn-confirmar" onclick="confirmar()">✅ Confirmar e Assinar</button>
+      <button class="btn-confirmar" id="btnConfirmar" onclick="confirmar()">✅ Confirmar e Assinar</button>
     </div>
   </div>
 
-  <div class="estado expirado" id="estadoExpirado"><div class="estado-icon">⏰</div><h2>Link expirado!</h2><p>O prazo foi encerrado.<br>Solicite um novo link ao regulador.</p></div>
-  <div class="estado sucesso" id="estadoSucesso"><div class="estado-icon">✅</div><h2>Assinatura confirmada!</h2><p>O documento foi assinado com sucesso.<br>O regulador já foi notificado.</p><button class="btn-download" id="btnDownload" onclick="baixarPDF()">📄 Baixar PDF Assinado</button></div>
+  <!-- ESTADOS -->
+  <div class="estado expirado" id="estadoExpirado"><div class="estado-icon">⏰</div><h2>Link expirado!</h2><p>Solicite um novo link ao regulador.</p></div>
+  <div class="estado sucesso" id="estadoSucesso"><div class="estado-icon">✅</div><h2>Assinatura confirmada!</h2><p>Documento assinado com sucesso.<br>O regulador já foi notificado.</p></div>
   <div class="estado ja-assinado" id="estadoJaAssinado"><div class="estado-icon">📋</div><h2>Já assinado!</h2><p>Este documento já foi assinado.<br>Entre em contato com o regulador.</p></div>
+  <div class="estado renegociando" id="estadoRenegociando"><div class="estado-icon">📞</div><h2>Regulador notificado!</h2><p>Sua solicitação de renegociação foi enviada.<br><strong>Aguarde o contato do regulador.</strong><br><br>O processo será autorizado somente após o acordo.</p></div>
 </div>
-
-<!-- jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
@@ -154,8 +173,8 @@ if(!docId){
     var d=snap.data();
     if(d.expiraEmMs&&Date.now()>d.expiraEmMs){document.getElementById('estadoExpirado').classList.add('show');return;}
     if(d.assinado){document.getElementById('estadoJaAssinado').classList.add('show');return;}
+    if(d.querRenegociar){document.getElementById('estadoRenegociando').classList.add('show');return;}
 
-    // Armazena dados globalmente para o PDF
     window._docData=d;
 
     // Banner
@@ -179,27 +198,36 @@ if(!docId){
 
     // Alertas
     var al='';
-    if(d.naoAcordo==='sim')al+='<div class="alerta vermelho"><span class="alerta-ic">⚠️</span><span class="alerta-txt"><strong>Houve NÃO ACORDO</strong><br>Não há renegociação. Acione o regulador ANTES de assinar se tiver dúvidas.</span></div>';
-    if(d.dnc==='sim')al+='<div class="alerta amarelo"><span class="alerta-ic">📌</span><span class="alerta-txt"><strong>Contém itens DNC</strong><br>Este orçamento possui itens sem cobertura.</span></div>';
-    if(d.indenizacao==='sim')al+='<div class="alerta vermelho"><span class="alerta-ic">🔴</span><span class="alerta-txt"><strong>Indenização Integral</strong><br>Este processo é de indenização integral.</span></div>';
+    if(d.naoAcordo==='sim'){
+      var naTexto='<strong>Houve NÃO ACORDO</strong>';
+      if(d.valorNaoAcordo)naTexto+='<br>💰 Valor: R$ '+d.valorNaoAcordo;
+      if(d.refNaoAcordo)naTexto+='<br>📎 Referência: '+d.refNaoAcordo;
+      al+='<div class="alerta vermelho"><span class="alerta-ic">⚠️</span><span class="alerta-txt">'+naTexto+'</span></div>';
+      // Mostra pergunta de renegociação
+      document.getElementById('pergReneg').style.display='block';
+      document.getElementById('renegAviso').classList.add('show');
+      // Bloqueia botão confirmar até responder
+      document.getElementById('btnConfirmar').disabled=true;
+    }
+    if(d.dnc==='sim'){
+      var dncTxt='<strong>Contém itens DNC (Sem Cobertura):</strong>';
+      if(d.dncPecas&&d.dncPecas.length>0)dncTxt+='<br>'+d.dncPecas.map(function(p){return '• '+p;}).join('<br>');
+      al+='<div class="alerta amarelo"><span class="alerta-ic">📌</span><span class="alerta-txt">'+dncTxt+'</span></div>';
+    }
+    if(d.indenizacao==='sim')al+='<div class="alerta vermelho"><span class="alerta-ic">🔴</span><span class="alerta-txt"><strong>Indenização Integral</strong></span></div>';
     if(!al&&d.autorizado==='sim')al='<div class="alerta verde"><span class="alerta-ic">✅</span><span class="alerta-txt"><strong>Sem pendências</strong><br>Reparos autorizados sem restrições.</span></div>';
     document.getElementById('alertas').innerHTML=al;
 
-    // Obs
     if(d.observacoes){document.getElementById('obsCard').style.display='block';document.getElementById('obsBox').textContent=d.observacoes;}
 
-    // PDF viewer
+    // PDF
     if(d.orcBase64&&d.orcBase64.length>0){
-      var pdfCard=document.getElementById('pdfCard');
-      pdfCard.style.display='block';
+      document.getElementById('pdfCard').style.display='block';
       var wrap=document.getElementById('pdfViewerWrap');
       if(d.orcMime==='application/pdf'){
-        // Embed PDF
-        var dataUrl='data:application/pdf;base64,'+d.orcBase64;
-        wrap.innerHTML='<iframe src="'+dataUrl+'" style="width:100%;height:500px;border:none;"></iframe>';
+        wrap.innerHTML='<iframe src="data:application/pdf;base64,'+d.orcBase64+'" style="width:100%;height:480px;border:none;"></iframe>';
       }else{
-        // Imagem
-        wrap.innerHTML='<img src="data:'+d.orcMime+';base64,'+d.orcBase64+'" style="width:100%;display:block;border-radius:10px;"/>';
+        wrap.innerHTML='<img src="data:'+d.orcMime+';base64,'+d.orcBase64+'" style="width:100%;border-radius:10px;"/>';
       }
     }
 
@@ -211,17 +239,18 @@ if(!docId){
   });
 
   window.salvarAssinatura=async function(nome,cargo,img){
-    await updateDoc(doc(db,'autorizacoes',docId),{
-      assinado:true,nomeAssinante:nome,cargoAssinante:cargo,
-      assinaturaImg:img,dataAssinatura:serverTimestamp()
-    });
+    await updateDoc(doc(db,'autorizacoes',docId),{assinado:true,nomeAssinante:nome,cargoAssinante:cargo,assinaturaImg:img,dataAssinatura:serverTimestamp()});
+  };
+
+  window.salvarRenegociacao=async function(){
+    await updateDoc(doc(db,'autorizacoes',docId),{querRenegociar:true,dataRenegociacao:serverTimestamp()});
   };
 }
 </script>
 
 <script>
 var canvas,ctx,drawing=false,hasSig=false;
-var sigImgGlobal='';
+var querRenegociar=null;
 
 function initCanvas(){
   canvas=document.getElementById('sigCanvas');
@@ -238,150 +267,54 @@ function initCanvas(){
 
 function limparCanvas(){if(!canvas)return;ctx.clearRect(0,0,canvas.width,canvas.height);hasSig=false;document.getElementById('canvasHint').style.display='block';}
 
+function setReneg(quer){
+  querRenegociar=quer;
+  document.getElementById('btnRenegNao').classList.toggle('sel',!quer);
+  document.getElementById('btnRenegSim').classList.toggle('sel',quer);
+  if(quer){
+    // Desabilita assinatura e mostra aviso
+    document.getElementById('btnConfirmar').disabled=true;
+    document.getElementById('btnConfirmar').textContent='⚠️ Aguardando acordo com regulador';
+  }else{
+    document.getElementById('btnConfirmar').disabled=false;
+    document.getElementById('btnConfirmar').textContent='✅ Confirmar e Assinar';
+  }
+}
+
 async function confirmar(){
+  // Se quer renegociar, envia alerta e bloqueia
+  if(querRenegociar===true){
+    document.getElementById('ldg').classList.add('open');
+    document.getElementById('ldgTxt').textContent='Notificando regulador...';
+    try{
+      await window.salvarRenegociacao();
+      document.getElementById('ldg').classList.remove('open');
+      document.getElementById('conteudo').style.display='none';
+      document.getElementById('estadoRenegociando').classList.add('show');
+    }catch(e){
+      document.getElementById('ldg').classList.remove('open');
+      alert('Erro. Tente novamente.');
+    }
+    return;
+  }
   var nome=document.getElementById('nomeAssinante').value.trim();
   var cargo=document.getElementById('cargoAssinante').value.trim();
   if(!nome){alert('Digite seu nome completo!');return;}
   if(!hasSig){alert('Por favor, assine no campo acima!');return;}
+  // Verifica se precisa responder pergunta de renegociação
+  var d=window._docData||{};
+  if(d.naoAcordo==='sim'&&querRenegociar===null){alert('Responda a pergunta sobre renegociação antes de assinar!');return;}
   document.getElementById('ldg').classList.add('open');
   document.getElementById('ldgTxt').textContent='Salvando assinatura...';
   try{
-    sigImgGlobal=canvas.toDataURL('image/png');
-    await window.salvarAssinatura(nome,cargo,sigImgGlobal);
+    var img=canvas.toDataURL('image/png');
+    await window.salvarAssinatura(nome,cargo,img);
     document.getElementById('ldg').classList.remove('open');
     document.getElementById('conteudo').style.display='none';
     document.getElementById('estadoSucesso').classList.add('show');
   }catch(e){
     document.getElementById('ldg').classList.remove('open');
     alert('Erro ao salvar. Tente novamente.');
-  }
-}
-
-function baixarPDF(){
-  try{
-    var d=window._docData||{};
-    var nome=document.getElementById('nomeAssinante')?document.getElementById('nomeAssinante').value:'';
-    var cargo=document.getElementById('cargoAssinante')?document.getElementById('cargoAssinante').value:'';
-    var {jsPDF}=window.jspdf;
-    var pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-    var W=210,M=15,cw=W-M*2;
-    var y=M;
-
-    // Header
-    pdf.setFillColor(8,12,20);
-    pdf.rect(0,0,W,25,'F');
-    pdf.setFontSize(16);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
-    pdf.text('BrasilReg',M,14);
-    pdf.setFontSize(9);pdf.setFont('helvetica','normal');pdf.setTextColor(200,200,200);
-    pdf.text('Autorização de Reparos',M,20);
-    pdf.setFontSize(8);pdf.setTextColor(180,180,180);
-    pdf.text(new Date().toLocaleString('pt-BR'),W-M,14,{align:'right'});
-    y=35;
-
-    // Banner status
-    var isAut=d.autorizado==='sim';
-    pdf.setFillColor(isAut?240:255,isAut?253:240,isAut?244:240);
-    pdf.setDrawColor(isAut?45:255,isAut?212:107,isAut?160:107);
-    pdf.setLineWidth(0.5);
-    pdf.roundedRect(M,y,cw,18,3,3,'FD');
-    pdf.setFontSize(13);pdf.setFont('helvetica','bold');
-    pdf.setTextColor(isAut?29:200,isAut?185:50,isAut?120:50);
-    pdf.text(isAut?'✅  REPAROS AUTORIZADOS':'⚠  REPAROS NÃO AUTORIZADOS',W/2,y+8,{align:'center'});
-    if(!isAut&&d.motivo){
-      pdf.setFontSize(9);pdf.setFont('helvetica','normal');
-      pdf.text('Motivo: '+d.motivo,W/2,y+14,{align:'center'});
-    }
-    y+=24;
-
-    // Dados
-    pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
-    pdf.text('DADOS DO SINISTRO',M,y);y+=5;
-    pdf.setDrawColor(212,163,41);pdf.setLineWidth(0.3);pdf.line(M,y,W-M,y);y+=5;
-    var campos=[['Veículo',d.veiculo],['Placa',d.placa],['Sinistro',d.sinistro],['Oficina',d.oficina],['Seguradora',d.seguradora],['Regulador',d.regulador]];
-    var col=0;
-    campos.forEach(function(c){
-      if(!c[1])return;
-      var x=col===0?M:W/2+2;
-      pdf.setFontSize(7);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);
-      pdf.text(c[0].toUpperCase(),x,y);
-      pdf.setFontSize(9);pdf.setFont('helvetica','bold');pdf.setTextColor(30,30,30);
-      pdf.text(c[1].substring(0,30),x,y+5);
-      if(col===1){y+=12;col=0;}else{col=1;}
-    });
-    if(col===1)y+=12;
-    y+=4;
-
-    // Alertas
-    var alertas=[];
-    if(d.naoAcordo==='sim')alertas.push({txt:'Houve NÃO ACORDO — Não há renegociação.',cor:[255,107,107]});
-    if(d.dnc==='sim')alertas.push({txt:'Contém itens DNC (Sem Cobertura).',cor:[255,183,64]});
-    if(d.indenizacao==='sim')alertas.push({txt:'Processo de INDENIZAÇÃO INTEGRAL.',cor:[255,107,107]});
-    alertas.forEach(function(a){
-      pdf.setFillColor(255,245,245);pdf.setDrawColor(a.cor[0],a.cor[1],a.cor[2]);
-      pdf.roundedRect(M,y,cw,10,2,2,'FD');
-      pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(a.cor[0],a.cor[1],a.cor[2]);
-      pdf.text('⚠  '+a.txt,M+4,y+6);
-      y+=13;
-    });
-
-    // Obs
-    if(d.observacoes){
-      pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
-      pdf.text('OBSERVAÇÕES DO REGULADOR',M,y);y+=5;
-      pdf.setDrawColor(212,163,41);pdf.line(M,y,W-M,y);y+=4;
-      pdf.setFontSize(8);pdf.setFont('helvetica','normal');pdf.setTextColor(50,50,50);
-      var obsLines=pdf.splitTextToSize(d.observacoes,cw);
-      pdf.text(obsLines,M,y);y+=obsLines.length*4+6;
-    }
-
-    // Seção assinatura
-    pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
-    pdf.text('ASSINATURA E CONFIRMAÇÃO',M,y);y+=5;
-    pdf.setDrawColor(212,163,41);pdf.line(M,y,W-M,y);y+=6;
-
-    // Dados do assinante
-    pdf.setFontSize(8);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);
-    pdf.text('ASSINANTE',M,y);
-    pdf.setFontSize(10);pdf.setFont('helvetica','bold');pdf.setTextColor(30,30,30);
-    pdf.text((nome||'—'),M,y+5);
-    if(cargo){pdf.setFontSize(8);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);pdf.text(cargo,M,y+10);}
-    pdf.setFontSize(8);pdf.setTextColor(100,116,139);
-    pdf.text('DATA/HORA',W/2+2,y);
-    pdf.setFontSize(9);pdf.setFont('helvetica','bold');pdf.setTextColor(30,30,30);
-    pdf.text(new Date().toLocaleString('pt-BR'),W/2+2,y+5);
-    y+=18;
-
-    // Assinatura imagem
-    if(sigImgGlobal){
-      pdf.setFontSize(7);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);
-      pdf.text('ASSINATURA DIGITAL',M,y);y+=4;
-      pdf.setFillColor(255,255,255);pdf.setDrawColor(200,200,200);
-      pdf.roundedRect(M,y,cw,35,2,2,'FD');
-      try{pdf.addImage(sigImgGlobal,'PNG',M+5,y+3,cw-10,29);}catch(e){}
-      y+=38;
-    }
-
-    // Linha divisória
-    pdf.setDrawColor(220,220,220);pdf.line(M,y,W-M,y);y+=5;
-    pdf.setFontSize(7);pdf.setFont('helvetica','normal');pdf.setTextColor(150,150,150);
-    pdf.text('BrasilReg — Soluções em Sinistros | Documento gerado eletronicamente',W/2,y,{align:'center'});
-
-    // Segunda página: orçamento original (se for imagem)
-    if(d.orcBase64&&d.orcBase64.length>0&&d.orcMime&&d.orcMime!=='application/pdf'){
-      pdf.addPage();
-      pdf.setFillColor(8,12,20);
-      pdf.rect(0,0,W,15,'F');
-      pdf.setFontSize(10);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
-      pdf.text('Orçamento Regulado',M,10);
-      try{
-        var imgData='data:'+d.orcMime+';base64,'+d.orcBase64;
-        pdf.addImage(imgData,d.orcMime.includes('png')?'PNG':'JPEG',M,20,cw,0);
-      }catch(e){}
-    }
-
-    pdf.save('BrasilReg_Autorizacao_'+new Date().toISOString().slice(0,10)+'.pdf');
-  }catch(err){
-    alert('Erro ao gerar PDF: '+err.message);
   }
 }
 </script>
