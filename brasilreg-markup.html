@@ -3,539 +3,289 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BrasilReg - Calculadora de Markup</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<title>BrasilReg - Canal de Consultas</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;900&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080C14;--s1:#0F1520;--s2:#161E2E;--bd:rgba(255,255,255,0.07);--gold:#D4A329;--gd:rgba(212,163,57,0.12);--green:#2DD4A0;--gn:rgba(45,212,160,0.1);--red:#FF6B6B;--rd:rgba(255,107,107,0.1);--yel:#FFB740;--yd:rgba(255,183,64,0.1);--blue:#60A5FA;--bd2:rgba(96,165,250,0.1);--text:#E2E8F0;--muted:#64748B;}
+:root{--bg:#0A0E1A;--s1:#111827;--s2:#1A2235;--bd:rgba(255,255,255,0.07);--gold:#D4A329;--gd:rgba(212,163,57,0.1);--text:#E8EAF0;--muted:#5A6478;--green:#2DD4A0;--red:#FC8181;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
-.header{padding:12px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;background:var(--bg);position:sticky;top:0;z-index:100;}
-.back-btn{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:7px 12px;color:var(--muted);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;display:inline-flex;align-items:center;gap:5px;flex-shrink:0;}
-.header-logo{height:36px;mix-blend-mode:lighten;margin:0 auto;}
-.hero{padding:16px 20px 12px;text-align:center;}
-.hero h1{font-family:'Sora',sans-serif;font-size:20px;font-weight:900;color:#fff;margin-bottom:4px;}
+.topbar{background:var(--bg);border-bottom:1px solid var(--bd);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;}
+.topbar-logo{height:32px;mix-blend-mode:lighten;}
+.topbar-user{display:flex;align-items:center;gap:8px;}
+.user-dot{width:8px;height:8px;border-radius:50%;background:var(--green);}
+.user-name{font-size:11px;color:var(--muted);}
+.hero{background:linear-gradient(180deg,#0D1525 0%,var(--bg) 100%);padding:32px 20px 24px;text-align:center;border-bottom:1px solid var(--bd);}
+.hero h1{font-family:'Sora',sans-serif;font-size:26px;font-weight:900;color:#fff;margin-bottom:6px;}
 .hero h1 span{color:var(--gold);}
-.hero p{font-size:12px;color:var(--muted);}
-.body{padding:0 16px 40px;max-width:560px;margin:0 auto;}
-.card{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:12px;}
-.ctitle{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
-.pbs{display:flex;gap:8px;}
-.pb{flex:1;background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:12px;cursor:pointer;text-align:center;font-family:'Sora',sans-serif;font-size:18px;font-weight:700;color:var(--muted);transition:all 0.2s;}
-.pb:hover{border-color:rgba(212,163,57,0.3);color:var(--gold);}
-.pb.on{background:var(--gd);border-color:rgba(212,163,57,0.5);color:var(--gold);}
-.orc-up{background:var(--s2);border:2px dashed var(--bd);border-radius:12px;padding:18px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
-.orc-up:hover{border-color:rgba(212,163,57,0.3);}
-.orc-up.ok{border-style:solid;border-color:rgba(96,165,250,0.4);background:var(--bd2);cursor:default;}
-.orc-up input{position:absolute;inset:0;opacity:0;cursor:pointer;}
-.orc-up.ok input{display:none;}
-.orc-icon{font-size:26px;margin-bottom:6px;display:block;}
-.orc-title{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px;}
-.orc-sub{font-size:11px;color:var(--muted);}
-.orc-stat{font-size:11px;font-weight:600;margin-top:5px;}
-.ok .orc-stat{color:var(--blue);}
-.orc-del{position:absolute;top:7px;right:7px;background:var(--rd);border:none;border-radius:5px;width:20px;height:20px;color:var(--red);font-size:10px;cursor:pointer;display:none;align-items:center;justify-content:center;}
-.ok .orc-del{display:flex;}
-.orc-info{background:var(--bd2);border:1px solid rgba(96,165,250,0.2);border-radius:10px;padding:10px 12px;margin-top:10px;display:none;}
-.orc-info.show{display:block;}
-.orc-info-title{font-size:10px;color:var(--blue);font-weight:600;margin-bottom:6px;}
-.orc-val{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;color:var(--blue);}
-.orc-val-lbl{font-size:11px;color:var(--muted);margin-top:2px;}
-.nf-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
-.nf-item{background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:12px;transition:all 0.2s;}
-.nf-item.loading{border-color:rgba(212,163,57,0.3);background:rgba(212,163,57,0.04);}
-.nf-item.ok{border-color:rgba(45,212,160,0.3);background:var(--gn);}
-.nf-item.warn{border-color:rgba(255,183,64,0.3);background:rgba(255,183,64,0.04);}
-.nf-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.nf-num{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;color:var(--muted);}
-.nf-item.ok .nf-num{color:var(--green);}
-.nf-item.loading .nf-num{color:var(--gold);}
-.nf-nome{font-size:11px;color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.nf-spin{width:14px;height:14px;border:2px solid rgba(212,163,57,0.2);border-top-color:var(--gold);border-radius:50%;animation:sp 0.7s linear infinite;flex-shrink:0;}
-@keyframes sp{to{transform:rotate(360deg);}}
-.nf-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;flex-shrink:0;}
-.nf-del:hover{color:var(--red);}
-.nf-vals{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-.nf-vbox{background:rgba(0,0,0,0.2);border-radius:7px;padding:7px 10px;}
-.nf-vlbl{font-size:9px;color:var(--muted);display:block;margin-bottom:2px;}
-.nf-vval{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:var(--gold);}
-.nf-vval.green{color:var(--green);}
-.nf-conf{margin-top:8px;display:none;}
-.nf-conf.show{display:block;}
-.nf-conf-head{display:flex;align-items:center;gap:6px;margin-bottom:6px;cursor:pointer;}
-.nf-conf-toggle{font-size:10px;color:var(--muted);}
-.nf-conf-title{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;color:var(--muted);}
-.conf-items{display:flex;flex-direction:column;gap:3px;}
-.ci{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03);}
-.ci:last-child{border-bottom:none;}
-.ci-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.ci-dot.g{background:var(--green);}
-.ci-dot.r{background:var(--red);}
-.ci-dot.y{background:var(--yel);}
-.ci-cod{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);min-width:70px;flex-shrink:0;}
-.ci-desc{font-size:10px;color:var(--text);flex:1;}
-.ci-badge{font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;flex-shrink:0;}
-.ci-badge.r{background:var(--rd);color:var(--red);}
-.ci-badge.y{background:var(--yd);color:var(--yel);}
-.btn-add-nf{width:100%;background:var(--bd2);border:1px dashed rgba(96,165,250,0.2);border-radius:10px;padding:10px;font-size:12px;color:var(--blue);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
-.btn-add-nf:hover{background:rgba(96,165,250,0.15);}
-.btn-add-nf:disabled{opacity:0.3;cursor:not-allowed;}
-.tots{margin-top:10px;padding-top:10px;border-top:1px solid var(--bd);}
-.tot-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
-.tot-row:last-child{border-bottom:none;}
-.tot-lbl{font-size:12px;color:var(--muted);}
-.tot-val{font-family:'Sora',sans-serif;font-size:12px;font-weight:600;color:var(--gold);}
-.res-calc{display:none;background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:12px;}
-.res-calc.show{display:block;}
-.res-sec{margin-bottom:12px;}
-.res-sec-title{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;padding:6px 10px;border-radius:7px;display:flex;align-items:center;gap:6px;}
-.res-sec-title.g{background:var(--gn);color:var(--green);}
-.res-sec-title.r{background:var(--rd);color:var(--red);}
-.res-sec-title.y{background:var(--yd);color:var(--yel);}
-.res-item{display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.03);}
-.res-item:last-child{border-bottom:none;}
-.ri-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.ri-dot.g{background:var(--green);}
-.ri-dot.r{background:var(--red);}
-.ri-dot.y{background:var(--yel);}
-.ri-cod{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);min-width:80px;flex-shrink:0;}
-.ri-desc{font-size:11px;color:var(--text);flex:1;}
-.ri-val{font-family:'Sora',sans-serif;font-size:11px;font-weight:600;color:var(--gold);flex-shrink:0;}
-.mkp-card{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:12px;}
-.mkp-title{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
-.mkp-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
-.mkp-row:last-child{border-bottom:none;}
-.mkp-lbl{font-size:12px;color:var(--muted);}
-.mkp-val{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;color:var(--gold);}
-.mkp-res{border-radius:13px;padding:15px;margin-bottom:12px;border:2px solid transparent;}
-.mkp-res.pos{background:var(--gn);border-color:rgba(45,212,160,0.35);}
-.mkp-res.neg{background:var(--rd);border-color:rgba(255,107,107,0.4);}
-.mrt{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
-.pos .mrt{color:var(--green);}
-.neg .mrt{color:var(--red);}
-.mrv{font-family:'Sora',sans-serif;font-size:28px;font-weight:900;text-align:center;margin:8px 0;}
-.pos .mrv{color:var(--green);}
-.neg .mrv{color:var(--red);}
-.mrm{font-size:12px;text-align:center;line-height:1.5;}
-.pos .mrm{color:rgba(45,212,160,0.8);}
-.neg .mrm{color:rgba(255,107,107,0.8);}
-.lc-box{background:var(--bg);border:1px solid rgba(212,163,57,0.2);border-radius:10px;padding:12px;margin-top:10px;}
-.lc-title{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
-.lc-txt{font-size:11px;color:var(--text);background:var(--s1);border-radius:7px;padding:10px;border:1px solid var(--bd);white-space:pre-wrap;line-height:1.6;font-family:'DM Mono',monospace;}
-.btn-row{display:flex;gap:8px;}
-.bcalc{flex:2;background:var(--gd);border:1px solid rgba(212,163,57,0.35);border-radius:12px;padding:13px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
-.bcalc:hover{background:rgba(212,163,57,0.22);}
-.bcalc:disabled{opacity:0.35;cursor:not-allowed;}
-.bpdf{flex:2;background:var(--bd2);border:1px solid rgba(96,165,250,0.25);border-radius:12px;padding:13px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:var(--blue);cursor:pointer;}
-.bpdf:hover{background:rgba(96,165,250,0.18);}
-.bclr{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:13px 14px;color:var(--muted);cursor:pointer;font-size:15px;}
-.bclr:hover{color:var(--red);}
-@media print{
-  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
-  @page{margin:8mm;}
-  body{background:#fff!important;color:#000!important;}
-  .header,.hero,.card,.btn-row,footer{display:none!important;}
-  .res-calc,.mkp-card,.mkp-res{display:block!important;}
-  .res-sec-title.g{background:#e6fff8!important;color:#1a5c38!important;}
-  .res-sec-title.r{background:#fff0f0!important;color:#9b1c1c!important;}
-  .res-sec-title.y{background:#fff8e6!important;color:#744210!important;}
-  .mkp-res.pos{background:#e6fff8!important;border:2px solid #2DD4A0!important;}
-  .mkp-res.neg{background:#fff0f0!important;border:2px solid #FF6B6B!important;}
-  .pos .mrt,.pos .mrv{color:#1a5c38!important;}
-  .neg .mrt,.neg .mrv{color:#9b1c1c!important;}
-  .lc-txt{background:#f0f0f0!important;color:#000!important;}
-  .print-header{display:block!important;}
-}
-.print-header{display:none;text-align:center;margin-bottom:16px;}
-footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:11px;color:#1E2A3A;}
-@media(max-width:480px){.nf-vals{grid-template-columns:1fr;}}
+.hero p{font-size:13px;color:var(--muted);}
+.search-wrap{padding:16px 20px;max-width:600px;margin:0 auto;}
+.search-box{display:flex;align-items:center;gap:10px;background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:11px 16px;}
+.search-box input{flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;}
+.search-box input::placeholder{color:var(--muted);}
+.tabs{display:flex;gap:4px;padding:0 20px;max-width:660px;margin:0 auto 20px;border-bottom:1px solid var(--bd);overflow-x:auto;}
+.tab{padding:10px 16px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;font-family:'Sora',sans-serif;white-space:nowrap;}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.body{padding:0 20px 40px;max-width:660px;margin:0 auto;}
+.grupo{margin-bottom:24px;}
+.grupo-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.grupo-icon{font-size:14px;}
+.grupo-title{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:#fff;}
+.grupo-sub{font-size:11px;color:var(--muted);margin-top:1px;}
+.grupo-line{flex:1;height:1px;background:var(--bd);}
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.cards-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:14px;cursor:pointer;transition:all 0.2s;text-decoration:none;display:block;position:relative;}
+.card:hover{border-color:rgba(212,163,57,0.3);background:var(--s2);transform:translateY(-1px);}
+.card-icon{font-size:22px;margin-bottom:8px;display:block;}
+.card-title{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;}
+.card-sub{font-size:10px;color:var(--muted);line-height:1.4;}
+.card-badge{position:absolute;top:8px;right:8px;font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;font-family:'Sora',sans-serif;}
+.card-badge.new{background:var(--green);color:#000;}
+.card-badge.hot{background:var(--red);color:#fff;}
+.card-wide{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:14px;cursor:pointer;transition:all 0.2s;text-decoration:none;display:flex;align-items:center;gap:12px;}
+.card-wide:hover{border-color:rgba(212,163,57,0.3);background:var(--s2);}
+.card-wide-icon{font-size:28px;flex-shrink:0;}
+.card-wide-title{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:#fff;margin-bottom:3px;}
+.card-wide-sub{font-size:11px;color:var(--muted);}
+footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:10px;color:#1E2A3A;}
+@media(max-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr);}}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <button class="back-btn" onclick="window.open('https://vquiaroti01.wixsite.com/portal-de-consultas','_blank')">&#8592; Voltar</button>
-  <img src="https://static.wixstatic.com/media/d134a6_9ebbb0f87c314c3b8bcaf55fd83c77b4~mv2.webp" class="header-logo" alt="BrasilReg"/>
+<div class="topbar">
+  <img src="https://static.wixstatic.com/media/d134a6_9ebbb0f87c314c3b8bcaf55fd83c77b4~mv2.webp" class="topbar-logo" alt="BrasilReg"/>
+  <div class="topbar-user">
+    <div class="user-dot"></div>
+    <span class="user-name">Regulador de Sinistro · Online</span>
+  </div>
 </div>
 
 <div class="hero">
-  <h1>Calculadora de <span>Markup</span></h1>
-  <p>Insira o orcamento e as NFs — a IA confere e calcula automaticamente</p>
+  <h1>Canal de <span>Consultas</span></h1>
+  <p>Ferramentas e procedimentos tecnicos para regulacao de sinistros</p>
 </div>
 
-<div class="body">
+<div class="search-wrap">
+  <div class="search-box">
+    <input type="text" placeholder="Buscar procedimento, manual ou dica tecnica..." id="searchInput" oninput="filtrar()"/>
+    <span>🔍</span>
+  </div>
+</div>
 
-  <div class="card">
-    <div class="ctitle">Percentual de Markup</div>
-    <div class="pbs">
-      <button class="pb" id="p20" onclick="setP(20)">20%</button>
-      <button class="pb on" id="p25" onclick="setP(25)">25%</button>
-      <button class="pb" id="p30" onclick="setP(30)">30%</button>
+<div class="tabs">
+  <div class="tab active" onclick="setTab('todos',this)">Todos</div>
+  <div class="tab" onclick="setTab('operacoes',this)">Operações</div>
+  <div class="tab" onclick="setTab('conteudo',this)">Conteúdo</div>
+  <div class="tab" onclick="setTab('projetos',this)">Projetos</div>
+  <div class="tab" onclick="setTab('institucional',this)">Institucional</div>
+</div>
+
+<div class="body" id="mainBody">
+
+  <!-- GERADOR DE DOCUMENTOS -->
+  <div class="grupo" data-cat="operacoes">
+    <div class="grupo-header">
+      <span class="grupo-icon">📁</span>
+      <div><div class="grupo-title">Gerador de Documentos</div><div class="grupo-sub">Ferramentas para calculo e geracao de documentos tecnicos</div></div>
+      <div class="grupo-line"></div>
+    </div>
+    <div class="cards-grid">
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-21" target="_top">
+        <span class="card-icon">📊</span>
+        <div class="card-title">Calculadora de Markup</div>
+        <div class="card-sub">Calculo de refaturamento</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-22" target="_top">
+        <span class="card-icon">📄</span>
+        <div class="card-title">Protocolo de Frustrada</div>
+        <div class="card-sub">Gerar e assinar digitalmente</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-23" target="_top">
+        <span class="card-icon">🚚</span>
+        <div class="card-title">Comparativo de Cabine</div>
+        <div class="card-sub">Analise de viabilidade</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-25" target="_top">
+        <span class="card-icon">✍️</span>
+        <div class="card-title">Assinar Orçamento</div>
+        <div class="card-sub">Autorização digital da oficina</div>
+        <span class="card-badge new">NOVO</span>
+      </a>
     </div>
   </div>
 
-  <div class="card">
-    <div class="ctitle">1. Orcamento da Oficina</div>
-    <div class="orc-up" id="orcUp">
-      <input type="file" id="orcInput" accept=".pdf,image/*" onchange="carregarOrc(this)"/>
-      <span class="orc-icon">📋</span>
-      <div class="orc-title">Upload do Orcamento</div>
-      <div class="orc-sub">PDF ou foto — sera a base de comparacao para todas as NFs</div>
-      <div class="orc-stat" id="orcStat">Toque para selecionar</div>
-      <button class="orc-del" onclick="removerOrc()">✕</button>
+  <!-- OPERAÇÕES -->
+  <div class="grupo" data-cat="operacoes">
+    <div class="grupo-header">
+      <span class="grupo-icon">⚙️</span>
+      <div><div class="grupo-title">Operações</div></div>
+      <div class="grupo-line"></div>
     </div>
-    <div class="orc-info" id="orcInfo">
-      <div class="orc-info-title">✅ Orcamento carregado</div>
-      <div class="orc-val" id="orcValLiq">R$ 0,00</div>
-      <div class="orc-val-lbl">Valor liquido das pecas no orcamento (extraido pela IA)</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="ctitle">2. Notas Fiscais</div>
-    <div class="nf-list" id="nfList"></div>
-    <button class="btn-add-nf" id="btnAddNF" onclick="addNF()" disabled>+ Adicionar Nota Fiscal</button>
-    <div class="tots">
-      <div class="tot-row"><span class="tot-lbl">Total Bruto NFs (conferidas)</span><span class="tot-val" id="tBruto">R$ 0,00</span></div>
-      <div class="tot-row"><span class="tot-lbl">Total Liquido NFs (conferidas)</span><span class="tot-val" id="tLiq">R$ 0,00</span></div>
-      <div class="tot-row"><span class="tot-lbl">Desconto medio</span><span class="tot-val" id="tDesc" style="color:var(--text);">0,00%</span></div>
+    <div class="cards-grid-2">
+      <a class="card card-wide" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-11" target="_top">
+        <span class="card-wide-icon">👤</span>
+        <div><div class="card-wide-title">Analistas</div><div class="card-wide-sub">Acesso a equipe tecnica</div></div>
+      </a>
+      <a class="card card-wide" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-12" target="_top">
+        <span class="card-wide-icon">📦</span>
+        <div><div class="card-wide-title">Solicitação de Lote</div><div class="card-wide-sub">Envio e acompanhamento</div></div>
+      </a>
     </div>
   </div>
 
-  <div class="btn-row" style="margin-bottom:14px;">
-    <button class="bcalc" id="btnCalc" onclick="calcular()" disabled>🧮 Calcular Markup</button>
-    <button class="bpdf" onclick="gerarPDF()">📄 PDF</button>
-    <button class="bclr" onclick="limpar()">🗑️</button>
-  </div>
-
-  <div class="res-calc" id="resCalc">
-    <div class="print-header">
-      <img src="https://static.wixstatic.com/media/d134a6_9ebbb0f87c314c3b8bcaf55fd83c77b4~mv2.webp" style="height:44px;mix-blend-mode:multiply;"/>
-      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#000;margin-top:6px;">Conferencia NF x Orcamento + Markup</div>
-      <div style="font-size:11px;color:#555;" id="printData"></div>
+  <!-- CONTEÚDO -->
+  <div class="grupo" data-cat="conteudo">
+    <div class="grupo-header">
+      <span class="grupo-icon">📚</span>
+      <div><div class="grupo-title">Conteúdo</div><div class="grupo-sub">Manuais, dicas e treinamentos</div></div>
+      <div class="grupo-line"></div>
     </div>
-    <div id="secConf"></div>
-    <div id="secNFfora"></div>
-    <div id="secOrcfora"></div>
+    <div class="cards-grid">
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-13" target="_top">
+        <span class="card-icon">📖</span>
+        <div class="card-title">Manuais</div>
+        <div class="card-sub">Procedimentos e orientações</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-14" target="_top">
+        <span class="card-icon">💡</span>
+        <div class="card-title">Dicas Técnicas</div>
+        <div class="card-sub">Orientações especializadas</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-7" target="_top">
+        <span class="card-icon">🎓</span>
+        <div class="card-title">Treinamentos</div>
+        <div class="card-sub">Capacitação e desenvolvimento</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-5" target="_top">
+        <span class="card-icon">🤖</span>
+        <div class="card-title">Parecer Automático</div>
+        <div class="card-sub">Geração automatizada</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-20" target="_top">
+        <span class="card-icon">🔎</span>
+        <div class="card-title">Pesquisas Rápidas</div>
+        <div class="card-sub">Consultas especificas</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-10" target="_top">
+        <span class="card-icon">🎧</span>
+        <div class="card-title">Suporte</div>
+        <div class="card-sub">Atendimento e ajuda</div>
+      </a>
+    </div>
   </div>
 
-  <div class="mkp-card" id="mkpCard" style="display:none;">
-    <div class="mkp-title">Calculo de Markup — Apenas itens conferidos</div>
-    <div class="mkp-row"><span class="mkp-lbl">Valor Liq. Orcamento (itens conferidos)</span><span class="mkp-val" id="mOrc">R$ 0,00</span></div>
-    <div class="mkp-row"><span class="mkp-lbl">Total Bruto NFs (conferidas)</span><span class="mkp-val" id="mBruto">R$ 0,00</span></div>
-    <div class="mkp-row"><span class="mkp-lbl">Total Liquido NFs (conferidas)</span><span class="mkp-val" id="mLiq">R$ 0,00</span></div>
-    <div class="mkp-row"><span class="mkp-lbl">Desconto medio NFs</span><span class="mkp-val" id="mDesc">0%</span></div>
-    <div class="mkp-row"><span class="mkp-lbl">Markup aplicado</span><span class="mkp-val" id="mPerc">25%</span></div>
-    <div class="mkp-row"><span class="mkp-lbl">Liq NFs + Markup</span><span class="mkp-val" id="mMkp">R$ 0,00</span></div>
+  <!-- FERRAMENTAS TÉCNICAS -->
+  <div class="grupo" data-cat="conteudo">
+    <div class="grupo-header">
+      <span class="grupo-icon">🔧</span>
+      <div><div class="grupo-title">Ferramentas Técnicas</div><div class="grupo-sub">Consultas e comparativos especializados</div></div>
+      <div class="grupo-line"></div>
+    </div>
+    <div class="cards-grid">
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-4" target="_top">
+        <span class="card-icon">🏷️</span>
+        <div class="card-title">Desconto por Marca</div>
+        <div class="card-sub">Tabela de descontos</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-2" target="_top">
+        <span class="card-icon">⚖️</span>
+        <div class="card-title">Comparativo PT</div>
+        <div class="card-sub">Analise de perda total</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-6" target="_top">
+        <span class="card-icon">🔩</span>
+        <div class="card-title">Consulta Peças</div>
+        <div class="card-sub">Base de dados de pecas</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-3" target="_top">
+        <span class="card-icon">🛠️</span>
+        <div class="card-title">Mão de Obra</div>
+        <div class="card-sub">Tabela de referencias</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-15" target="_top">
+        <span class="card-icon">📷</span>
+        <div class="card-title">Foto Padrão</div>
+        <div class="card-sub">Padrao de imagens</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-16" target="_top">
+        <span class="card-icon">🛡️</span>
+        <div class="card-title">Blindagem</div>
+        <div class="card-sub">Avaliacoes especificas</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-9" target="_top">
+        <span class="card-icon">📈</span>
+        <div class="card-title">BI Resultados</div>
+        <div class="card-sub">Indicadores e metricas</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-23" target="_top">
+        <span class="card-icon">🚚</span>
+        <div class="card-title">Comparativo de Cabine</div>
+        <div class="card-sub">Analise de viabilidade</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-24" target="_top">
+        <span class="card-icon">🧾</span>
+        <div class="card-title">Conferência NF</div>
+        <div class="card-sub">Conferir nota x orçamento</div>
+      </a>
+    </div>
   </div>
 
-  <div class="mkp-res" id="mkpRes" style="display:none;">
-    <div class="mrt" id="mkpTit"></div>
-    <div class="mrv" id="mkpVal"></div>
-    <div class="mrm" id="mkpMsg"></div>
-    <div class="lc-box" id="lcBox" style="display:none;">
-      <div class="lc-title">Linha de Complemento para o Cilia</div>
-      <div class="lc-txt" id="lcTxt"></div>
+  <!-- PROJETOS -->
+  <div class="grupo" data-cat="projetos">
+    <div class="grupo-header">
+      <span class="grupo-icon">🚀</span>
+      <div><div class="grupo-title">Projetos</div></div>
+      <div class="grupo-line"></div>
+    </div>
+    <div class="cards-grid">
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-17" target="_top">
+        <span class="card-icon">🚛</span>
+        <div class="card-title">Implementos</div>
+        <div class="card-sub">Analise especializada</div>
+      </a>
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-18" target="_top">
+        <span class="card-icon">⭐</span>
+        <div class="card-title">Projeto Mercedes</div>
+        <div class="card-sub">Programa dedicado</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- INSTITUCIONAL -->
+  <div class="grupo" data-cat="institucional">
+    <div class="grupo-header">
+      <span class="grupo-icon">🏢</span>
+      <div><div class="grupo-title">Institucional</div></div>
+      <div class="grupo-line"></div>
+    </div>
+    <div class="cards-grid">
+      <a class="card" href="https://vquiaroti01.wixsite.com/portal-de-consultas/blank-19" target="_top">
+        <span class="card-icon">🏆</span>
+        <div class="card-title">Premiação Mensal</div>
+        <div class="card-sub">Reconhecimento interno</div>
+        <span class="card-badge new">NOVO</span>
+      </a>
     </div>
   </div>
 
 </div>
 
-<footer><strong>BrasilReg</strong> &middot; Calculadora de Markup &middot; Uso exclusivo reguladores credenciados</footer>
+<footer>BrasilReg · Portal de Consultas Tecnicas · Uso exclusivo reguladores credenciados</footer>
 
 <script>
-
-
-  
-  
-  
-  
-
-
-var perc = 25;
-var orcB64 = '', orcMime = '', orcValorLiq = 0;
-var orcPecas = [];
-var nfCount = 0;
-var nfData = {
-
-function setP(p){
-  perc = p;
-  ['p20','p25','p30'].forEach(function(id){ document.getElementById(id).classList.remove('on'); });
-  document.getElementById('p'+p).classList.add('on');
-}
-
-function fmt(v){ return 'R$ '+parseFloat(v||0).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.'); }
-function getMime(f){ if(f.type) return f.type; var e=f.name.split('.').pop().toLowerCase(); return{pdf:'application/pdf',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp'}[e]||'application/pdf'; }
-
-function checkAddNF(){ document.getElementById('btnAddNF').disabled = !orcB64; }
-function checkCalc(){
-  var temNF = Object.keys(nfData).length > 0;
-  var temOrc = orcB64 !== '';
-  document.getElementById('btnCalc').disabled = !(temNF && temOrc);
-}
-
-async function carregarOrc(inp){
-  if(!inp.files||!inp.files[0]) return;
-  var f = inp.files[0], m = getMime(f);
-  var r = new FileReader();
-  r.onload = async function(e){
-    orcB64 = e.target.result.split(',')[1];
-    orcMime = m;
-    document.getElementById('orcUp').classList.add('ok');
-    document.getElementById('orcStat').textContent = '✓ '+f.name.substring(0,22)+(f.name.length>22?'...':'');
-    checkAddNF();
-    document.getElementById('orcInfo').classList.add('show');
-    document.getElementById('orcInfo').querySelector('.orc-info-title').textContent = '⏳ Lendo orcamento com IA...';
-    document.getElementById('orcValLiq').textContent = 'Aguarde...';
-    try{
-      var prompt = 'Voce e especialista em regulacao de sinistros automotivos. Leia este orcamento do sistema Cilia/Audatex e retorne APENAS JSON valido sem markdown.\n\nRegras MUITO importantes:\n1. Extraia SOMENTE pecas reais com codigo alfanumerico de fabricante (ex: 6EA941036, 2G0853677AC9B9, 5H0853601DDPJ)\n2. IGNORE completamente: MACKUP, MARKUP, DIVERGENCIA MO, DEVOLUCAO DESC, servicos com codigo numerico simples (001, 002, 003, 0000001 etc), mao de obra, pintura, reparacao, franquia e qualquer item sem codigo de peca real de fabricante\n3. Para cada peca real use o PRECO LIQUIDO (preco bruto menos o percentual de desconto indicado no orcamento). Se o orcamento indicar desconto de 10%, aplique: valor_liq = valor_bruto * 0.90\n4. valor_liq_total = SOMA dos precos liquidos APENAS das pecas reais listadas. NAO use o campo total geral do orcamento pois ele inclui mackup e outros ajustes\n5. desconto_pct = percentual de desconto aplicado nas pecas (ex: 10 para 10%)\n\nFormato de retorno:\n{"valor_liq_total":0.00,"desconto_pct":0.00,"pecas":[{"codigo":"CODIGO_NORMALIZADO","descricao":"NOME_DA_PECA","valor_bruto":0.00,"valor_liq":0.00}]}\n\nNormalize codigos: remova espacos e barras, converta para maiusculas.';
-      var content = m==='application/pdf'
-        ?[{type:'document',source:{type:'base64',media_type:'application/pdf',data:orcB64}},{type:'text',text:prompt}]
-        :[{type:'image',source:{type:'base64',media_type:m,data:orcB64}},{type:'text',text:prompt}];
-      var resp = await fetch('/.netlify/functions/claude-proxy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:content}]})});
-      var data = await resp.json();
-      var txt = data.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
-      var res = JSON.parse(txt);
-      orcValorLiq = res.valor_liq_total||0;
-      orcPecas = (res.pecas||[]).map(function(p){ return {codigo:p.codigo, descricao:p.descricao, valor:p.valor_liq||p.valor||0 });
-      document.getElementById('orcInfo').classList.add('show');
-      document.getElementById('orcInfo').querySelector('.orc-info-title').textContent = '✅ Orcamento carregado — '+orcPecas.length+' pecas lidas';
-      document.getElementById('orcValLiq').textContent = fmt(orcValorLiq);
-      document.getElementById('orcValLiq').style.color = '';
-      checkAddNF();
-      checkCalc();
-    }catch(e2){
-      orcPecas = [];
-      orcValorLiq = 0;
-      document.getElementById('orcInfo').classList.add('show');
-      document.getElementById('orcValLiq').textContent = 'Nao foi possivel extrair valor automaticamente';
-      document.getElementById('orcInfo').style.borderColor = 'rgba(255,183,64,0.3)';
-      document.getElementById('orcInfo').style.background = 'rgba(255,183,64,0.06)';
-      document.getElementById('orcInfo').querySelector('.orc-info-title').textContent = '⚠️ Orcamento carregado (leitura parcial)';
-      document.getElementById('orcInfo').querySelector('.orc-info-title').style.color = '#FFB740';
-      document.getElementById('orcValLiq').style.color = '#FFB740';
-      document.getElementById('orcValLiq').style.fontSize = '13px';
-      checkAddNF();
-      checkCalc();
-    }
-  
-  r.readAsDataURL(f);
-}
-
-function removerOrc(){
-  orcB64='';orcMime='';orcValorLiq=0;orcPecas=[];
-  document.getElementById('orcUp').classList.remove('ok');
-  document.getElementById('orcStat').textContent='Toque para selecionar';
-  document.getElementById('orcInfo').classList.remove('show');
-  document.getElementById('orcInput').value='';
-  checkAddNF();checkCalc();
-}
-
-function addNF(){
-  nfCount++;
-  var id = 'nf'+nfCount;
-  nfData[id] = {bruto:0,liq:0,conferidos:[],nfFora:[],orcFora:[]
-  var div = document.createElement('div');
-  div.className = 'nf-item';
-  div.id = id;
-  div.innerHTML =
-    '<div class="nf-header">'+
-      '<span class="nf-num">NF '+nfCount+'</span>'+
-      '<span class="nf-nome" id="nome'+id+'">Aguardando upload...</span>'+
-      '<div class="nf-spin" id="spin'+id+'" style="display:none;"></div>'+
-      '<button class="nf-del" onclick="delNF(\''+id+'\')">✕</button>'+
-    '</div>'+
-    '<div style="position:relative;overflow:hidden;background:rgba(96,165,250,0.08);border:1px dashed rgba(96,165,250,0.25);border-radius:9px;padding:10px;text-align:center;cursor:pointer;" id="upArea'+id+'">'+
-      '<input type="file" style="position:absolute;inset:0;opacity:0;cursor:pointer;" accept=".pdf,image/*" onchange="lerNF(\''+id+'\',this)"/>'+
-      '<span style="font-size:13px;color:#60A5FA;font-weight:600;">📄 Selecionar PDF ou Foto da NF</span>'+
-    '</div>'+
-    '<div class="nf-vals" id="vals'+id+'" style="display:none;">'+
-      '<div class="nf-vbox"><span class="nf-vlbl">Bruto (conferido)</span><span class="nf-vval" id="vb'+id+'">R$ 0,00</span></div>'+
-      '<div class="nf-vbox"><span class="nf-vlbl">Liquido (conferido)</span><span class="nf-vval green" id="vl'+id+'">R$ 0,00</span></div>'+
-    '</div>'+
-    '<div class="nf-conf" id="conf'+id+'">'+
-      '<div class="nf-conf-head" onclick="toggleConf(\''+id+'\')">'+
-        '<span class="nf-conf-toggle" id="tog'+id+'">▶</span>'+
-        '<span class="nf-conf-title" id="confTitle'+id+'">Ver conferencia</span>'+
-      '</div>'+
-      '<div class="conf-items" id="confItems'+id+'" style="display:none;"></div>'+
-    '</div>';
-  document.getElementById('nfList').appendChild(div);
-  checkCalc();
-}
-
-function delNF(id){
-  var el=document.getElementById(id);
-  if(el) el.remove();
-  delete nfData[id];
-  atualizarTotais();
-  checkCalc();
-}
-
-function toggleConf(id){
-  var items = document.getElementById('confItems'+id);
-  var tog = document.getElementById('tog'+id);
-  var show = items.style.display==='none';
-  items.style.display = show?'block':'none';
-  tog.textContent = show?'▼':'▶';
-}
-
-async function lerNF(id, inp){
-  if(!inp.files||!inp.files[0]) return;
-  var f=inp.files[0], m=getMime(f);
-  var el=document.getElementById(id);
-  el.classList.add('loading');
-  document.getElementById('spin'+id).style.display='block';
-  document.getElementById('nome'+id).textContent='Lendo com IA...';
-  document.getElementById('upArea'+id).style.display='none';
-
-  var reader=new FileReader();
-  reader.onload=async function(e){
-    var b64=e.target.result.split(',')[1];
-    try{
-      var prompt='Voce e especialista em regulacao de sinistros automotivos. Compare esta Nota Fiscal com as pecas do orcamento.\n\nPecas do orcamento (ja com desconto aplicado):\n'+JSON.stringify(orcPecas)+'\n\nRegras:\n1. Compare usando CODIGO DA PECA como chave. Normalize codigos: remova espacos e barras, maiusculas.\n2. IGNORE itens sem codigo real de fabricante (servicos, mackup, divergencias, mao de obra)\n3. conferidos = pecas que estao TANTO na NF quanto no orcamento\n4. nf_fora_orc = pecas na NF que NAO estao no orcamento (excluir do markup)\n5. orc_fora_nf = pecas no orcamento que NAO estao na NF\n6. total_nf_bruto e total_nf_liq = totais das pecas CONFERIDAS apenas\n\nRetorne APENAS JSON valido sem markdown:\n{"conferidos":[{"codigo":"","descricao":"","valor_orc":0,"valor_nf_liq":0,"valor_nf_bruto":0}],"nf_fora_orc":[{"codigo":"","descricao":"","valor_nf_liq":0,"valor_nf_bruto":0}],"orc_fora_nf":[{"codigo":"","descricao":"","valor_orc":0}],"total_nf_bruto":0,"total_nf_liq":0}';
-      var content=m==='application/pdf'
-        ?[{type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}},{type:'text',text:prompt}]
-        :[{type:'image',source:{type:'base64',media_type:m,data:b64}},{type:'text',text:prompt}];
-      var resp=await fetch('/.netlify/functions/claude-proxy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,messages:[{role:'user',content:content}]})});
-      var data=await resp.json();
-      var txt=data.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
-      var res=JSON.parse(txt);
-
-      var tBruto=res.conferidos.reduce(function(a,i){return a+(i.valor_nf_bruto||0);},0)||res.total_nf_bruto||0;
-      var tLiq=res.conferidos.reduce(function(a,i){return a+(i.valor_nf_liq||0);},0)||res.total_nf_liq||0;
-
-      nfData[id]={bruto:tBruto,liq:tLiq,conferidos:res.conferidos||[],nfFora:res.nf_fora_orc||[],orcFora:res.orc_fora_nf||[]
-
-      document.getElementById('spin'+id).style.display='none';
-      document.getElementById('nome'+id).textContent='✅ '+f.name.substring(0,20)+(f.name.length>20?'...':'');
-      document.getElementById('vals'+id).style.display='grid';
-      document.getElementById('vb'+id).textContent=fmt(tBruto);
-      document.getElementById('vl'+id).textContent=fmt(tLiq);
-      el.classList.remove('loading');
-
-      var nfF=(res.nf_fora_orc||[]).length, orcF=(res.orc_fora_nf||[]).length;
-      if(nfF>0||orcF>0){ el.classList.add('warn'); } else { el.classList.add('ok'); }
-
-      var confEl=document.getElementById('conf'+id);
-      confEl.classList.add('show');
-      var nc=res.conferidos.length,nff=nfF,of=orcF;
-      document.getElementById('confTitle'+id).textContent=nc+' conferidos · '+nff+' fora orc. · '+of+' sem NF';
-      var html='';
-      res.conferidos.forEach(function(i){html+='<div class="ci"><div class="ci-dot g"></div><span class="ci-cod">'+i.codigo+'</span><span class="ci-desc">'+i.descricao+'</span></div>';});
-      (res.nf_fora_orc||[]).forEach(function(i){html+='<div class="ci"><div class="ci-dot r"></div><span class="ci-cod">'+i.codigo+'</span><span class="ci-desc">'+i.descricao+'</span><span class="ci-badge r">Fora Orc.</span></div>';});
-      (res.orc_fora_nf||[]).forEach(function(i){html+='<div class="ci"><div class="ci-dot y"></div><span class="ci-cod">'+i.codigo+'</span><span class="ci-desc">'+i.descricao+'</span><span class="ci-badge y">Sem NF</span></div>';});
-      document.getElementById('confItems'+id).innerHTML=html;
-
-      atualizarTotais();
-      checkCalc();
-    }catch(e2){
-      document.getElementById('spin'+id).style.display='none';
-      document.getElementById('upArea'+id).style.display='block';
-      el.classList.remove('loading');
-      document.getElementById('nome'+id).textContent='Erro — tente novamente';
-      alert('Erro ao ler NF: '+e2.message);
-    }
-  
-  reader.readAsDataURL(f);
-}
-
-function atualizarTotais(){
-  var tB=0,tL=0;
-  Object.keys(nfData).forEach(function(id){ tB+=nfData[id].bruto||0; tL+=nfData[id].liq||0; });
-  document.getElementById('tBruto').textContent=fmt(tB);
-  document.getElementById('tLiq').textContent=fmt(tL);
-  var desc=tB>0?((tB-tL)/tB*100).toFixed(2).replace('.',','):'0,00';
-  document.getElementById('tDesc').textContent=desc+'%';
-}
-
-function calcular(){
-  var todosConf=[], todosNFfora=[], todosOrcfora=[];
-  var tBruto=0, tLiq=0;
-
-  Object.keys(nfData).forEach(function(id){
-    var d=nfData[id];
-    tBruto+=d.bruto||0;
-    tLiq+=d.liq||0;
-    (d.conferidos||[]).forEach(function(i){ todosConf.push(i); });
-    (d.nfFora||[]).forEach(function(i){ todosNFfora.push(i); });
-    (d.orcFora||[]).forEach(function(i){ todosOrcfora.push(i); });
+function setTab(cat,el){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  document.querySelectorAll('.grupo').forEach(function(g){
+    g.style.display=(cat==='todos'||g.dataset.cat===cat)?'block':'none';
   });
-
-  var vOrcConf = todosConf.reduce(function(a,i){return a+(i.valor_orc||0);},0);
-  if(vOrcConf===0) vOrcConf = orcValorLiq;
-
-  var resCalc=document.getElementById('resCalc');
-  resCalc.classList.add('show');
-
-  var html='';
-  if(todosConf.length>0){
-    html+='<div class="res-sec"><div class="res-sec-title g">✅ Itens Conferidos ('+todosConf.length+')</div>';
-    todosConf.forEach(function(i){html+='<div class="res-item"><div class="ri-dot g"></div><span class="ri-cod">'+i.codigo+'</span><span class="ri-desc">'+i.descricao+'</span><span class="ri-val">'+fmt(i.valor_orc)+'</span></div>';});
-    html+='</div>';
-  }
-  if(todosNFfora.length>0){
-    html+='<div class="res-sec"><div class="res-sec-title r">⚠️ Na NF mas NAO esta no Orcamento — EXCLUIDOS ('+todosNFfora.length+')</div>';
-    todosNFfora.forEach(function(i){html+='<div class="res-item"><div class="ri-dot r"></div><span class="ri-cod">'+i.codigo+'</span><span class="ri-desc">'+i.descricao+'</span><span class="ri-val">'+fmt(i.valor_nf_liq)+'</span></div>';});
-    html+='</div>';
-  }
-  if(todosOrcfora.length>0){
-    html+='<div class="res-sec"><div class="res-sec-title y">⚠️ No Orcamento mas NAO esta na NF ('+todosOrcfora.length+')</div>';
-    todosOrcfora.forEach(function(i){html+='<div class="res-item"><div class="ri-dot y"></div><span class="ri-cod">'+i.codigo+'</span><span class="ri-desc">'+i.descricao+'</span><span class="ri-val">'+fmt(i.valor_orc)+'</span></div>';});
-    html+='</div>';
-  }
-  document.getElementById('secConf').innerHTML=html;
-
-  var mk=tLiq*(1+perc/100);
-  var dif=vOrcConf-mk;
-  var desc=tBruto>0?((tBruto-tLiq)/tBruto*100).toFixed(2).replace('.',','):'0,00';
-
-  document.getElementById('mkpCard').style.display='block';
-  document.getElementById('mOrc').textContent=fmt(vOrcConf);
-  document.getElementById('mBruto').textContent=fmt(tBruto);
-  document.getElementById('mLiq').textContent=fmt(tLiq);
-  document.getElementById('mDesc').textContent=desc+'%';
-  document.getElementById('mPerc').textContent=perc+'%';
-  document.getElementById('mMkp').textContent=fmt(mk);
-
-  var mkRes=document.getElementById('mkpRes');
-  mkRes.style.display='block';
-  if(dif>=0){
-    mkRes.className='mkp-res pos';
-    document.getElementById('mkpTit').textContent='SEM REFATURAMENTO';
-    document.getElementById('mkpVal').textContent=fmt(dif);
-    document.getElementById('mkpMsg').textContent='Valor dentro do limite. Nao ha complemento a lancar.';
-    document.getElementById('lcBox').style.display='none';
-  } else {
-    mkRes.className='mkp-res neg';
-    document.getElementById('mkpTit').textContent='REFATURAMENTO IDENTIFICADO';
-    document.getElementById('mkpVal').textContent='- '+fmt(Math.abs(dif));
-    document.getElementById('mkpMsg').textContent='Valor abaixo do markup minimo. Lancar complemento no Cilia.';
-    document.getElementById('lcBox').style.display='block';
-    document.getElementById('lcTxt').textContent=
-      'COMPLEMENTO DE PECAS - MARKUP '+perc+'%\n'+
-      'Valor Liq. NFs (conferidas): '+fmt(tLiq)+'\n'+
-      'Valor com Markup ('+perc+'%): '+fmt(mk)+'\n'+
-      'Valor Orcamento (conferido): '+fmt(vOrcConf)+'\n'+
-      'Complemento: '+fmt(mk-vOrcConf);
-  }
-
-  window.scrollTo(0,document.getElementById('resCalc').offsetTop-20);
 }
-
-function gerarPDF(){
-  document.getElementById('printData').textContent='Gerado em: '+new Date().toLocaleString('pt-BR')+' | Markup: '+perc+'%';
-  window.print();
-}
-
-function limpar(){
-  removerOrc();
-  document.getElementById('nfList').innerHTML='';
-  nfData={nfCount=0;
-  atualizarTotais();
-  document.getElementById('resCalc').classList.remove('show');
-  document.getElementById('mkpCard').style.display='none';
-  document.getElementById('mkpRes').style.display='none';
-  checkCalc();checkAddNF();
+function filtrar(){
+  var q=document.getElementById('searchInput').value.toLowerCase();
+  document.querySelectorAll('.card,.card-wide').forEach(function(c){
+    c.style.display=(c.textContent||'').toLowerCase().includes(q)?'':'none';
+  });
 }
 </script>
 </body>
