@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrasilReg - Autorização de Reparos</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080C14;--s1:#0F1520;--s2:#161E2E;--bd:rgba(255,255,255,0.07);--gold:#D4A329;--gd:rgba(212,163,57,0.12);--green:#2DD4A0;--gn:rgba(45,212,160,0.1);--red:#FF6B6B;--rd:rgba(255,107,107,0.1);--yel:#FFB740;--yd:rgba(255,183,64,0.1);--blue:#60A5FA;--blu:rgba(96,165,250,0.1);--text:#E2E8F0;--muted:#64748B;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.header{padding:10px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;background:var(--bg);position:sticky;top:0;z-index:100;}
+.back-btn{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:6px 12px;color:var(--muted);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;display:inline-flex;align-items:center;gap:5px;flex-shrink:0;}
+.header-logo{height:32px;mix-blend-mode:lighten;margin:0 auto;}
+.body{padding:16px;max-width:600px;margin:0 auto;}
+.sec-title{font-family:'Sora',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--gd);}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:13px;padding:14px;margin-bottom:10px;}
+.orc-drop{background:var(--s2);border:2px dashed var(--bd);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.orc-drop:hover{border-color:rgba(212,163,57,0.3);}
+.orc-drop.loaded{border-style:solid;border-color:rgba(96,165,250,0.4);background:var(--blu);cursor:default;}
+.orc-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0;}
+.orc-drop.loaded input{display:none;}
+.orc-icon{font-size:28px;margin-bottom:6px;}
+.orc-ttl{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;margin-bottom:3px;}
+.orc-sub{font-size:11px;color:var(--muted);}
+.orc-del{position:absolute;top:8px;right:8px;background:var(--rd);border:none;border-radius:6px;width:22px;height:22px;color:var(--red);font-size:11px;cursor:pointer;display:none;align-items:center;justify-content:center;}
+.orc-drop.loaded .orc-del{display:flex;}
+.orc-status{margin-top:10px;background:var(--blu);border:1px solid rgba(96,165,250,0.2);border-radius:9px;padding:10px 12px;display:none;}
+.orc-status.show{display:block;}
+.orc-status-title{font-size:10px;color:var(--blue);font-weight:600;margin-bottom:6px;}
+.dados-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.dado-item{background:rgba(0,0,0,0.2);border-radius:7px;padding:6px 9px;}
+.dado-lbl{font-size:9px;color:var(--muted);display:block;margin-bottom:2px;}
+.dado-val{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;color:var(--blue);}
+.pergunta{margin-bottom:14px;}
+.perg-label{font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px;display:block;}
+.opcoes{display:flex;gap:7px;flex-wrap:wrap;}
+.op-btn{flex:1;min-width:80px;padding:9px 10px;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;border:2px solid transparent;font-family:'Sora',sans-serif;transition:all 0.2s;text-align:center;}
+.op-btn.sim{background:var(--gn);border-color:rgba(45,212,160,0.2);color:var(--green);}
+.op-btn.sim.sel{border-color:var(--green);background:rgba(45,212,160,0.25);}
+.op-btn.nao{background:var(--rd);border-color:rgba(255,107,107,0.2);color:var(--red);}
+.op-btn.nao.sel{border-color:var(--red);background:rgba(255,107,107,0.25);}
+.motivos{display:none;flex-direction:column;gap:6px;margin-top:8px;}
+.motivos.show{display:flex;}
+.mot-btn{width:100%;padding:10px 14px;border-radius:9px;font-size:11px;font-weight:600;cursor:pointer;border:2px solid rgba(255,183,64,0.2);background:var(--yd);color:var(--yel);font-family:'DM Sans',sans-serif;text-align:left;transition:all 0.2s;}
+.mot-btn.sel{border-color:var(--yel);background:rgba(255,183,64,0.2);}
+.obs-input{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font-size:12px;color:var(--text);outline:none;font-family:'DM Sans',sans-serif;resize:vertical;min-height:70px;}
+.obs-input:focus{border-color:var(--gold);}
+.preview-box{background:var(--s2);border:1px solid rgba(255,183,64,0.3);border-radius:12px;padding:14px;margin-bottom:10px;}
+.preview-title{font-family:'Sora',sans-serif;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+.preview-txt{font-size:12px;color:var(--text);line-height:1.8;white-space:pre-wrap;}
+.btn-gerar{width:100%;background:linear-gradient(135deg,rgba(212,163,57,0.2),rgba(212,163,57,0.08));border:1px solid rgba(212,163,57,0.45);border-radius:13px;padding:15px;font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s;margin-bottom:10px;}
+.btn-gerar:hover{background:linear-gradient(135deg,rgba(212,163,57,0.3),rgba(212,163,57,0.15));}
+.btn-gerar:disabled{opacity:0.3;cursor:not-allowed;}
+.btn-wpp{width:100%;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.3);border-radius:13px;padding:15px;font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#25D366;cursor:pointer;display:none;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;}
+.btn-wpp.show{display:flex;}
+.btn-wpp:hover{background:rgba(37,211,102,0.2);}
+.ldg{display:none;background:var(--s1);border:1px solid var(--bd);border-radius:13px;padding:24px;text-align:center;margin-bottom:10px;}
+.ldg.show{display:block;}
+.ldg-spin{width:36px;height:36px;border:3px solid rgba(212,163,57,0.15);border-top-color:var(--gold);border-radius:50%;animation:sp 0.8s linear infinite;margin:0 auto 12px;}
+@keyframes sp{to{transform:rotate(360deg);}}
+.ldg-sub{font-size:12px;color:var(--muted);}
+.ldg-prog{font-size:11px;color:var(--gold);margin-top:6px;}
+.link-box{background:var(--gn);border:1px solid rgba(45,212,160,0.3);border-radius:12px;padding:14px;display:none;margin-bottom:10px;}
+.link-box.show{display:block;}
+.link-title{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;color:var(--green);margin-bottom:8px;}
+.link-url{font-family:'DM Mono',monospace;font-size:10px;color:var(--text);background:var(--bg);border-radius:7px;padding:8px 10px;border:1px solid var(--bd);word-break:break-all;margin-bottom:8px;}
+.btn-copy{background:var(--s1);border:1px solid var(--bd);border-radius:7px;padding:6px 12px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;}
+.warn-size{background:var(--yd);border:1px solid rgba(255,183,64,0.3);border-radius:9px;padding:10px 12px;font-size:11px;color:var(--yel);margin-top:8px;display:none;}
+.warn-size.show{display:block;}
+footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:11px;color:#1E2A3A;}
+@media(max-width:480px){.dados-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <button class="back-btn" onclick="window.open('https://vquiaroti01.wixsite.com/portal-de-consultas','_blank')">&#8592; Voltar</button>
+  <img src="https://static.wixstatic.com/media/d134a6_9ebbb0f87c314c3b8bcaf55fd83c77b4~mv2.webp" class="header-logo" alt="BrasilReg"/>
+</div>
+<div class="body">
+  <div class="sec-title">1. Orçamento da Oficina</div>
+  <div class="card">
+    <div class="orc-drop" id="orcDrop">
+      <input type="file" id="orcInput" accept=".pdf,image/*" onchange="carregarOrc(this)"/>
+      <div class="orc-icon">📋</div>
+      <div class="orc-ttl">Upload do Orçamento</div>
+      <div class="orc-sub">PDF ou foto — enviado para a oficina assinar</div>
+      <button class="orc-del" onclick="removerOrc(event)">✕</button>
+    </div>
+    <div class="warn-size" id="warnSize">⚠️ Arquivo grande (+800KB) — o orçamento pode não ser exibido na tela da oficina. Tente usar uma foto ou print do orçamento.</div>
+    <div class="orc-status" id="orcStatus">
+      <div class="orc-status-title" id="orcStatusTitle">⏳ Lendo dados...</div>
+      <div class="dados-grid" id="dadosGrid"></div>
+    </div>
+  </div>
+  <div class="ldg" id="ldg">
+    <div class="ldg-spin"></div>
+    <div class="ldg-sub" id="ldgSub">Extraindo dados...</div>
+    <div class="ldg-prog" id="ldgProg"></div>
+  </div>
+  <div id="fase2" style="display:none;">
+    <div class="sec-title">2. Situação dos Reparos</div>
+    <div class="card">
+      <div class="pergunta">
+        <span class="perg-label">Reparos autorizados?</span>
+        <div class="opcoes">
+          <button class="op-btn sim" id="btnSim" onclick="setAutorizado('sim')">✅ Sim</button>
+          <button class="op-btn nao" id="btnNao" onclick="setAutorizado('nao')">❌ Não</button>
+        </div>
+        <div class="motivos" id="motivos">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:4px;">Selecione o motivo:</div>
+          <button class="mot-btn" id="mot1" onclick="setMotivo('Não Acordo')">🤝 Não Acordo</button>
+          <button class="mot-btn" id="mot2" onclick="setMotivo('Conforme Determinação da CIA')">🏢 Conforme Determinação da CIA</button>
+          <button class="mot-btn" id="mot3" onclick="setMotivo('Aguardando Definição Mecânica')">🔧 Aguardando Definição Mecânica</button>
+        </div>
+      </div>
+      <div class="pergunta">
+        <span class="perg-label">Houve não acordo?</span>
+        <div class="opcoes">
+          <button class="op-btn sim" id="btnNaoacordoSim" onclick="setPerg('naoAcordo','sim')">✅ Sim</button>
+          <button class="op-btn nao" id="btnNaoacordoNao" onclick="setPerg('naoAcordo','nao')">❌ Não</button>
+        </div>
+      </div>
+      <div class="pergunta">
+        <span class="perg-label">Tem DNC?</span>
+        <div class="opcoes">
+          <button class="op-btn sim" id="btnDncSim" onclick="setPerg('dnc','sim')">✅ Sim</button>
+          <button class="op-btn nao" id="btnDncNao" onclick="setPerg('dnc','nao')">❌ Não</button>
+        </div>
+      </div>
+      <div class="pergunta">
+        <span class="perg-label">É indenização integral?</span>
+        <div class="opcoes">
+          <button class="op-btn sim" id="btnIndenSim" onclick="setPerg('indenizacao','sim')">✅ Sim</button>
+          <button class="op-btn nao" id="btnIndenNao" onclick="setPerg('indenizacao','nao')">❌ Não</button>
+        </div>
+      </div>
+    </div>
+    <div class="sec-title">3. Observações Adicionais</div>
+    <div class="card">
+      <textarea class="obs-input" id="obsInput" placeholder="Observações para a oficina (opcional)..." oninput="atualizarPreview()"></textarea>
+    </div>
+    <div class="sec-title">4. Preview</div>
+    <div class="preview-box">
+      <div class="preview-title">📋 O que a Oficina Verá</div>
+      <div class="preview-txt" id="previewTxt">Preencha as opções acima...</div>
+    </div>
+    <button class="btn-gerar" id="btnGerar" onclick="gerarLink()">🔗 Gerar Link para Oficina</button>
+    <div class="link-box" id="linkBox">
+      <div class="link-title">✅ Link gerado! Válido por 48 horas.</div>
+      <div class="link-url" id="linkUrl"></div>
+      <button class="btn-copy" onclick="copiarLink()">📋 Copiar link</button>
+    </div>
+    <button class="btn-wpp" id="btnWpp" onclick="enviarWhatsapp()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Enviar pelo WhatsApp
+    </button>
+  </div>
+</div>
+<footer><strong>BrasilReg</strong> &middot; Autorização de Reparos &middot; Uso exclusivo reguladores credenciados</footer>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+const app = initializeApp({apiKey:"AIzaSyDEr0WjNoOxiWnma--ooRanPPVHci7fcX8",authDomain:"brasilreg-frustrada.firebaseapp.com",projectId:"brasilreg-frustrada",storageBucket:"brasilreg-frustrada.firebasestorage.app",messagingSenderId:"486471690467",appId:"1:486471690467:web:bb73d45abe74cb9ae3fdd6"});
+const db=getFirestore(app);
+window.salvarNoFirebase=async function(dados){
+  const ref=await addDoc(collection(db,'autorizacoes'),{...dados,criadoEm:serverTimestamp(),expiraEmMs:Date.now()+48*60*60*1000,assinado:false});
+  return ref.id;
+};
+</script>
+
+<script>
+var orcDados={oficina:'',placa:'',sinistro:'',veiculo:'',seguradora:'',regulador:''};
+var orcB64='',orcMime='',orcGrande=false;
+var autorizado=null,motivo='',naoAcordo=null,dnc=null,indenizacao=null,linkGerado='';
+
+function getMime(f){if(f.type)return f.type;var e=f.name.split('.').pop().toLowerCase();return{pdf:'application/pdf',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp'}[e]||'application/pdf';}
+
+async function carregarOrc(inp){
+  if(!inp.files||!inp.files[0])return;
+  var f=inp.files[0],m=getMime(f);
+  var reader=new FileReader();
+  reader.onload=async function(e){
+    var b64=e.target.result.split(',')[1];
+    var kb=Math.round(b64.length*0.75/1024);
+    orcGrande=kb>800;
+    if(orcGrande)document.getElementById('warnSize').classList.add('show');
+    orcB64=b64;orcMime=m;
+    var drop=document.getElementById('orcDrop');
+    drop.classList.add('loaded');
+    drop.querySelector('.orc-ttl').textContent='✓ '+f.name.substring(0,22)+(f.name.length>22?'...':'')+' ('+kb+'KB)';
+    drop.querySelector('.orc-sub').textContent='Lendo com IA...';
+    document.getElementById('orcStatus').classList.add('show');
+    document.getElementById('ldg').classList.add('show');
+    try{
+      var prompt='Leia este orcamento de reparo automotivo. Retorne APENAS JSON sem markdown:\n{"oficina":"","placa":"","sinistro":"","veiculo":"","seguradora":"","regulador":"","orcamento":""}\nSe nao encontrar, deixe vazio.';
+      var content=m==='application/pdf'?[{type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}},{type:'text',text:prompt}]:[{type:'image',source:{type:'base64',media_type:m,data:b64}},{type:'text',text:prompt}];
+      var resp=await fetch('/.netlify/functions/claude-proxy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:content}]})});
+      var data=await resp.json();
+      var txt=data.content.map(function(c){return c.text||'';}).join('').replace(/```json|```/g,'').trim();
+      orcDados=JSON.parse(txt);
+      document.getElementById('ldg').classList.remove('show');
+      document.getElementById('orcStatusTitle').textContent='✅ Dados extraídos — '+kb+'KB';
+      var html='';
+      [['Oficina',orcDados.oficina],['Placa',orcDados.placa],['Sinistro',orcDados.sinistro],['Veículo',orcDados.veiculo],['Seguradora',orcDados.seguradora],['Regulador',orcDados.regulador]].forEach(function(c){if(c[1])html+='<div class="dado-item"><span class="dado-lbl">'+c[0]+'</span><span class="dado-val">'+c[1]+'</span></div>';});
+      document.getElementById('dadosGrid').innerHTML=html;
+      document.getElementById('fase2').style.display='block';
+      atualizarPreview();
+    }catch(err){
+      document.getElementById('ldg').classList.remove('show');
+      document.getElementById('orcStatusTitle').textContent='⚠️ Leitura parcial';
+      document.getElementById('orcStatusTitle').style.color='var(--yel)';
+      document.getElementById('fase2').style.display='block';
+    }
+  };
+  reader.readAsDataURL(f);
+}
+
+function removerOrc(evt){
+  evt.stopPropagation();
+  orcB64='';orcMime='';orcDados={};orcGrande=false;
+  document.getElementById('orcDrop').classList.remove('loaded');
+  document.getElementById('orcDrop').querySelector('.orc-ttl').textContent='Upload do Orçamento';
+  document.getElementById('orcDrop').querySelector('.orc-sub').textContent='PDF ou foto — enviado para a oficina assinar';
+  document.getElementById('orcStatus').classList.remove('show');
+  document.getElementById('orcInput').value='';
+  document.getElementById('fase2').style.display='none';
+  document.getElementById('warnSize').classList.remove('show');
+  document.getElementById('linkBox').classList.remove('show');
+  document.getElementById('btnWpp').classList.remove('show');
+  document.getElementById('btnGerar').disabled=false;
+  document.getElementById('btnGerar').textContent='🔗 Gerar Link para Oficina';
+  document.getElementById('btnGerar').style.color='';
+  document.getElementById('btnGerar').style.borderColor='';
+  linkGerado='';
+}
+
+function setAutorizado(v){autorizado=v;document.getElementById('btnSim').classList.toggle('sel',v==='sim');document.getElementById('btnNao').classList.toggle('sel',v==='nao');document.getElementById('motivos').classList.toggle('show',v==='nao');if(v==='sim')motivo='';atualizarPreview();}
+function setMotivo(m){motivo=m;['mot1','mot2','mot3'].forEach(function(id){document.getElementById(id).classList.remove('sel');});var mp={'Não Acordo':'mot1','Conforme Determinação da CIA':'mot2','Aguardando Definição Mecânica':'mot3'};if(mp[m])document.getElementById(mp[m]).classList.add('sel');atualizarPreview();}
+function setPerg(campo,val){
+  if(campo==='naoAcordo'){naoAcordo=val;document.getElementById('btnNaoacordoSim').classList.toggle('sel',val==='sim');document.getElementById('btnNaoacordoNao').classList.toggle('sel',val==='nao');}
+  else if(campo==='dnc'){dnc=val;document.getElementById('btnDncSim').classList.toggle('sel',val==='sim');document.getElementById('btnDncNao').classList.toggle('sel',val==='nao');}
+  else if(campo==='indenizacao'){indenizacao=val;document.getElementById('btnIndenSim').classList.toggle('sel',val==='sim');document.getElementById('btnIndenNao').classList.toggle('sel',val==='nao');}
+  atualizarPreview();
+}
+
+function atualizarPreview(){
+  var obs=document.getElementById('obsInput')?document.getElementById('obsInput').value.trim():'';
+  var l=[];
+  if(autorizado==='sim')l.push('✅ REPAROS AUTORIZADOS');
+  else if(autorizado==='nao'){l.push('⚠️ ATENÇÃO: REPAROS NÃO AUTORIZADOS');if(motivo)l.push('📌 Motivo: '+motivo);}
+  l.push('');
+  if(orcDados.veiculo)l.push('🚗 Veículo: '+orcDados.veiculo);
+  if(orcDados.placa)l.push('🔢 Placa: '+orcDados.placa);
+  if(orcDados.sinistro)l.push('📋 Sinistro: '+orcDados.sinistro);
+  if(orcDados.oficina)l.push('🏪 Oficina: '+orcDados.oficina);
+  l.push('');
+  if(naoAcordo==='sim')l.push('⚠️ Houve NÃO ACORDO — Não há renegociação. Acione o regulador ANTES de assinar.');
+  if(naoAcordo==='nao')l.push('✅ Sem não acordo.');
+  if(dnc==='sim')l.push('📌 Contém itens DNC (Sem Cobertura).');
+  if(dnc==='nao')l.push('✅ Sem itens DNC.');
+  if(indenizacao==='sim')l.push('🔴 INDENIZAÇÃO INTEGRAL.');
+  if(indenizacao==='nao')l.push('✅ Não é indenização integral.');
+  if(obs){l.push('');l.push('📝 Observações:');l.push(obs);}
+  l.push('');l.push('──────────────────────');
+  l.push('O orçamento regulado está disponível para visualização.');
+  l.push('Leia atentamente antes de assinar.');
+  document.getElementById('previewTxt').textContent=l.join('\n');
+}
+
+async function gerarLink(){
+  if(!orcB64){alert('Faça o upload do orçamento!');return;}
+  if(!autorizado){alert('Selecione se os reparos foram autorizados!');return;}
+  if(autorizado==='nao'&&!motivo){alert('Selecione o motivo!');return;}
+  document.getElementById('btnGerar').disabled=true;
+  document.getElementById('btnGerar').textContent='⏳ Gerando...';
+  document.getElementById('ldg').classList.add('show');
+  document.getElementById('ldgSub').textContent='Salvando e gerando link...';
+  try{
+    var obs=document.getElementById('obsInput').value.trim();
+    var docId=await window.salvarNoFirebase({
+      oficina:orcDados.oficina||'',placa:orcDados.placa||'',sinistro:orcDados.sinistro||'',
+      veiculo:orcDados.veiculo||'',seguradora:orcDados.seguradora||'',regulador:orcDados.regulador||'',
+      orcamento:orcDados.orcamento||'',autorizado:autorizado,motivo:motivo,
+      naoAcordo:naoAcordo,dnc:dnc,indenizacao:indenizacao,observacoes:obs,
+      mensagem:document.getElementById('previewTxt').textContent,
+      orcMime:orcMime,orcBase64:orcGrande?'':orcB64
+    });
+    linkGerado='https://sparkling-concha-487d94.netlify.app/assinar-autorizacao.html?id='+docId;
+    document.getElementById('ldg').classList.remove('show');
+    document.getElementById('linkBox').classList.add('show');
+    document.getElementById('linkUrl').textContent=linkGerado;
+    document.getElementById('btnWpp').classList.add('show');
+    document.getElementById('btnGerar').textContent='✅ Link gerado!';
+    document.getElementById('btnGerar').style.borderColor='rgba(45,212,160,0.4)';
+    document.getElementById('btnGerar').style.color='var(--green)';
+  }catch(err){
+    document.getElementById('ldg').classList.remove('show');
+    if((err.message||'').includes('longer than')||（err.message||'').includes('maximum')){
+      alert('PDF muito grande. Use foto/print do orçamento.');
+    }else{alert('Erro: '+err.message);}
+    document.getElementById('btnGerar').disabled=false;
+    document.getElementById('btnGerar').textContent='🔗 Gerar Link para Oficina';
+  }
+}
+
+function copiarLink(){navigator.clipboard.writeText(linkGerado).then(function(){var b=document.querySelector('.btn-copy');b.textContent='✅ Copiado!';setTimeout(function(){b.textContent='📋 Copiar link';},2000);});}
+
+function enviarWhatsapp(){
+  var msg='*BrasilReg — Autorização de Reparos*\n\n'+document.getElementById('previewTxt').textContent+'\n\n🔗 Acesse para visualizar o orçamento e assinar:\n'+linkGerado;
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+</script>
+</body>
+</html>
