@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrasilReg - Canal de Consultas</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;900&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0E1A;--s1:#111827;--s2:#1A2235;--bd:rgba(255,255,255,0.07);--gold:#D4A329;--gd:rgba(212,163,57,0.1);--text:#E8EAF0;--muted:#5A6478;--green:#2DD4A0;--red:#FC8181;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* HEADER */
+.topbar{background:var(--bg);border-bottom:1px solid var(--bd);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;}
+.topbar-logo{height:32px;mix-blend-mode:lighten;}
+.topbar-user{display:flex;align-items:center;gap:8px;}
+.user-dot{width:8px;height:8px;border-radius:50%;background:var(--green);}
+.user-name{font-size:11px;color:var(--muted);}
+
+/* HERO */
+.hero{background:linear-gradient(180deg,#0D1525 0%,var(--bg) 100%);padding:32px 20px 24px;text-align:center;border-bottom:1px solid var(--bd);}
+.hero-logo{height:52px;mix-blend-mode:lighten;margin-bottom:16px;}
+.hero h1{font-family:'Sora',sans-serif;font-size:26px;font-weight:900;color:#fff;margin-bottom:6px;}
+.hero h1 span{color:var(--gold);}
+.hero p{font-size:13px;color:var(--muted);}
+
+/* BUSCA */
+.search-wrap{padding:16px 20px;max-width:600px;margin:0 auto;}
+.search-box{display:flex;align-items:center;gap:10px;background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:11px 16px;}
+.search-box input{flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;}
+.search-box input::placeholder{color:var(--muted);}
+.search-icon{color:var(--muted);font-size:15px;flex-shrink:0;}
+
+/* ABAS */
+.tabs{display:flex;gap:4px;padding:0 20px;max-width:660px;margin:0 auto 20px;border-bottom:1px solid var(--bd);}
+.tab{padding:10px 16px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;font-family:'Sora',sans-serif;}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.tab:hover{color:var(--text);}
+
+/* BODY */
+.body{padding:0 20px 40px;max-width:660px;margin:0 auto;}
+
+/* GRUPO */
+.grupo{margin-bottom:24px;}
+.grupo-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.grupo-icon{font-size:14px;}
+.grupo-title{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:#fff;}
+.grupo-sub{font-size:11px;color:var(--muted);margin-top:1px;}
+.grupo-line{flex:1;height:1px;background:var(--bd);}
+
+/* CARDS GRID */
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.cards-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+
+/* CARD */
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:14px;cursor:pointer;transition:all 0.2s;text-decoration:none;display:block;position:relative;}
+.card:hover{border-color:rgba(212,163,57,0.3);background:var(--s2);transform:translateY(-1px);}
+.card-icon{font-size:22px;margin-bottom:8px;display:block;}
+.card-title{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;color:#fff;margin-bottom:3px;}
+.card-sub{font-size:10px;color:var(--muted);line-height:1.4;}
+.card-badge{position:absolute;top:8px;right:8px;background:var(--gold);color:#000;font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;font-family:'Sora',sans-serif;}
+.card-badge.new{background:var(--green);color:#000;}
+.card-badge.hot{background:var(--red);color:#fff;}
+
+/* CARD DESTAQUE (2 colunas) */
+.card-wide{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:14px;cursor:pointer;transition:all 0.2s;text-decoration:none;display:flex;align-items:center;gap:12px;}
+.card-wide:hover{border-color:rgba(212,163,57,0.3);background:var(--s2);}
+.card-wide-icon{font-size:28px;flex-shrink:0;}
+.card-wide-info{}
+.card-wide-title{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:#fff;margin-bottom:3px;}
+.card-wide-sub{font-size:11px;color:var(--muted);}
+
+footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:10px;color:#1E2A3A;}
+@media(max-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr);}.tabs{overflow-x:auto;}.tab{white-space:nowrap;}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <img src="https://static.wixstatic.com/media/d134a6_9ebbb0f87c314c3b8bcaf55fd83c77b4~mv2.webp" class="topbar-logo" alt="BrasilReg"/>
+  <div class="topbar-user">
+    <div class="user-dot"></div>
+    <span class="user-name">Regulador de Sinistro · Online</span>
+  </div>
+</div>
+
+<div class="hero">
+  <h1>Canal de <span>Consultas</span></h1>
+  <p>Ferramentas e procedimentos tecnicos para regulacao de sinistros</p>
+</div>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <input type="text" placeholder="Buscar procedimento, manual ou dica tecnica..." id="searchInput" oninput="filtrar()"/>
+    <span class="search-icon">🔍</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="setTab('todos',this)">Todos</div>
+  <div class="tab" onclick="setTab('operacoes',this)">Operações</div>
+  <div class="tab" onclick="setTab('conteudo',this)">Conteúdo</div>
+  <div class="tab" onclick="setTab('projetos',this)">Projetos</div>
+  <div class="tab" onclick="setTab('institucional',this)">Institucional</div>
+</div>
+
+<div class="body" id="mainBody">
+
+  <!-- GERADOR DE DOCUMENTOS -->
+  <div class="grupo" data-cat="operacoes">
+    <div class="grupo-header">
+      <span class="grupo-icon">📁</span>
+      <div>
+        <div class="grupo-title">Gerador de Documentos</div>
+        <div class="grupo-sub">Ferramentas para calculo e geracao de documentos tecnicos</div>
+      </div>
+      <div class="grupo-line"></div>
+    </div>
+    <div class="cards-grid">
+      <a class="card" href="/calculadora-de-markup">
+        <span class="card-icon">📊</span>
+        <div class="card-title">Calculadora de Markup</div>
+        <div class="card-sub">Calculo de refaturamento</div>
+      </a>
+      <a class="card" href="/protocolo-de-frustrada">
+        <span class="card-icon">📄</span>
+        <div class="card-title">Protocolo de Frustrada</div>
+        <div class="card-sub">Gerar e assinar digitalmente</div>
+      </a>
+      <a class="card" href="/comparativo-de-cabine">
+        <span class="card-icon">🚚</span>
+        <div class="card-title">Comparativo de Cabine</div>
+        <div class="card-sub">Analise de viabilidade</div>
+      </a>
+      <a class="card" href="/assinar-orcamento">
+        <span class="card-icon">✍️</span>
+        <div class="card-title">Assinar Orçamento</div>
+        <div class="card-sub">Autorização digital da oficina</div>
+        <span class="card-badge new">NOVO</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- OPERAÇÕES -->
+  <div class="grupo" data-cat="operacoes">
+    <div class="grupo-header">
+      <span class="grupo-icon">⚙️</span>
+      <div>
+        <div class="grupo-title">Operações</div>
+      </div>
+      <div class="grupo-line"></div>
+    </div>
+    <div class="cards-grid-2">
+      <a class="card card-wide" href="/equipe-de-analistas">
+        <span class="card-wide-icon">👤</span>
+        <div class="card-wide-info">
+          <div class="card-wide-title">Analistas</div>
+          <div class="card-wide-sub">Acesso a equipe tecnica</div>
+        </div>
+      </a>
+      <a class="card card-wide" href="/solicitacao-de-lote">
+        <span class="card-wide-icon">📦</span>
+        <div class="card-wide-info">
+          <div class="card-wide-title">Solicitação de Lote</div>
+          <div class="card-wide-sub">Envio e acompanhamento</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="grupo" data-cat="conteudo">
+    <div class="grupo-header">
+      <span class="grupo-icon">📚</span>
+      <div>
+        <div class="grupo-title">Conteúdo</div>
+        <div class="grupo-sub">Manuais, dicas e treinamentos</div>
+      </div>
+      <div class="grupo-line"></div>
+    </div>
+    <div class="cards-grid">
+      <a class="card" href="/manuais">
+        <span class="card-icon">📖</span>
+        <div class="card-title">Manuais</div>
+        <div class="card-sub">Procedimentos e orientações</div>
+      </a>
+      <a class="card" href="/dicas-tecnicas">
+        <span class="card-icon">💡</span>
+        <div class="card-title">Dicas Técnicas</div>
+        <div class="card-sub">Orientações especializadas</div>
+      </a>
+      <a class="card" href="/treinamentos">
+        <span class="card-icon">🎓</span>
+        <div class="card-title">Treinamentos</div>
+        <div class="card-sub">Capacitação e desenvolvimento</div>
+      </a>
+      <a class="card" href="/parecer-automatico">
+        <span class="card-icon">🤖</span>
+        <div class="card-title">Parecer Automático</div>
+        <div class="card-sub">Geração automatizada</div>
+      </a>
+      <a class="card" href="/pesquisas-rapidas">
+        <span class="card-icon">🔎</span>
+        <div class="card-title">Pesquisas Rápidas</div>
+        <div class="card-sub">Consultas especificas</div>
+      </a>
+      <a class="card" href="/suporte">
+        <span class="card-icon">🎧</span>
+        <div class="card-title">Suporte</div>
+        <div class="card-sub">Atendimento e ajuda</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- FERRAMENTAS TECNICAS -->
+  <div class="grupo" data-cat="conteudo">
+    <div class="grupo-header">
+      <span class="grupo-icon">🔧</span>
+      <div>
+        <div class="grupo-title">Ferramentas Técnicas</div>
+        <div class="grupo-sub">Consultas e comparativos especializados</div>
+      </div>
+      <div class="grupo-line"></div>
+    </div>
+    <div class="cards-grid">
+      <a class="card" href="/desconto-por-marca">
+        <span class="card-icon">🏷️</span>
+        <div class="card-title">Desconto por Marca</div>
+        <div class="card-sub">Tabela de descontos</div>
+      </a>
+      <a class="card" href="/comparativo-de-cabine">
+        <span class="card-icon">⚖️</span>
+        <div class="card-title">Comparativo PT</div>
+        <div class="card-sub">Analise de perda total</div>
+      </a>
+      <a class="card" href="/consulta-pecas">
+        <span class="card-icon">🔩</span>
+        <div class="card-title">Consulta Peças</div>
+        <div class="card-sub">Base de dados de pecas</div>
+      </a>
+      <a class="card" href="/mao-de-obra">
+        <span class="card-icon">🛠️</span>
+        <div class="card-title">Mão de Obra</div>
+        <div class="card-sub">Tabela de referencias</div>
+      </a>
+      <a class="card" href="/foto-padrao">
+        <span class="card-icon">📷</span>
+        <div class="card-title">Foto Padrão</div>
+        <div class="card-sub">Padrao de imagens</div>
+      </a>
+      <a class="card" href="/blindagem">
+        <span class="card-icon">🛡️</span>
+        <div class="card-title">Blindagem</div>
+        <div class="card-sub">Avaliacoes especificas</div>
+      </a>
+      <a class="card" href="/bi-resultados">
+        <span class="card-icon">📈</span>
+        <div class="card-title">BI Resultados</div>
+        <div class="card-sub">Indicadores e metricas</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- PROJETOS -->
+  <div class="grupo" data-cat="projetos">
+    <div class="grupo-header">
+      <span class="grupo-icon">🚀</span>
+      <div>
+        <div class="grupo-title">Projetos</div>
+      </div>
+      <div class="grupo-line"></div>
+    </div>
+    <div class="cards-grid">
+      <a class="card" href="/implementos">
+        <span class="card-icon">🚛</span>
+        <div class="card-title">Implementos</div>
+        <div class="card-sub">Analise especializada</div>
+      </a>
+      <a class="card" href="/projeto-mercedes">
+        <span class="card-icon">⭐</span>
+        <div class="card-title">Projeto Mercedes</div>
+        <div class="card-sub">Programa dedicado</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- INSTITUCIONAL -->
+  <div class="grupo" data-cat="institucional">
+    <div class="grupo-header">
+      <span class="grupo-icon">🏢</span>
+      <div>
+        <div class="grupo-title">Institucional</div>
+      </div>
+      <div class="grupo-line"></div>
+    </div>
+    <div class="cards-grid">
+      <a class="card" href="/premiacao">
+        <span class="card-icon">🏆</span>
+        <div class="card-title">Premiação Mensal</div>
+        <div class="card-sub">Reconhecimento interno</div>
+        <span class="card-badge new">NOVO</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>BrasilReg · Portal de Consultas Tecnicas · Uso exclusivo reguladores credenciados</footer>
+
+<script>
+function setTab(cat, el){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  document.querySelectorAll('.grupo').forEach(function(g){
+    if(cat==='todos'||g.dataset.cat===cat){g.style.display='block';}
+    else{g.style.display='none';}
+  });
+}
+
+function filtrar(){
+  var q=document.getElementById('searchInput').value.toLowerCase();
+  document.querySelectorAll('.card,.card-wide').forEach(function(c){
+    var txt=(c.textContent||'').toLowerCase();
+    c.style.display=txt.includes(q)?'':'none';
+  });
+}
+</script>
+</body>
+</html>
