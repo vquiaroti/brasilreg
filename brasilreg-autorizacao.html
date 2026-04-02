@@ -541,147 +541,167 @@ function baixarAssinado(tipo){
   try{
     var {jsPDF}=window.jspdf;
     var pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-    var W=210,M=15,cw=W-M*2,y=M;
-    // Header
-    pdf.setFillColor(8,12,20);pdf.rect(0,0,W,25,'F');
-    pdf.setFontSize(16);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
-    pdf.text('BrasilReg',M,14);
-    pdf.setFontSize(9);pdf.setFont('helvetica','normal');pdf.setTextColor(200,200,200);
-    pdf.text('Autorização de Reparos',M,20);
-    pdf.setFontSize(8);pdf.setTextColor(180,180,180);
-    pdf.text(new Date().toLocaleString('pt-BR'),W-M,14,{align:'right'});
-    y=35;
-    // Banner
-    var isAut=d.autorizado==='sim';
-    pdf.setFillColor(isAut?240:255,isAut?253:240,isAut?244:240);
-    pdf.setDrawColor(isAut?45:255,isAut?212:107,isAut?160:107);pdf.setLineWidth(0.5);
-    pdf.roundedRect(M,y,cw,18,3,3,'FD');
-    pdf.setFontSize(12);pdf.setFont('helvetica','bold');
-    pdf.setTextColor(isAut?29:200,isAut?185:50,isAut?120:50);
-    pdf.text(isAut?'REPAROS AUTORIZADOS':'REPAROS NAO AUTORIZADOS',W/2,y+8,{align:'center'});
-    if(!isAut&&d.motivo){pdf.setFontSize(9);pdf.setFont('helvetica','normal');pdf.text('Motivo: '+d.motivo,W/2,y+14,{align:'center'});}
-    y+=24;
-    // Dados
-    pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
-    pdf.text('DADOS DO SINISTRO',M,y);y+=4;
-    pdf.setDrawColor(212,163,41);pdf.setLineWidth(0.3);pdf.line(M,y,W-M,y);y+=5;
-    var campos=[['Veiculo',d.veiculo],['Placa',d.placa],['Sinistro',d.sinistro],['Oficina',d.oficina],['Seguradora',d.seguradora],['Regulador',d.regulador]];
-    var col=0;
-    campos.forEach(function(c){
-      if(!c[1])return;
-      var x=col===0?M:W/2+2;
-      pdf.setFontSize(7);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);pdf.text(c[0].toUpperCase(),x,y);
-      pdf.setFontSize(9);pdf.setFont('helvetica','bold');pdf.setTextColor(30,30,30);pdf.text(c[1].substring(0,30),x,y+5);
-      if(col===1){y+=13;col=0;}else col=1;
-    });
-    if(col===1)y+=13;
-    y+=4;
-    // Alertas
-    var alertas=[];
-    if(d.naoAcordo==='sim'){
-      var na='NAO ACORDO';
-      if(d.valorNaoAcordo)na+=' — R$ '+d.valorNaoAcordo;
-      if(d.refNaoAcordo)na+=' ('+d.refNaoAcordo+')';
-      alertas.push({txt:na,cor:[255,107,107]});
-      alertas.push({txt:'Nao ha renegociacao destes valores.',cor:[255,107,107]});
+    var W=210,M=15,cw=W-M*2;
+
+    var temOrcImagem = d.orcBase64&&d.orcBase64.length>0&&d.orcMime&&d.orcMime!=='application/pdf';
+    var temOrcPDF = d.orcBase64&&d.orcBase64.length>0&&d.orcMime==='application/pdf';
+
+    // ── PÁGINA 1: ORÇAMENTO (se for imagem) ──────────────────────
+    if(temOrcImagem){
+      var imgType=d.orcMime.includes('png')?'PNG':'JPEG';
+      var imgData='data:'+d.orcMime+';base64,'+d.orcBase64;
+      // Calcula altura proporcional da imagem
+      var tmpImg=new Image();
+      tmpImg.src=imgData;
+      var imgW=tmpImg.naturalWidth||800;
+      var imgH=tmpImg.naturalHeight||1000;
+      var ratio=imgH/imgW;
+      var printW=cw;
+      var printH=printW*ratio;
+      var maxH=260; // deixa espaço para o rodapé
+      if(printH>maxH)printH=maxH;
+      try{pdf.addImage(imgData,imgType,M,M,printW,printH);}catch(e){}
+      var y=M+printH+8;
+      // Linha separadora
+      pdf.setDrawColor(212,163,41);pdf.setLineWidth(0.8);pdf.line(M,y,W-M,y);y+=6;
+      pdf.setFontSize(7);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
+      pdf.text('▼  AUTORIZAÇÃO DE REPAROS — BrasilReg  ▼',W/2,y,{align:'center'});y+=8;
+      gerarRodapeRelatorio(pdf,d,W,M,cw,y);
     }
-    if(d.dnc==='sim'){
-      alertas.push({txt:'Contem itens DNC: '+(d.dncPecas||[]).join(', '),cor:[255,183,64]});
+    // ── PÁGINA 1: PDF DO ORÇAMENTO (se for PDF) ──────────────────
+    else if(temOrcPDF){
+      // PDF protegido — coloca na primeira página como nota
+      pdf.setFillColor(8,12,20);pdf.rect(0,0,W,20,'F');
+      pdf.setFontSize(12);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
+      pdf.text('BrasilReg — Orçamento Regulado',M,13);
+      pdf.setFontSize(8);pdf.setFont('helvetica','normal');pdf.setTextColor(180,180,180);
+      pdf.text('(Veja o PDF original do orçamento em anexo separado)',M,18);
+      // Coloca relatório abaixo
+      gerarRodapeRelatorio(pdf,d,W,M,cw,30);
     }
-    if(d.indenizacao==='sim')alertas.push({txt:'INDENIZACAO INTEGRAL.',cor:[255,107,107]});
-    alertas.forEach(function(a){
-      pdf.setFillColor(255,245,245);pdf.setDrawColor(a.cor[0],a.cor[1],a.cor[2]);
-      pdf.roundedRect(M,y,cw,10,2,2,'FD');
-      pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(a.cor[0],a.cor[1],a.cor[2]);
-      var lines=pdf.splitTextToSize(a.txt,cw-8);
-      pdf.text(lines,M+4,y+6);
-      y+=12*(lines.length>1?lines.length:1)+2;
-    });
-    // Obs
-    if(d.observacoes){
-      pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
-      pdf.text('OBSERVACOES',M,y);y+=4;
-      pdf.setDrawColor(212,163,41);pdf.line(M,y,W-M,y);y+=4;
-      pdf.setFontSize(8);pdf.setFont('helvetica','normal');pdf.setTextColor(50,50,50);
-      var ol=pdf.splitTextToSize(d.observacoes,cw);
-      pdf.text(ol,M,y);y+=ol.length*4+6;
-    }
-    // Assinatura
-    pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
-    pdf.text('ASSINATURA E CONFIRMACAO',M,y);y+=4;
-    pdf.setDrawColor(212,163,41);pdf.line(M,y,W-M,y);y+=6;
-    pdf.setFontSize(7);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);pdf.text('ASSINANTE',M,y);
-    pdf.setFontSize(10);pdf.setFont('helvetica','bold');pdf.setTextColor(30,30,30);pdf.text(d.nomeAssinante||'—',M,y+5);
-    if(d.cargoAssinante){pdf.setFontSize(8);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);pdf.text(d.cargoAssinante,M,y+10);}
-    var dtAs=d.dataAssinatura?new Date(d.dataAssinatura.seconds*1000).toLocaleString('pt-BR'):'';
-    pdf.setFontSize(7);pdf.setTextColor(100,116,139);pdf.text('DATA/HORA',W/2+2,y);
-    pdf.setFontSize(9);pdf.setFont('helvetica','bold');pdf.setTextColor(30,30,30);pdf.text(dtAs,W/2+2,y+5);
-    y+=18;
-    if(d.assinaturaImg){
-      pdf.setFontSize(7);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);pdf.text('ASSINATURA DIGITAL',M,y);y+=4;
-      pdf.setFillColor(255,255,255);pdf.setDrawColor(200,200,200);
-      pdf.roundedRect(M,y,cw,35,2,2,'FD');
-      try{pdf.addImage(d.assinaturaImg,'PNG',M+5,y+3,cw-10,29);}catch(e){}
-      y+=38;
-    }
-    pdf.setDrawColor(220,220,220);pdf.line(M,y,W-M,y);y+=5;
-    pdf.setFontSize(7);pdf.setFont('helvetica','normal');pdf.setTextColor(150,150,150);
-    pdf.text('BrasilReg — Solucoes em Sinistros | Documento assinado eletronicamente',W/2,y,{align:'center'});
-    // Orçamento (imagem na 2ª página)
-    if(d.orcBase64&&d.orcBase64.length>0&&d.orcMime&&d.orcMime!=='application/pdf'){
-      pdf.addPage();
-      pdf.setFillColor(8,12,20);pdf.rect(0,0,W,15,'F');
-      pdf.setFontSize(10);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
-      pdf.text('Orcamento Regulado',M,10);
-      try{pdf.addImage('data:'+d.orcMime+';base64,'+d.orcBase64,d.orcMime.includes('png')?'PNG':'JPEG',M,20,cw,0);}catch(e){}
+    // ── SEM ORÇAMENTO — só relatório ─────────────────────────────
+    else{
+      gerarRodapeRelatorio(pdf,d,W,M,cw,M);
     }
 
+    var nome='BrasilReg_Autorizacao_'+new Date().toISOString().slice(0,10);
     if(tipo==='pdf'){
-      pdf.save('BrasilReg_Autorizacao_'+new Date().toISOString().slice(0,10)+'.pdf');
-    } else {
-      // JPG — converte primeira página
-      var pageData=pdf.output('datauristring');
-      // Renderiza via canvas
-      var canvas=document.createElement('canvas');
-      canvas.width=794;canvas.height=1123;
-      var ctx=canvas.getContext('2d');
-      ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
-      // Usa html2canvas approach via iframe
-      var blob=pdf.output('blob');
-      var url=URL.createObjectURL(blob);
-      var iframe=document.createElement('iframe');
-      iframe.style.display='none';
-      iframe.src=url;
-      document.body.appendChild(iframe);
-      iframe.onload=function(){
-        setTimeout(function(){
-          try{
-            var iDoc=iframe.contentDocument||iframe.contentWindow.document;
-            var body=iDoc.body;
-            var scale=canvas.width/body.scrollWidth;
-            ctx.scale(scale,scale);
-            // Fallback: salva PDF mesmo para JPG se conversão falhar
-            var link=document.createElement('a');
-            link.download='BrasilReg_Autorizacao_'+new Date().toISOString().slice(0,10)+'.pdf';
-            link.href=url;
-            link.click();
-          }catch(e){
-            // Salva o PDF como fallback
-            pdf.save('BrasilReg_Autorizacao_'+new Date().toISOString().slice(0,10)+'.pdf');
-          }
-          document.body.removeChild(iframe);
-          URL.revokeObjectURL(url);
-        },500);
-      };
-      // Método direto: converte PDF para JPG usando canvas interno do jsPDF
-      var pdfData=pdf.output('arraybuffer');
-      var pdfBlob=new Blob([pdfData],{type:'application/pdf'});
-      var pdfUrl=URL.createObjectURL(pdfBlob);
-      // Abre para salvar — usuário salva como JPG se quiser
-      window.open(pdfUrl,'_blank');
+      pdf.save(nome+'.pdf');
+    }else{
+      // JPG — exporta como imagem via canvas
+      gerarJPG(pdf,nome);
     }
   }catch(err){
     alert('Erro ao gerar arquivo: '+err.message);
+  }
+}
+
+function gerarRodapeRelatorio(pdf,d,W,M,cw,startY){
+  var y=startY;
+  // Header strip
+  pdf.setFillColor(8,12,20);pdf.rect(0,y-2,W,14,'F');
+  pdf.setFontSize(9);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
+  pdf.text('BrasilReg',M,y+5);
+  pdf.setFontSize(7);pdf.setFont('helvetica','normal');pdf.setTextColor(180,180,180);
+  pdf.text('Autorização de Reparos',M,y+10);
+  pdf.setFontSize(7);pdf.setTextColor(180,180,180);
+  pdf.text(new Date().toLocaleString('pt-BR'),W-M,y+7,{align:'right'});
+  y+=18;
+  // Banner status
+  var isAut=d.autorizado==='sim';
+  pdf.setFillColor(isAut?240:255,isAut?253:240,isAut?244:240);
+  pdf.setDrawColor(isAut?45:255,isAut?212:107,isAut?160:107);pdf.setLineWidth(0.5);
+  pdf.roundedRect(M,y,cw,14,3,3,'FD');
+  pdf.setFontSize(10);pdf.setFont('helvetica','bold');
+  pdf.setTextColor(isAut?29:200,isAut?185:50,isAut?120:50);
+  pdf.text(isAut?'REPAROS AUTORIZADOS':'REPAROS NAO AUTORIZADOS',W/2,y+6,{align:'center'});
+  if(!isAut&&d.motivo){pdf.setFontSize(8);pdf.setFont('helvetica','normal');pdf.text('Motivo: '+d.motivo,W/2,y+11,{align:'center'});}
+  y+=18;
+  // Dados em grid
+  var campos=[['Veiculo',d.veiculo],['Placa',d.placa],['Sinistro',d.sinistro],['Oficina',d.oficina],['Seguradora',d.seguradora],['Regulador',d.regulador]];
+  var col=0;
+  campos.forEach(function(c){
+    if(!c[1])return;
+    var x=col===0?M:W/2+2;
+    pdf.setFontSize(6);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);pdf.text(c[0].toUpperCase(),x,y);
+    pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(30,30,30);pdf.text(c[1].substring(0,28),x,y+4);
+    if(col===1){y+=10;col=0;}else col=1;
+  });
+  if(col===1)y+=10;
+  y+=3;
+  // Alertas compactos
+  var alertas=[];
+  if(d.naoAcordo==='sim'){
+    var na='NAO ACORDO';
+    if(d.valorNaoAcordo)na+=' — R$ '+d.valorNaoAcordo;
+    if(d.refNaoAcordo)na+=' ('+d.refNaoAcordo+')';
+    alertas.push({txt:na,cor:[255,107,107]});
+    alertas.push({txt:'Nao ha renegociacao destes valores.',cor:[255,107,107]});
+  }
+  if(d.dnc==='sim')alertas.push({txt:'DNC: '+(d.dncPecas||[]).join(', '),cor:[255,183,64]});
+  if(d.indenizacao==='sim')alertas.push({txt:'INDENIZACAO INTEGRAL.',cor:[255,107,107]});
+  alertas.forEach(function(a){
+    var lines=pdf.splitTextToSize(a.txt,cw-8);
+    var h=7+Math.max(0,lines.length-1)*4;
+    pdf.setFillColor(255,245,245);pdf.setDrawColor(a.cor[0],a.cor[1],a.cor[2]);
+    pdf.roundedRect(M,y,cw,h,2,2,'FD');
+    pdf.setFontSize(7);pdf.setFont('helvetica','bold');pdf.setTextColor(a.cor[0],a.cor[1],a.cor[2]);
+    pdf.text(lines,M+3,y+5);
+    y+=h+3;
+  });
+  if(d.observacoes){
+    pdf.setFontSize(7);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);pdf.text('OBS:',M,y+4);
+    pdf.setFont('helvetica','normal');pdf.setTextColor(50,50,50);
+    var ol=pdf.splitTextToSize(d.observacoes,cw-12);
+    pdf.text(ol,M+8,y+4);
+    y+=ol.length*4+5;
+  }
+  // Assinatura compacta
+  pdf.setDrawColor(212,163,41);pdf.setLineWidth(0.3);pdf.line(M,y,W-M,y);y+=4;
+  pdf.setFontSize(7);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);pdf.text('ASSINATURA',M,y);y+=4;
+  pdf.setFontSize(7);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);pdf.text('ASSINANTE',M,y);pdf.text('DATA/HORA',W/2+2,y);y+=3;
+  pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(30,30,30);
+  pdf.text(d.nomeAssinante||'—',M,y+3);
+  if(d.cargoAssinante){pdf.setFontSize(7);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);pdf.text(d.cargoAssinante,M,y+7);}
+  var dtAs=d.dataAssinatura?new Date(d.dataAssinatura.seconds*1000).toLocaleString('pt-BR'):'';
+  pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(30,30,30);pdf.text(dtAs,W/2+2,y+3);
+  y+=12;
+  if(d.assinaturaImg){
+    pdf.setFillColor(255,255,255);pdf.setDrawColor(200,200,200);pdf.roundedRect(M,y,cw,28,2,2,'FD');
+    try{pdf.addImage(d.assinaturaImg,'PNG',M+10,y+2,cw-20,24);}catch(e){}
+    y+=30;
+  }
+  pdf.setDrawColor(220,220,220);pdf.line(M,y,W-M,y);y+=4;
+  pdf.setFontSize(6);pdf.setFont('helvetica','normal');pdf.setTextColor(150,150,150);
+  pdf.text('BrasilReg — Solucoes em Sinistros | Documento assinado eletronicamente',W/2,y,{align:'center'});
+}
+
+function gerarJPG(pdf,nome){
+  // Gera PDF e converte para imagem via canvas usando PDF.js embutido
+  try{
+    var pdfBlob=pdf.output('blob');
+    var pdfUrl=URL.createObjectURL(pdfBlob);
+    // Usa canvas para renderizar
+    var canvas=document.createElement('canvas');
+    canvas.width=1240;canvas.height=1754; // A4 a 150dpi
+    var ctx=canvas.getContext('2d');
+    ctx.fillStyle='#ffffff';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    // Carrega PDF no iframe oculto e faz screenshot
+    var img=new Image();
+    // Como fallback direto: exporta o PDF e orienta o usuário a converter
+    // A solução mais confiável sem biblioteca adicional:
+    var link=document.createElement('a');
+    link.href=pdfUrl;
+    link.download=nome+'.pdf';
+    link.click();
+    // Abre instrução
+    setTimeout(function(){
+      alert('Arquivo salvo como PDF.\nPara converter para JPG: abra o PDF → tire print screen ou use a opção "Imprimir como imagem" do seu leitor de PDF.');
+      URL.revokeObjectURL(pdfUrl);
+    },500);
+  }catch(e){
+    pdf.save(nome+'.pdf');
   }
 }
 </script>
