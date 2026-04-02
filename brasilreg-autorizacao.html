@@ -298,7 +298,7 @@ async function gerarLink(){
     document.getElementById('btnGerar').style.color='var(--green)';
   }catch(err){
     document.getElementById('ldg').classList.remove('show');
-    if((err.message||'').includes('longer than')||（err.message||'').includes('maximum')){
+    if((err.message||'').includes('longer than')||(err.message||'').includes('maximum')){
       alert('PDF muito grande. Use foto/print do orçamento.');
     }else{alert('Erro: '+err.message);}
     document.getElementById('btnGerar').disabled=false;
