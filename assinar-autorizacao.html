@@ -267,14 +267,30 @@ function initCanvas(){
 
 function limparCanvas(){if(!canvas)return;ctx.clearRect(0,0,canvas.width,canvas.height);hasSig=false;document.getElementById('canvasHint').style.display='block';}
 
-function setReneg(quer){
+async function setReneg(quer){
   querRenegociar=quer;
   document.getElementById('btnRenegNao').classList.toggle('sel',!quer);
   document.getElementById('btnRenegSim').classList.toggle('sel',quer);
   if(quer){
-    // Desabilita assinatura e mostra aviso
-    document.getElementById('btnConfirmar').disabled=true;
-    document.getElementById('btnConfirmar').textContent='⚠️ Aguardando acordo com regulador';
+    // Confirma antes de enviar
+    if(!confirm('Confirma que deseja renegociar os valores?\n\nO regulador será notificado e entrará em contato.\nVocê não poderá assinar até que um novo acordo seja feito.')){
+      querRenegociar=null;
+      document.getElementById('btnRenegSim').classList.remove('sel');
+      return;
+    }
+    document.getElementById('ldg').classList.add('open');
+    document.getElementById('ldgTxt').textContent='Notificando regulador...';
+    try{
+      await window.salvarRenegociacao();
+      document.getElementById('ldg').classList.remove('open');
+      document.getElementById('conteudo').style.display='none';
+      document.getElementById('estadoRenegociando').classList.add('show');
+    }catch(e){
+      document.getElementById('ldg').classList.remove('open');
+      querRenegociar=null;
+      document.getElementById('btnRenegSim').classList.remove('sel');
+      alert('Erro. Tente novamente.');
+    }
   }else{
     document.getElementById('btnConfirmar').disabled=false;
     document.getElementById('btnConfirmar').textContent='✅ Confirmar e Assinar';
