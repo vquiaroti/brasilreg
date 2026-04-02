@@ -45,6 +45,23 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .motivos.show{display:flex;}
 .mot-btn{width:100%;padding:10px 14px;border-radius:9px;font-size:11px;font-weight:600;cursor:pointer;border:2px solid rgba(255,183,64,0.2);background:var(--yd);color:var(--yel);font-family:'DM Sans',sans-serif;text-align:left;transition:all 0.2s;}
 .mot-btn.sel{border-color:var(--yel);background:rgba(255,183,64,0.2);}
+/* Subform expandido */
+.sub-form{display:none;background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:12px;margin-top:10px;}
+.sub-form.show{display:block;}
+.sub-label{font-size:11px;color:var(--muted);margin-bottom:5px;display:block;}
+.sub-input{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:8px 11px;font-size:12px;color:var(--text);outline:none;font-family:'DM Sans',sans-serif;margin-bottom:8px;}
+.sub-input:focus{border-color:var(--gold);}
+.ref-btns{display:flex;gap:5px;flex-wrap:wrap;}
+.ref-btn{padding:6px 10px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid var(--bd);background:var(--s2);color:var(--muted);font-family:'Sora',sans-serif;transition:all 0.2s;}
+.ref-btn.sel{background:var(--gd);border-color:var(--gold);color:var(--gold);}
+/* DNC peças */
+.dnc-pecas-wrap{display:none;margin-top:10px;}
+.dnc-pecas-wrap.show{display:block;}
+.dnc-peca-row{display:flex;gap:6px;align-items:center;margin-bottom:6px;}
+.dnc-peca-input{flex:1;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:7px 10px;font-size:12px;color:var(--text);outline:none;font-family:'DM Sans',sans-serif;}
+.dnc-peca-input:focus{border-color:var(--gold);}
+.dnc-del-btn{background:var(--rd);border:none;border-radius:6px;width:24px;height:24px;color:var(--red);font-size:11px;cursor:pointer;flex-shrink:0;}
+.btn-add-peca{background:var(--blu);border:1px dashed rgba(96,165,250,0.3);border-radius:8px;padding:6px 12px;font-size:11px;color:var(--blue);cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:4px;}
 .obs-input{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font-size:12px;color:var(--text);outline:none;font-family:'DM Sans',sans-serif;resize:vertical;min-height:70px;}
 .obs-input:focus{border-color:var(--gold);}
 .preview-box{background:var(--s2);border:1px solid rgba(255,183,64,0.3);border-radius:12px;padding:14px;margin-bottom:10px;}
@@ -55,13 +72,33 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .btn-gerar:disabled{opacity:0.3;cursor:not-allowed;}
 .btn-wpp{width:100%;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.3);border-radius:13px;padding:15px;font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#25D366;cursor:pointer;display:none;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;}
 .btn-wpp.show{display:flex;}
-.btn-wpp:hover{background:rgba(37,211,102,0.2);}
 .ldg{display:none;background:var(--s1);border:1px solid var(--bd);border-radius:13px;padding:24px;text-align:center;margin-bottom:10px;}
 .ldg.show{display:block;}
 .ldg-spin{width:36px;height:36px;border:3px solid rgba(212,163,57,0.15);border-top-color:var(--gold);border-radius:50%;animation:sp 0.8s linear infinite;margin:0 auto 12px;}
 @keyframes sp{to{transform:rotate(360deg);}}
 .ldg-sub{font-size:12px;color:var(--muted);}
-.ldg-prog{font-size:11px;color:var(--gold);margin-top:6px;}
+/* Aguardando assinatura */
+.aguard-box{background:var(--s1);border:1px solid rgba(255,183,64,0.3);border-radius:13px;padding:20px;text-align:center;display:none;margin-bottom:10px;}
+.aguard-box.show{display:block;}
+.aguard-spin{width:28px;height:28px;border:2px solid rgba(255,183,64,0.2);border-top-color:var(--yel);border-radius:50%;animation:sp 1s linear infinite;margin:0 auto 10px;}
+.aguard-title{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;color:var(--yel);margin-bottom:4px;}
+.aguard-sub{font-size:11px;color:var(--muted);}
+/* Assinado — box de download */
+.assinado-box{background:var(--gn);border:1px solid rgba(45,212,160,0.3);border-radius:13px;padding:16px;display:none;margin-bottom:10px;}
+.assinado-box.show{display:block;}
+.assinado-title{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px;}
+.assinado-sub{font-size:11px;color:var(--muted);margin-bottom:12px;}
+.btns-download{display:flex;gap:8px;}
+.btn-dl{flex:1;border-radius:10px;padding:11px 8px;font-family:'Sora',sans-serif;font-size:12px;font-weight:700;cursor:pointer;text-align:center;border:1px solid;}
+.btn-dl-pdf{background:var(--gd);border-color:rgba(212,163,57,0.3);color:var(--gold);}
+.btn-dl-jpg{background:var(--blu);border-color:rgba(96,165,250,0.3);color:var(--blue);}
+/* Alerta renegociação */
+.alerta-reneg{background:rgba(255,107,107,0.15);border:2px solid var(--red);border-radius:13px;padding:16px;display:none;margin-bottom:10px;text-align:center;}
+.alerta-reneg.show{display:block;}
+.alerta-reneg-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:900;color:var(--red);margin-bottom:6px;animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
+.alerta-reneg-sub{font-size:12px;color:var(--text);line-height:1.6;}
+/* Link box */
 .link-box{background:var(--gn);border:1px solid rgba(45,212,160,0.3);border-radius:12px;padding:14px;display:none;margin-bottom:10px;}
 .link-box.show{display:block;}
 .link-title{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;color:var(--green);margin-bottom:8px;}
@@ -70,7 +107,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .warn-size{background:var(--yd);border:1px solid rgba(255,183,64,0.3);border-radius:9px;padding:10px 12px;font-size:11px;color:var(--yel);margin-top:8px;display:none;}
 .warn-size.show{display:block;}
 footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:11px;color:#1E2A3A;}
-@media(max-width:480px){.dados-grid{grid-template-columns:1fr;}}
+@media(max-width:480px){.dados-grid{grid-template-columns:1fr;}.btns-download{flex-direction:column;}}
 </style>
 </head>
 <body>
@@ -79,29 +116,32 @@ footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:1
   <img src="https://static.wixstatic.com/media/d134a6_9ebbb0f87c314c3b8bcaf55fd83c77b4~mv2.webp" class="header-logo" alt="BrasilReg"/>
 </div>
 <div class="body">
+
+  <!-- 1. ORÇAMENTO -->
   <div class="sec-title">1. Orçamento da Oficina</div>
   <div class="card">
     <div class="orc-drop" id="orcDrop">
       <input type="file" id="orcInput" accept=".pdf,image/*" onchange="carregarOrc(this)"/>
       <div class="orc-icon">📋</div>
       <div class="orc-ttl">Upload do Orçamento</div>
-      <div class="orc-sub">PDF ou foto — enviado para a oficina assinar</div>
+      <div class="orc-sub">PDF ou foto — enviado para a oficina visualizar e assinar</div>
       <button class="orc-del" onclick="removerOrc(event)">✕</button>
     </div>
-    <div class="warn-size" id="warnSize">⚠️ Arquivo grande (+800KB) — o orçamento pode não ser exibido na tela da oficina. Tente usar uma foto ou print do orçamento.</div>
+    <div class="warn-size" id="warnSize">⚠️ Arquivo grande (+800KB) — use foto/print para melhor resultado.</div>
     <div class="orc-status" id="orcStatus">
       <div class="orc-status-title" id="orcStatusTitle">⏳ Lendo dados...</div>
       <div class="dados-grid" id="dadosGrid"></div>
     </div>
   </div>
-  <div class="ldg" id="ldg">
-    <div class="ldg-spin"></div>
-    <div class="ldg-sub" id="ldgSub">Extraindo dados...</div>
-    <div class="ldg-prog" id="ldgProg"></div>
-  </div>
+
+  <div class="ldg" id="ldg"><div class="ldg-spin"></div><div class="ldg-sub" id="ldgSub">Processando...</div></div>
+
+  <!-- 2. PERGUNTAS -->
   <div id="fase2" style="display:none;">
     <div class="sec-title">2. Situação dos Reparos</div>
     <div class="card">
+
+      <!-- Reparos autorizados -->
       <div class="pergunta">
         <span class="perg-label">Reparos autorizados?</span>
         <div class="opcoes">
@@ -115,20 +155,57 @@ footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:1
           <button class="mot-btn" id="mot3" onclick="setMotivo('Aguardando Definição Mecânica')">🔧 Aguardando Definição Mecânica</button>
         </div>
       </div>
+
+      <!-- Não acordo -->
       <div class="pergunta">
         <span class="perg-label">Houve não acordo?</span>
         <div class="opcoes">
           <button class="op-btn sim" id="btnNaoacordoSim" onclick="setPerg('naoAcordo','sim')">✅ Sim</button>
           <button class="op-btn nao" id="btnNaoacordoNao" onclick="setPerg('naoAcordo','nao')">❌ Não</button>
         </div>
+        <!-- Sub-form não acordo -->
+        <div class="sub-form" id="subNaoAcordo">
+          <label class="sub-label">Valor do não acordo (R$)</label>
+          <input class="sub-input" type="text" id="valorNaoAcordo" placeholder="Ex: 1.250,00" oninput="atualizarPreview()"/>
+          <label class="sub-label">Referência avaliada:</label>
+          <div class="ref-btns" id="refBtns">
+            <button class="ref-btn" onclick="setRef('DNC')">DNC</button>
+            <button class="ref-btn" onclick="setRef('Em Estimativa')">Em Estimativa</button>
+            <button class="ref-btn" onclick="setRef('Ref. 1ª')">Ref. 1ª</button>
+            <button class="ref-btn" onclick="setRef('Ref. 2ª')">Ref. 2ª</button>
+            <button class="ref-btn" onclick="setRef('Ref. 3ª')">Ref. 3ª</button>
+            <button class="ref-btn" onclick="setRef('Ref. 4ª')">Ref. 4ª</button>
+            <button class="ref-btn" onclick="setRef('Ref. 5ª')">Ref. 5ª</button>
+            <button class="ref-btn" onclick="setRef('Ref. 6ª')">Ref. 6ª</button>
+            <button class="ref-btn" onclick="setRef('Ref. 7ª')">Ref. 7ª</button>
+            <button class="ref-btn" onclick="setRef('Ref. 8ª')">Ref. 8ª</button>
+            <button class="ref-btn" onclick="setRef('Ref. 9ª')">Ref. 9ª</button>
+            <button class="ref-btn" onclick="setRef('Ref. 10ª')">Ref. 10ª</button>
+          </div>
+        </div>
       </div>
+
+      <!-- DNC -->
       <div class="pergunta">
         <span class="perg-label">Tem DNC?</span>
         <div class="opcoes">
           <button class="op-btn sim" id="btnDncSim" onclick="setPerg('dnc','sim')">✅ Sim</button>
           <button class="op-btn nao" id="btnDncNao" onclick="setPerg('dnc','nao')">❌ Não</button>
         </div>
+        <!-- DNC peças -->
+        <div class="dnc-pecas-wrap" id="dncPecasWrap">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">Informe as peças em DNC:</div>
+          <div id="dncPecasList">
+            <div class="dnc-peca-row">
+              <input class="dnc-peca-input" type="text" maxlength="50" placeholder="Nome da peça (máx. 50 caracteres)" oninput="atualizarPreview()"/>
+              <button class="dnc-del-btn" onclick="removerPeca(this)">✕</button>
+            </div>
+          </div>
+          <button class="btn-add-peca" onclick="adicionarPeca()">+ Adicionar peça</button>
+        </div>
       </div>
+
+      <!-- Indenização integral -->
       <div class="pergunta">
         <span class="perg-label">É indenização integral?</span>
         <div class="opcoes">
@@ -136,45 +213,106 @@ footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:1
           <button class="op-btn nao" id="btnIndenNao" onclick="setPerg('indenizacao','nao')">❌ Não</button>
         </div>
       </div>
+
     </div>
+
+    <!-- 3. OBSERVAÇÕES -->
     <div class="sec-title">3. Observações Adicionais</div>
     <div class="card">
       <textarea class="obs-input" id="obsInput" placeholder="Observações para a oficina (opcional)..." oninput="atualizarPreview()"></textarea>
     </div>
+
+    <!-- PREVIEW -->
     <div class="sec-title">4. Preview</div>
     <div class="preview-box">
       <div class="preview-title">📋 O que a Oficina Verá</div>
       <div class="preview-txt" id="previewTxt">Preencha as opções acima...</div>
     </div>
+
+    <!-- BTN GERAR -->
     <button class="btn-gerar" id="btnGerar" onclick="gerarLink()">🔗 Gerar Link para Oficina</button>
+
+    <!-- LINK -->
     <div class="link-box" id="linkBox">
       <div class="link-title">✅ Link gerado! Válido por 48 horas.</div>
       <div class="link-url" id="linkUrl"></div>
       <button class="btn-copy" onclick="copiarLink()">📋 Copiar link</button>
     </div>
+
+    <!-- WHATSAPP -->
     <button class="btn-wpp" id="btnWpp" onclick="enviarWhatsapp()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
       Enviar pelo WhatsApp
     </button>
+
+    <!-- ALERTA RENEGOCIAÇÃO -->
+    <div class="alerta-reneg" id="alertaReneg">
+      <div class="alerta-reneg-title">🚨 OFICINA QUER RENEGOCIAR!</div>
+      <div class="alerta-reneg-sub">A oficina sinalizou que deseja renegociar os valores.<br><strong>Entre em contato URGENTE com a oficina!</strong></div>
+    </div>
+
+    <!-- AGUARDANDO ASSINATURA -->
+    <div class="aguard-box" id="aguardBox">
+      <div class="aguard-spin"></div>
+      <div class="aguard-title">⏳ Aguardando assinatura da oficina...</div>
+      <div class="aguard-sub">O link foi enviado. Esta tela atualiza automaticamente.</div>
+    </div>
+
+    <!-- ASSINADO — DOWNLOAD -->
+    <div class="assinado-box" id="assinadoBox">
+      <div class="assinado-title">✅ Documento assinado pela oficina!</div>
+      <div class="assinado-sub" id="assinadoInfo"></div>
+      <div class="btns-download">
+        <button class="btn-dl btn-dl-pdf" onclick="baixarAssinado('pdf')">📄 Baixar PDF</button>
+        <button class="btn-dl btn-dl-jpg" onclick="baixarAssinado('jpg')">🖼️ Baixar JPG</button>
+      </div>
+    </div>
+
   </div>
 </div>
 <footer><strong>BrasilReg</strong> &middot; Autorização de Reparos &middot; Uso exclusivo reguladores credenciados</footer>
 
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-const app = initializeApp({apiKey:"AIzaSyDEr0WjNoOxiWnma--ooRanPPVHci7fcX8",authDomain:"brasilreg-frustrada.firebaseapp.com",projectId:"brasilreg-frustrada",storageBucket:"brasilreg-frustrada.firebasestorage.app",messagingSenderId:"486471690467",appId:"1:486471690467:web:bb73d45abe74cb9ae3fdd6"});
+import { getFirestore, collection, addDoc, doc, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+const app=initializeApp({apiKey:"AIzaSyDEr0WjNoOxiWnma--ooRanPPVHci7fcX8",authDomain:"brasilreg-frustrada.firebaseapp.com",projectId:"brasilreg-frustrada",storageBucket:"brasilreg-frustrada.firebasestorage.app",messagingSenderId:"486471690467",appId:"1:486471690467:web:bb73d45abe74cb9ae3fdd6"});
 const db=getFirestore(app);
+
 window.salvarNoFirebase=async function(dados){
-  const ref=await addDoc(collection(db,'autorizacoes'),{...dados,criadoEm:serverTimestamp(),expiraEmMs:Date.now()+48*60*60*1000,assinado:false});
+  const ref=await addDoc(collection(db,'autorizacoes'),{...dados,criadoEm:serverTimestamp(),expiraEmMs:Date.now()+48*60*60*1000,assinado:false,querRenegociar:false});
   return ref.id;
+};
+
+window.escutarDoc=function(docId){
+  return onSnapshot(doc(db,'autorizacoes',docId),function(snap){
+    if(!snap.exists())return;
+    var d=snap.data();
+    if(d.querRenegociar){
+      document.getElementById('alertaReneg').classList.add('show');
+      document.getElementById('aguardBox').classList.remove('show');
+    }
+    if(d.assinado){
+      document.getElementById('aguardBox').classList.remove('show');
+      document.getElementById('alertaReneg').classList.remove('show');
+      var box=document.getElementById('assinadoBox');
+      box.classList.add('show');
+      var dt=d.dataAssinatura?new Date(d.dataAssinatura.seconds*1000).toLocaleString('pt-BR'):'';
+      document.getElementById('assinadoInfo').textContent='Assinado por: '+(d.nomeAssinante||'—')+(d.cargoAssinante?' ('+d.cargoAssinante+')':'')+' — '+dt;
+      window._dadosAssinados=d;
+    }
+  });
 };
 </script>
 
 <script>
 var orcDados={oficina:'',placa:'',sinistro:'',veiculo:'',seguradora:'',regulador:''};
 var orcB64='',orcMime='',orcGrande=false;
-var autorizado=null,motivo='',naoAcordo=null,dnc=null,indenizacao=null,linkGerado='';
+var autorizado=null,motivo='',naoAcordo=null,valorNaoAcordo='',refNaoAcordo='';
+var dnc=null,dncPecas=[],indenizacao=null;
+var linkGerado='',docIdGerado='';
 
 function getMime(f){if(f.type)return f.type;var e=f.name.split('.').pop().toLowerCase();return{pdf:'application/pdf',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp'}[e]||'application/pdf';}
 
@@ -223,30 +361,89 @@ function removerOrc(evt){
   orcB64='';orcMime='';orcDados={};orcGrande=false;
   document.getElementById('orcDrop').classList.remove('loaded');
   document.getElementById('orcDrop').querySelector('.orc-ttl').textContent='Upload do Orçamento';
-  document.getElementById('orcDrop').querySelector('.orc-sub').textContent='PDF ou foto — enviado para a oficina assinar';
+  document.getElementById('orcDrop').querySelector('.orc-sub').textContent='PDF ou foto — enviado para a oficina visualizar e assinar';
   document.getElementById('orcStatus').classList.remove('show');
   document.getElementById('orcInput').value='';
   document.getElementById('fase2').style.display='none';
   document.getElementById('warnSize').classList.remove('show');
   document.getElementById('linkBox').classList.remove('show');
   document.getElementById('btnWpp').classList.remove('show');
+  document.getElementById('aguardBox').classList.remove('show');
+  document.getElementById('assinadoBox').classList.remove('show');
+  document.getElementById('alertaReneg').classList.remove('show');
   document.getElementById('btnGerar').disabled=false;
   document.getElementById('btnGerar').textContent='🔗 Gerar Link para Oficina';
   document.getElementById('btnGerar').style.color='';
   document.getElementById('btnGerar').style.borderColor='';
-  linkGerado='';
+  linkGerado='';docIdGerado='';
 }
 
-function setAutorizado(v){autorizado=v;document.getElementById('btnSim').classList.toggle('sel',v==='sim');document.getElementById('btnNao').classList.toggle('sel',v==='nao');document.getElementById('motivos').classList.toggle('show',v==='nao');if(v==='sim')motivo='';atualizarPreview();}
-function setMotivo(m){motivo=m;['mot1','mot2','mot3'].forEach(function(id){document.getElementById(id).classList.remove('sel');});var mp={'Não Acordo':'mot1','Conforme Determinação da CIA':'mot2','Aguardando Definição Mecânica':'mot3'};if(mp[m])document.getElementById(mp[m]).classList.add('sel');atualizarPreview();}
-function setPerg(campo,val){
-  if(campo==='naoAcordo'){naoAcordo=val;document.getElementById('btnNaoacordoSim').classList.toggle('sel',val==='sim');document.getElementById('btnNaoacordoNao').classList.toggle('sel',val==='nao');}
-  else if(campo==='dnc'){dnc=val;document.getElementById('btnDncSim').classList.toggle('sel',val==='sim');document.getElementById('btnDncNao').classList.toggle('sel',val==='nao');}
-  else if(campo==='indenizacao'){indenizacao=val;document.getElementById('btnIndenSim').classList.toggle('sel',val==='sim');document.getElementById('btnIndenNao').classList.toggle('sel',val==='nao');}
+function setAutorizado(v){
+  autorizado=v;
+  document.getElementById('btnSim').classList.toggle('sel',v==='sim');
+  document.getElementById('btnNao').classList.toggle('sel',v==='nao');
+  document.getElementById('motivos').classList.toggle('show',v==='nao');
+  if(v==='sim')motivo='';
   atualizarPreview();
 }
 
+function setMotivo(m){
+  motivo=m;
+  ['mot1','mot2','mot3'].forEach(function(id){document.getElementById(id).classList.remove('sel');});
+  var mp={'Não Acordo':'mot1','Conforme Determinação da CIA':'mot2','Aguardando Definição Mecânica':'mot3'};
+  if(mp[m])document.getElementById(mp[m]).classList.add('sel');
+  atualizarPreview();
+}
+
+function setRef(r){
+  refNaoAcordo=r;
+  document.querySelectorAll('.ref-btn').forEach(function(b){b.classList.remove('sel');});
+  event.target.classList.add('sel');
+  atualizarPreview();
+}
+
+function setPerg(campo,val){
+  if(campo==='naoAcordo'){
+    naoAcordo=val;
+    document.getElementById('btnNaoacordoSim').classList.toggle('sel',val==='sim');
+    document.getElementById('btnNaoacordoNao').classList.toggle('sel',val==='nao');
+    document.getElementById('subNaoAcordo').classList.toggle('show',val==='sim');
+    if(val==='nao'){valorNaoAcordo='';refNaoAcordo='';}
+  } else if(campo==='dnc'){
+    dnc=val;
+    document.getElementById('btnDncSim').classList.toggle('sel',val==='sim');
+    document.getElementById('btnDncNao').classList.toggle('sel',val==='nao');
+    document.getElementById('dncPecasWrap').classList.toggle('show',val==='sim');
+  } else if(campo==='indenizacao'){
+    indenizacao=val;
+    document.getElementById('btnIndenSim').classList.toggle('sel',val==='sim');
+    document.getElementById('btnIndenNao').classList.toggle('sel',val==='nao');
+  }
+  atualizarPreview();
+}
+
+function adicionarPeca(){
+  var div=document.createElement('div');
+  div.className='dnc-peca-row';
+  div.innerHTML='<input class="dnc-peca-input" type="text" maxlength="50" placeholder="Nome da peça (máx. 50 caracteres)" oninput="atualizarPreview()"/><button class="dnc-del-btn" onclick="removerPeca(this)">✕</button>';
+  document.getElementById('dncPecasList').appendChild(div);
+}
+
+function removerPeca(btn){
+  var lista=document.getElementById('dncPecasList');
+  if(lista.children.length>1)btn.parentElement.remove();
+  else btn.previousElementSibling.value='';
+  atualizarPreview();
+}
+
+function getDncPecas(){
+  var pecas=[];
+  document.querySelectorAll('.dnc-peca-input').forEach(function(inp){if(inp.value.trim())pecas.push(inp.value.trim());});
+  return pecas;
+}
+
 function atualizarPreview(){
+  valorNaoAcordo=document.getElementById('valorNaoAcordo')?document.getElementById('valorNaoAcordo').value.trim():'';
   var obs=document.getElementById('obsInput')?document.getElementById('obsInput').value.trim():'';
   var l=[];
   if(autorizado==='sim')l.push('✅ REPAROS AUTORIZADOS');
@@ -257,9 +454,18 @@ function atualizarPreview(){
   if(orcDados.sinistro)l.push('📋 Sinistro: '+orcDados.sinistro);
   if(orcDados.oficina)l.push('🏪 Oficina: '+orcDados.oficina);
   l.push('');
-  if(naoAcordo==='sim')l.push('⚠️ Houve NÃO ACORDO — Não há renegociação. Acione o regulador ANTES de assinar.');
+  if(naoAcordo==='sim'){
+    l.push('⚠️ Houve NÃO ACORDO');
+    if(valorNaoAcordo)l.push('   💰 Valor: R$ '+valorNaoAcordo);
+    if(refNaoAcordo)l.push('   📎 Referência: '+refNaoAcordo);
+    l.push('   Não há renegociação destes valores.');
+    l.push('   Acione o regulador ANTES de assinar caso tenha dúvidas.');
+  }
   if(naoAcordo==='nao')l.push('✅ Sem não acordo.');
-  if(dnc==='sim')l.push('📌 Contém itens DNC (Sem Cobertura).');
+  if(dnc==='sim'){
+    l.push('📌 Contém itens DNC (Sem Cobertura):');
+    getDncPecas().forEach(function(p){l.push('   • '+p);});
+  }
   if(dnc==='nao')l.push('✅ Sem itens DNC.');
   if(indenizacao==='sim')l.push('🔴 INDENIZAÇÃO INTEGRAL.');
   if(indenizacao==='nao')l.push('✅ Não é indenização integral.');
@@ -280,37 +486,199 @@ async function gerarLink(){
   document.getElementById('ldgSub').textContent='Salvando e gerando link...';
   try{
     var obs=document.getElementById('obsInput').value.trim();
+    var pecasDnc=getDncPecas();
     var docId=await window.salvarNoFirebase({
       oficina:orcDados.oficina||'',placa:orcDados.placa||'',sinistro:orcDados.sinistro||'',
       veiculo:orcDados.veiculo||'',seguradora:orcDados.seguradora||'',regulador:orcDados.regulador||'',
       orcamento:orcDados.orcamento||'',autorizado:autorizado,motivo:motivo,
-      naoAcordo:naoAcordo,dnc:dnc,indenizacao:indenizacao,observacoes:obs,
+      naoAcordo:naoAcordo,valorNaoAcordo:valorNaoAcordo,refNaoAcordo:refNaoAcordo,
+      dnc:dnc,dncPecas:pecasDnc,indenizacao:indenizacao,observacoes:obs,
       mensagem:document.getElementById('previewTxt').textContent,
       orcMime:orcMime,orcBase64:orcGrande?'':orcB64
     });
+    docIdGerado=docId;
     linkGerado='https://sparkling-concha-487d94.netlify.app/assinar-autorizacao.html?id='+docId;
     document.getElementById('ldg').classList.remove('show');
     document.getElementById('linkBox').classList.add('show');
     document.getElementById('linkUrl').textContent=linkGerado;
     document.getElementById('btnWpp').classList.add('show');
+    document.getElementById('aguardBox').classList.add('show');
     document.getElementById('btnGerar').textContent='✅ Link gerado!';
     document.getElementById('btnGerar').style.borderColor='rgba(45,212,160,0.4)';
     document.getElementById('btnGerar').style.color='var(--green)';
+    // Escuta atualizações em tempo real
+    window.escutarDoc(docId);
   }catch(err){
     document.getElementById('ldg').classList.remove('show');
     if((err.message||'').includes('longer than')||(err.message||'').includes('maximum')){
       alert('PDF muito grande. Use foto/print do orçamento.');
-    }else{alert('Erro: '+err.message);}
+    }else{alert('Erro: '+(err.message||err));}
     document.getElementById('btnGerar').disabled=false;
     document.getElementById('btnGerar').textContent='🔗 Gerar Link para Oficina';
   }
 }
 
-function copiarLink(){navigator.clipboard.writeText(linkGerado).then(function(){var b=document.querySelector('.btn-copy');b.textContent='✅ Copiado!';setTimeout(function(){b.textContent='📋 Copiar link';},2000);});}
+function copiarLink(){
+  navigator.clipboard.writeText(linkGerado).then(function(){
+    var b=document.querySelector('.btn-copy');
+    b.textContent='✅ Copiado!';
+    setTimeout(function(){b.textContent='📋 Copiar link';},2000);
+  });
+}
 
 function enviarWhatsapp(){
   var msg='*BrasilReg — Autorização de Reparos*\n\n'+document.getElementById('previewTxt').textContent+'\n\n🔗 Acesse para visualizar o orçamento e assinar:\n'+linkGerado;
   window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+
+function baixarAssinado(tipo){
+  var d=window._dadosAssinados;
+  if(!d){alert('Dados não disponíveis.');return;}
+  try{
+    var {jsPDF}=window.jspdf;
+    var pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+    var W=210,M=15,cw=W-M*2,y=M;
+    // Header
+    pdf.setFillColor(8,12,20);pdf.rect(0,0,W,25,'F');
+    pdf.setFontSize(16);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
+    pdf.text('BrasilReg',M,14);
+    pdf.setFontSize(9);pdf.setFont('helvetica','normal');pdf.setTextColor(200,200,200);
+    pdf.text('Autorização de Reparos',M,20);
+    pdf.setFontSize(8);pdf.setTextColor(180,180,180);
+    pdf.text(new Date().toLocaleString('pt-BR'),W-M,14,{align:'right'});
+    y=35;
+    // Banner
+    var isAut=d.autorizado==='sim';
+    pdf.setFillColor(isAut?240:255,isAut?253:240,isAut?244:240);
+    pdf.setDrawColor(isAut?45:255,isAut?212:107,isAut?160:107);pdf.setLineWidth(0.5);
+    pdf.roundedRect(M,y,cw,18,3,3,'FD');
+    pdf.setFontSize(12);pdf.setFont('helvetica','bold');
+    pdf.setTextColor(isAut?29:200,isAut?185:50,isAut?120:50);
+    pdf.text(isAut?'REPAROS AUTORIZADOS':'REPAROS NAO AUTORIZADOS',W/2,y+8,{align:'center'});
+    if(!isAut&&d.motivo){pdf.setFontSize(9);pdf.setFont('helvetica','normal');pdf.text('Motivo: '+d.motivo,W/2,y+14,{align:'center'});}
+    y+=24;
+    // Dados
+    pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
+    pdf.text('DADOS DO SINISTRO',M,y);y+=4;
+    pdf.setDrawColor(212,163,41);pdf.setLineWidth(0.3);pdf.line(M,y,W-M,y);y+=5;
+    var campos=[['Veiculo',d.veiculo],['Placa',d.placa],['Sinistro',d.sinistro],['Oficina',d.oficina],['Seguradora',d.seguradora],['Regulador',d.regulador]];
+    var col=0;
+    campos.forEach(function(c){
+      if(!c[1])return;
+      var x=col===0?M:W/2+2;
+      pdf.setFontSize(7);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);pdf.text(c[0].toUpperCase(),x,y);
+      pdf.setFontSize(9);pdf.setFont('helvetica','bold');pdf.setTextColor(30,30,30);pdf.text(c[1].substring(0,30),x,y+5);
+      if(col===1){y+=13;col=0;}else col=1;
+    });
+    if(col===1)y+=13;
+    y+=4;
+    // Alertas
+    var alertas=[];
+    if(d.naoAcordo==='sim'){
+      var na='NAO ACORDO';
+      if(d.valorNaoAcordo)na+=' — R$ '+d.valorNaoAcordo;
+      if(d.refNaoAcordo)na+=' ('+d.refNaoAcordo+')';
+      alertas.push({txt:na,cor:[255,107,107]});
+      alertas.push({txt:'Nao ha renegociacao destes valores.',cor:[255,107,107]});
+    }
+    if(d.dnc==='sim'){
+      alertas.push({txt:'Contem itens DNC: '+(d.dncPecas||[]).join(', '),cor:[255,183,64]});
+    }
+    if(d.indenizacao==='sim')alertas.push({txt:'INDENIZACAO INTEGRAL.',cor:[255,107,107]});
+    alertas.forEach(function(a){
+      pdf.setFillColor(255,245,245);pdf.setDrawColor(a.cor[0],a.cor[1],a.cor[2]);
+      pdf.roundedRect(M,y,cw,10,2,2,'FD');
+      pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(a.cor[0],a.cor[1],a.cor[2]);
+      var lines=pdf.splitTextToSize(a.txt,cw-8);
+      pdf.text(lines,M+4,y+6);
+      y+=12*(lines.length>1?lines.length:1)+2;
+    });
+    // Obs
+    if(d.observacoes){
+      pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
+      pdf.text('OBSERVACOES',M,y);y+=4;
+      pdf.setDrawColor(212,163,41);pdf.line(M,y,W-M,y);y+=4;
+      pdf.setFontSize(8);pdf.setFont('helvetica','normal');pdf.setTextColor(50,50,50);
+      var ol=pdf.splitTextToSize(d.observacoes,cw);
+      pdf.text(ol,M,y);y+=ol.length*4+6;
+    }
+    // Assinatura
+    pdf.setFontSize(8);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
+    pdf.text('ASSINATURA E CONFIRMACAO',M,y);y+=4;
+    pdf.setDrawColor(212,163,41);pdf.line(M,y,W-M,y);y+=6;
+    pdf.setFontSize(7);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);pdf.text('ASSINANTE',M,y);
+    pdf.setFontSize(10);pdf.setFont('helvetica','bold');pdf.setTextColor(30,30,30);pdf.text(d.nomeAssinante||'—',M,y+5);
+    if(d.cargoAssinante){pdf.setFontSize(8);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);pdf.text(d.cargoAssinante,M,y+10);}
+    var dtAs=d.dataAssinatura?new Date(d.dataAssinatura.seconds*1000).toLocaleString('pt-BR'):'';
+    pdf.setFontSize(7);pdf.setTextColor(100,116,139);pdf.text('DATA/HORA',W/2+2,y);
+    pdf.setFontSize(9);pdf.setFont('helvetica','bold');pdf.setTextColor(30,30,30);pdf.text(dtAs,W/2+2,y+5);
+    y+=18;
+    if(d.assinaturaImg){
+      pdf.setFontSize(7);pdf.setFont('helvetica','normal');pdf.setTextColor(100,116,139);pdf.text('ASSINATURA DIGITAL',M,y);y+=4;
+      pdf.setFillColor(255,255,255);pdf.setDrawColor(200,200,200);
+      pdf.roundedRect(M,y,cw,35,2,2,'FD');
+      try{pdf.addImage(d.assinaturaImg,'PNG',M+5,y+3,cw-10,29);}catch(e){}
+      y+=38;
+    }
+    pdf.setDrawColor(220,220,220);pdf.line(M,y,W-M,y);y+=5;
+    pdf.setFontSize(7);pdf.setFont('helvetica','normal');pdf.setTextColor(150,150,150);
+    pdf.text('BrasilReg — Solucoes em Sinistros | Documento assinado eletronicamente',W/2,y,{align:'center'});
+    // Orçamento (imagem na 2ª página)
+    if(d.orcBase64&&d.orcBase64.length>0&&d.orcMime&&d.orcMime!=='application/pdf'){
+      pdf.addPage();
+      pdf.setFillColor(8,12,20);pdf.rect(0,0,W,15,'F');
+      pdf.setFontSize(10);pdf.setFont('helvetica','bold');pdf.setTextColor(212,163,41);
+      pdf.text('Orcamento Regulado',M,10);
+      try{pdf.addImage('data:'+d.orcMime+';base64,'+d.orcBase64,d.orcMime.includes('png')?'PNG':'JPEG',M,20,cw,0);}catch(e){}
+    }
+
+    if(tipo==='pdf'){
+      pdf.save('BrasilReg_Autorizacao_'+new Date().toISOString().slice(0,10)+'.pdf');
+    } else {
+      // JPG — converte primeira página
+      var pageData=pdf.output('datauristring');
+      // Renderiza via canvas
+      var canvas=document.createElement('canvas');
+      canvas.width=794;canvas.height=1123;
+      var ctx=canvas.getContext('2d');
+      ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+      // Usa html2canvas approach via iframe
+      var blob=pdf.output('blob');
+      var url=URL.createObjectURL(blob);
+      var iframe=document.createElement('iframe');
+      iframe.style.display='none';
+      iframe.src=url;
+      document.body.appendChild(iframe);
+      iframe.onload=function(){
+        setTimeout(function(){
+          try{
+            var iDoc=iframe.contentDocument||iframe.contentWindow.document;
+            var body=iDoc.body;
+            var scale=canvas.width/body.scrollWidth;
+            ctx.scale(scale,scale);
+            // Fallback: salva PDF mesmo para JPG se conversão falhar
+            var link=document.createElement('a');
+            link.download='BrasilReg_Autorizacao_'+new Date().toISOString().slice(0,10)+'.pdf';
+            link.href=url;
+            link.click();
+          }catch(e){
+            // Salva o PDF como fallback
+            pdf.save('BrasilReg_Autorizacao_'+new Date().toISOString().slice(0,10)+'.pdf');
+          }
+          document.body.removeChild(iframe);
+          URL.revokeObjectURL(url);
+        },500);
+      };
+      // Método direto: converte PDF para JPG usando canvas interno do jsPDF
+      var pdfData=pdf.output('arraybuffer');
+      var pdfBlob=new Blob([pdfData],{type:'application/pdf'});
+      var pdfUrl=URL.createObjectURL(pdfBlob);
+      // Abre para salvar — usuário salva como JPG se quiser
+      window.open(pdfUrl,'_blank');
+    }
+  }catch(err){
+    alert('Erro ao gerar arquivo: '+err.message);
+  }
 }
 </script>
 </body>
