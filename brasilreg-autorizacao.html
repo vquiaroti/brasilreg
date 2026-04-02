@@ -95,9 +95,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 /* Alerta renegociação */
 .alerta-reneg{background:rgba(255,107,107,0.15);border:2px solid var(--red);border-radius:13px;padding:16px;display:none;margin-bottom:10px;text-align:center;}
 .alerta-reneg.show{display:block;}
-.alerta-reneg-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:900;color:var(--red);margin-bottom:6px;animation:pulse 1s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
-.alerta-reneg-sub{font-size:12px;color:var(--text);line-height:1.6;}
+.alerta-reneg-title{font-family:'Sora',sans-serif;font-size:16px;font-weight:900;color:var(--red);margin-bottom:8px;animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+.alerta-reneg-sub{font-size:12px;color:var(--text);line-height:1.7;}
+.alerta-reneg-acao{margin-top:10px;font-family:'Sora',sans-serif;font-size:11px;font-weight:700;color:var(--yel);background:rgba(255,183,64,0.1);border:1px solid rgba(255,183,64,0.3);border-radius:8px;padding:8px 12px;}
 /* Link box */
 .link-box{background:var(--gn);border:1px solid rgba(45,212,160,0.3);border-radius:12px;padding:14px;display:none;margin-bottom:10px;}
 .link-box.show{display:block;}
@@ -248,7 +249,8 @@ footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:1
     <!-- ALERTA RENEGOCIAÇÃO -->
     <div class="alerta-reneg" id="alertaReneg">
       <div class="alerta-reneg-title">🚨 OFICINA QUER RENEGOCIAR!</div>
-      <div class="alerta-reneg-sub">A oficina sinalizou que deseja renegociar os valores.<br><strong>Entre em contato URGENTE com a oficina!</strong></div>
+      <div class="alerta-reneg-sub">A oficina sinalizou que deseja renegociar os valores do não acordo.<br><strong>Entre em contato com a oficina URGENTE!</strong></div>
+      <div class="alerta-reneg-acao">📞 Após o acordo: gere um novo link com os valores corrigidos.</div>
     </div>
 
     <!-- AGUARDANDO ASSINATURA -->
@@ -293,6 +295,8 @@ window.escutarDoc=function(docId){
     if(d.querRenegociar){
       document.getElementById('alertaReneg').classList.add('show');
       document.getElementById('aguardBox').classList.remove('show');
+      // Scroll para o alerta
+      setTimeout(function(){document.getElementById('alertaReneg').scrollIntoView({behavior:'smooth'});},300);
     }
     if(d.assinado){
       document.getElementById('aguardBox').classList.remove('show');
