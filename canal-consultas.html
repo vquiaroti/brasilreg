@@ -265,7 +265,7 @@ footer{text-align:center;padding:14px;border-top:1px solid var(--bd);font-size:1
 <footer>BrasilReg · Portal de Consultas Tecnicas · Uso exclusivo reguladores credenciados</footer>
 
 <script>
-function nav(e,el){e.preventDefault();var url=el.href;try{window.top.location.href=url;}catch(x){window.parent.location.href=url;}}
+function nav(e,el){e.preventDefault();window.open(el.href,"_blank");}
 function setTab(cat,el){
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
   el.classList.add('active');
